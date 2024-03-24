@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
-public class Hexagon : MonoBehaviour
+public class HexagonGrid : MonoBehaviour
 {
 
     public Material dMaterial;
@@ -11,6 +12,10 @@ public class Hexagon : MonoBehaviour
     float r;
     float rc;
     float root3 = 1.7320508f;
+
+    public Color color1;
+    public Color color2;
+    public Color color3;
 
 
     // Start is called before the first frame update
@@ -38,7 +43,7 @@ public class Hexagon : MonoBehaviour
         int i = 0;
         while (i < 8)
         {
-            uv[i] = vertices[i] * -1;
+            uv[i] = vertices[i];
             i++;
         }
 
@@ -75,6 +80,8 @@ public class Hexagon : MonoBehaviour
         mesh.uv = uv;
         mesh.triangles = triangles;
 
+        mesh.RecalculateNormals();
+
         GameObject gameObject = new GameObject("Mesh", typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider), typeof(HexagonTile));
         gameObject.transform.localScale = new Vector3(1, 1, 1);
 
@@ -83,6 +90,7 @@ public class Hexagon : MonoBehaviour
         MeshCollider MeshCollider = gameObject.GetComponent<MeshCollider>();
         MeshCollider.sharedMesh = mesh;
         gameObject.GetComponent<Renderer>().material = dMaterial;
+
 
         SpawnGrid(gameObject);
 
@@ -119,11 +127,12 @@ public class Hexagon : MonoBehaviour
                 GameObject newHexagon = Instantiate(hexagon);
                 newHexagon.transform.position += new Vector3((1.5f * i * hexagonWidth) + xOffset, yOffset, 0f);
 
-                newHexagon.GetComponent<Renderer>().material.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+                ColorTile(newHexagon.GetComponent<Renderer>(), j);
 
                 newHexagon.transform.SetParent(GridParent);
 
                 newHexagon.name = $"HexagonTile {i} {j}";
+                newHexagon.GetComponent<HexagonTile>().tileId = new Vector2(i, j);
 
                 i++;
             }
@@ -133,9 +142,22 @@ public class Hexagon : MonoBehaviour
         GridParent.localEulerAngles = new Vector3(90f, 0f, 0f);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ColorTile(Renderer TileRenderer, int y)
     {
-        
+        int color = y % 3;
+
+        if (color == 0)
+        {
+            TileRenderer.material.color = color1;
+        }
+        else if (color == 1)
+        {
+            TileRenderer.material.color = color2;
+        }
+        else if (color == 2)
+        {
+            TileRenderer.material.color = color3;
+        }
+
     }
 }
