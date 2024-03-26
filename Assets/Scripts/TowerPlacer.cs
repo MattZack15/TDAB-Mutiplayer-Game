@@ -22,26 +22,22 @@ public class TowerPlacer : NetworkBehaviour
     {
         if (IsClient)
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+
+            GameObject SelectedTile = playerTileInteraction.GetSelectedTile();
+
+            if (SelectedTile == null){ return;}
+
+            Vector3 tilePos = SelectedTile.transform.position;
+
+
+            if (Input.GetKeyDown(KeyCode.A))
             {
 
-
-                GameObject SelectedTile = playerTileInteraction.GetSelectedTile();
-
-                if (SelectedTile == null){ return;}
-
-                Vector3 tilePos = SelectedTile.transform.position;
-
-
-                if (Input.GetMouseButtonDown(0))
-                {
-
-                    SpawnTowerServerRpc(tilePos, 0);
-                }
-                if (Input.GetMouseButtonDown(1))
-                {
-                    SpawnTowerServerRpc(tilePos, 1);
-                }
+                SpawnTowerServerRpc(tilePos, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                SpawnTowerServerRpc(tilePos, 1);
             }
         }
 

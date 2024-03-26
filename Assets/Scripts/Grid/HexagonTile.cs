@@ -6,7 +6,8 @@ public class HexagonTile : MonoBehaviour
 {
 
     private static Color highlightColor = Color.white;
-    public Vector2 tileId;
+    // (x: X Gird Pos, y:, Y Grid Pos, z: Which grid it belongs to)
+    public Vector3 tileId;
 
     private Renderer Renderer;
     private Color normalColor;
@@ -37,4 +38,20 @@ public class HexagonTile : MonoBehaviour
         Renderer.material.color = normalColor;
     }
 
+    public static List<Vector3> GetAdjacentTiles(Vector3 originTile)
+    {
+        List<Vector3> tiles = new List<Vector3>();
+
+        // Up and Down
+        tiles.Add(new Vector3(originTile.x, originTile.y + 2, originTile.z));
+        tiles.Add(new Vector3(originTile.x, originTile.y - 2, originTile.z));
+        // Right Side
+        tiles.Add(new Vector3(originTile.x+1, originTile.y + 1, originTile.z));
+        tiles.Add(new Vector3(originTile.x+1, originTile.y - 1, originTile.z));
+        // Left
+        tiles.Add(new Vector3(originTile.x - 1, originTile.y + 1, originTile.z));
+        tiles.Add(new Vector3(originTile.x - 1, originTile.y - 1, originTile.z));
+
+        return tiles;
+    }
 }

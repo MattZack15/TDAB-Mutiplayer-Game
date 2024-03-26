@@ -8,22 +8,49 @@ public class HexagonGrid : MonoBehaviour
 
     public Material dMaterial;
 
-    float hexagonWidth = 1.5f;
-    float r;
-    float rc;
-    float root3 = 1.7320508f;
+    public float hexagonWidth = 1.5f;
+    private float r;
+    private float rc;
+    const float root3 = 1.7320508f;
+
+    public Vector2 boardSize;
 
     public Color color1;
     public Color color2;
     public Color color3;
 
+    private Mesh mesh;
 
     // Start is called before the first frame update
     void Start()
     {
+        DefineHexagon();
+        SpawnHexagonGrid(0, new Vector2(0f, 0f));
+    }
+
+    public void SpawnHexagonGrid(int gridIndex, Vector2 gridsOffset)
+    {
+
+        GameObject gameObject = new GameObject("Mesh", typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider), typeof(HexagonTile));
+
+        MeshFilter MeshFilter = gameObject.GetComponent<MeshFilter>();
+        MeshFilter.mesh = mesh;
+        MeshCollider MeshCollider = gameObject.GetComponent<MeshCollider>();
+        MeshCollider.sharedMesh = mesh;
+        gameObject.GetComponent<Renderer>().material = dMaterial;
+
+
+        SpawnGrid(gameObject, gridIndex, gridsOffset);
+
+        Destroy(gameObject);
+    }
+
+    private void DefineHexagon()
+    {
+        // Computes the hexagon Mesh
+        // Starts with hexagonWidth and creates our hexagon Mesh and define all other values for hexagon
+        
         ComputeHexagonValues();
-
-
 
         Vector3[] vertices = new Vector3[8];
         Vector2[] uv = new Vector2[8];
@@ -72,30 +99,13 @@ public class HexagonGrid : MonoBehaviour
         triangles[16] = 5;
         triangles[17] = 0;
 
-
-
-        Mesh mesh = new Mesh();
+        mesh = new Mesh();
 
         mesh.vertices = vertices;
         mesh.uv = uv;
         mesh.triangles = triangles;
 
         mesh.RecalculateNormals();
-
-        GameObject gameObject = new GameObject("Mesh", typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider), typeof(HexagonTile));
-        gameObject.transform.localScale = new Vector3(1, 1, 1);
-
-        MeshFilter MeshFilter = gameObject.GetComponent<MeshFilter>();
-        MeshFilter.mesh = mesh;
-        MeshCollider MeshCollider = gameObject.GetComponent<MeshCollider>();
-        MeshCollider.sharedMesh = mesh;
-        gameObject.GetComponent<Renderer>().material = dMaterial;
-
-
-        SpawnGrid(gameObject);
-
-        Destroy(gameObject);
-
     }
 
     private void ComputeHexagonValues()
@@ -105,21 +115,20 @@ public class HexagonGrid : MonoBehaviour
         rc = (1f / 2f) * root3 * r;
     }
 
-    private void SpawnGrid(GameObject hexagon)
+    private void SpawnGrid(GameObject hexagon, int gridIndex, Vector2 gridsOffset)
     {
         Transform GridParent = new GameObject().transform;
-        GridParent.name = "Hexagon Grid";
+        GridParent.name = $"Hexagon Grid {gridIndex}";
 
-        int gridSize = 15;
-        int yLength = 2 * gridSize;
-        int xLength = (int)((float)gridSize/1.5f);
+        int xLength = (int)boardSize.x;
+        int yLength = (int)boardSize.y;
+        
 
-        // Spawn 5
         int j = 0;
         while (j < yLength)
         {
-            float xOffset = (j % 2) * 1.5f*r;
-            float yOffset = j * rc;
+            float xOffset = ((j % 2) * 1.5f*r) + gridsOffset.x;
+            float yOffset = (j * rc) + gridsOffset.y;
 
             int i = 0;
             while (i < xLength)
@@ -131,8 +140,11 @@ public class HexagonGrid : MonoBehaviour
 
                 newHexagon.transform.SetParent(GridParent);
 
-                newHexagon.name = $"HexagonTile {i} {j}";
-                newHexagon.GetComponent<HexagonTile>().tileId = new Vector2(i, j);
+                // Tile coordinates
+                int xCoord = i*2 + (j % 2);
+
+                newHexagon.name = $"HexagonTile ({xCoord}, {j}) G:{gridIndex}";
+                newHexagon.GetComponent<HexagonTile>().tileId = new Vector3(xCoord, j, gridIndex);
 
                 i++;
             }
