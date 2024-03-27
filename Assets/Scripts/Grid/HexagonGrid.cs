@@ -25,10 +25,9 @@ public class HexagonGrid : MonoBehaviour
     void Start()
     {
         DefineHexagon();
-        SpawnHexagonGrid(0, new Vector2(0f, 0f));
     }
 
-    public void SpawnHexagonGrid(int gridIndex, Vector2 gridsOffset)
+    public Transform SpawnHexagonGrid(int gridIndex, Vector2 gridsOffset)
     {
 
         GameObject gameObject = new GameObject("Mesh", typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider), typeof(HexagonTile));
@@ -40,9 +39,12 @@ public class HexagonGrid : MonoBehaviour
         gameObject.GetComponent<Renderer>().material = dMaterial;
 
 
-        SpawnGrid(gameObject, gridIndex, gridsOffset);
+        Transform Grid = SpawnGrid(gameObject, gridIndex);
+        Grid.position += new Vector3(gridsOffset.x, 0f, -gridsOffset.y);
 
         Destroy(gameObject);
+
+        return Grid;
     }
 
     private void DefineHexagon()
@@ -115,8 +117,9 @@ public class HexagonGrid : MonoBehaviour
         rc = (1f / 2f) * root3 * r;
     }
 
-    private void SpawnGrid(GameObject hexagon, int gridIndex, Vector2 gridsOffset)
+    private Transform SpawnGrid(GameObject hexagon, int gridIndex)
     {
+        // Spawns all the tiles and returns the parent object
         Transform GridParent = new GameObject().transform;
         GridParent.name = $"Hexagon Grid {gridIndex}";
 
@@ -127,8 +130,8 @@ public class HexagonGrid : MonoBehaviour
         int j = 0;
         while (j < yLength)
         {
-            float xOffset = ((j % 2) * 1.5f*r) + gridsOffset.x;
-            float yOffset = (j * rc) + gridsOffset.y;
+            float xOffset = ((j % 2) * 1.5f*r);
+            float yOffset = (j * rc);
 
             int i = 0;
             while (i < xLength)
@@ -152,6 +155,8 @@ public class HexagonGrid : MonoBehaviour
         }
 
         GridParent.localEulerAngles = new Vector3(90f, 0f, 0f);
+
+        return GridParent;
     }
 
     private void ColorTile(Renderer TileRenderer, int y)
