@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Netcode;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class AttackerLoader : NetworkBehaviour
+{
+    public int targetBoard = 0;
+    public List<GameObject> attackers;
+
+    [SerializeField] PlayerBoardsManager PlayerBoardsManager;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!IsServer) return;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            LoadAttackers();
+        }
+    }
+
+    private void LoadAttackers()
+    {
+        if (!IsServer) return;
+
+        //Find Board
+        PlayerBoardsManager.PlayerBoards[targetBoard].AttackerSpawner.UpdateAttackerQueue(attackers);
+
+    }
+
+
+}

@@ -6,18 +6,35 @@ public class NetworkCommandLine : MonoBehaviour
 {
     private NetworkManager netManager;
 
+    public bool debugClientSide;
+
     void Start()
     {
         netManager = GetComponentInParent<NetworkManager>();
 
         if (Application.isEditor)
         {
-            netManager.StartHost();
+            if (debugClientSide)
+            {
+                netManager.StartClient();
+            }
+            else
+            {
+                netManager.StartHost();
+            }
+            
             return;
         }
         if (!Application.isEditor)
         {
-            netManager.StartClient();
+            if (debugClientSide)
+            {
+                netManager.StartHost();
+            }
+            else
+            {
+                netManager.StartClient();
+            }
             return;
         }
 

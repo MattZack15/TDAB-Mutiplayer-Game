@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class PlayerBoard : NetworkBehaviour
 {
-    public ulong owner;
-    
+    public NetworkVariable<ulong> owner = new NetworkVariable<ulong>();
+
+    // Set During board generation
+    [HideInInspector] public HexagonGrid HexagonGrid;
+
+    public AttackerSpawner AttackerSpawner;
+
 }

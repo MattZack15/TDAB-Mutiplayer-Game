@@ -30,7 +30,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8777473979407916996}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7712223667450254688
@@ -45,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4273575532
+  GlobalObjectIdHash: 2642116530
   InScenePlacedSourceGlobalObjectIdHash: 969461627
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 0
@@ -66,4 +67,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f204fdf0f7452c84ba55e5f46810811c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: 0
+  owner:
+    m_InternalValue: 0
+  HexagonGrid: {fileID: 0}
+  AttackerSpawner: {fileID: 1906753824976253557}
+--- !u!1 &8490715982078026584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8777473979407916996}
+  - component: {fileID: 1906753824976253557}
+  m_Layer: 0
+  m_Name: AttackerSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8777473979407916996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8490715982078026584}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6725034459188159438}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1906753824976253557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8490715982078026584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a9354ba459c494aa2422fe63c62548, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  board: {fileID: 6134556382195221508}
+  startTileId: {x: 5, y: 17}
+  spawnDelay: 1

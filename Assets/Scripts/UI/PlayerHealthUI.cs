@@ -8,32 +8,19 @@ public class PlayerHealthUI : MonoBehaviour
 {
     [SerializeField] private GameObject PlayerSlot;
 
-    [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private PlayerHealthManager PlayerHealthManager;
     [SerializeField]
     private Transform layoutGroup;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            DrawPlayerHealthList();
-        }
-    }
 
-    private void DrawPlayerHealthList()
+    public void GeneratePlayerHealthUI()
     {
         int i = 0;
-        while (i < playerHealth.playerIds.Count)
+        while (i < PlayerHealthManager.playerIds.Count)
         {
             GameObject newPlayerSlot = Instantiate(PlayerSlot, layoutGroup);
-            newPlayerSlot.GetComponent<PlayerHealthSlot>().PopulateSlot(playerHealth.playerIds[i], playerHealth.playerHps[i]);
+            newPlayerSlot.GetComponent<PlayerHealthSlot>().PopulateSlot(PlayerHealthManager.playerIds[i], PlayerHealthManager.playerHps[i], i, PlayerHealthManager);
             i++;
         }
     }

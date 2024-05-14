@@ -4,10 +4,10 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerHealth : NetworkBehaviour
+public class PlayerHealthManager : NetworkBehaviour
 {
 
-    [SerializeField]int baseMaxHealth;
+    [SerializeField] public int baseMaxHealth;
 
     public NetworkList<ulong> playerIds;
     public NetworkList<int> playerHps;
@@ -18,17 +18,8 @@ public class PlayerHealth : NetworkBehaviour
         playerHps = new NetworkList<int>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (!IsServer) return;
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            InitPlayerHealth();
-        }
-    }
 
-    private void InitPlayerHealth()
+    public void InitPlayerHealth()
     {
         if (!IsServer) return;
 
