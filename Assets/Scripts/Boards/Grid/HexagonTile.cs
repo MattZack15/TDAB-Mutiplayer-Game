@@ -10,24 +10,36 @@ public class HexagonTile : MonoBehaviour
     public Vector3 tileId;
 
     private Renderer Renderer;
-    private Color normalColor;
+    private Color currentColor;
+    private Color orignalColor;
 
     // Server Only
     public bool occupied;
 
+    private void Awake()
+    {
+        Renderer = GetComponent<Renderer>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        Renderer = GetComponent<Renderer>();
-        normalColor = Renderer.material.color;
+        orignalColor = Renderer.material.color;
+        currentColor = orignalColor;
     }
 
     public void UpdateNewColor(Color newColor)
     {
-        normalColor = newColor;
+        currentColor = newColor;
         Renderer.material.color = newColor;
     }
-    
+
+    public void ResetColor()
+    {
+        currentColor = orignalColor;
+        Renderer.material.color = orignalColor;
+    }
+
     public void Highlight()
     {
         Renderer.material.color = highlightColor;
@@ -35,7 +47,7 @@ public class HexagonTile : MonoBehaviour
 
     public void Unhighlight()
     {
-        Renderer.material.color = normalColor;
+        Renderer.material.color = currentColor;
     }
 
     public static List<Vector3> GetAdjacentTiles(Vector3 originTile)

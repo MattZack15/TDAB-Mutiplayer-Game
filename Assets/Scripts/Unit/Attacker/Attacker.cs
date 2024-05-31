@@ -8,6 +8,8 @@ public class Attacker : NetworkBehaviour
     [SerializeField] public int maxHp = 5;
     public NetworkVariable<int> hp = new NetworkVariable<int>();
 
+    
+    
     public override void OnNetworkSpawn()
     {
         if (IsServer)

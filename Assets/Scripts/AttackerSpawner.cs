@@ -12,13 +12,14 @@ public class AttackerSpawner : NetworkBehaviour
     
     List<GameObject> attackerQueue = new List<GameObject>();
 
-    [SerializeField] Vector2 startTileId = Vector2.zero;
+    Vector2 startTileId;
     Transform SpawnPos;
 
     [SerializeField] float spawnDelay;
     
     void Start()
     {
+        startTileId = PlayerBoard.startTile;
 
         SpawnPos = board.HexagonGrid.GetTileById(startTileId).transform;
     }
@@ -71,6 +72,9 @@ public class AttackerSpawner : NetworkBehaviour
 
         GameObject newAttacker = Instantiate(attacker, SpawnPos.position, Quaternion.identity);
         newAttacker.GetComponent<NetworkObject>().Spawn();
+
+        // Init attacker
+        //newAttacker.GetComponent<AttackerMovement>().SetPath();
     }
 
 

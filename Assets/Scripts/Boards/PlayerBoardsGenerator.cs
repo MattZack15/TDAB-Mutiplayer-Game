@@ -10,7 +10,7 @@ public class PlayerBoardsGenerator : NetworkBehaviour
     [SerializeField] private HexagonGridGenerator HexagonGridGenerator;
     [SerializeField] private Vector2 spacing;
 
-    [SerializeField] GameObject PlayerBoard;
+    [SerializeField] GameObject PlayerBoardPrefab;
 
     [SerializeField] PlayerBoardsManager PlayerBoardsManager;
 
@@ -25,7 +25,7 @@ public class PlayerBoardsGenerator : NetworkBehaviour
         int i = 0;
         while (i < playerCount)
         {
-            GameObject board = Instantiate(PlayerBoard);
+            GameObject board = Instantiate(PlayerBoardPrefab);
             board.GetComponent<NetworkObject>().Spawn();
             board.GetComponent<PlayerBoard>().owner.Value = NetworkManager.ConnectedClientsIds[i];
             board.name = $"Board {NetworkManager.ConnectedClientsIds[i]}";
@@ -72,14 +72,10 @@ public class PlayerBoardsGenerator : NetworkBehaviour
         while (i < playerCount)
         {
             Vector2 GridOffset = new Vector2(spacing.x * (i % 3), (int)(i / 3) * spacing.y);
-
             Transform newGrid = HexagonGridGenerator.SpawnHexagonGrid(i, GridOffset);
-            Transform BoardTransform = PlayerBoardsManager.PlayerBoards[i].transform;
 
-            BoardTransform.position = newGrid.position;
-            newGrid.SetParent(BoardTransform);
-
-            PlayerBoardsManager.PlayerBoards[i].GetComponent<PlayerBoard>().HexagonGrid = newGrid.gameObject.GetComponent<HexagonGrid>();
+            PlayerBoard CurrentBoard = PlayerBoardsManager.PlayerBoards[i];
+            CurrentBoard.Init(newGrid.gameObject.GetComponent<HexagonGrid>());
 
             i++;
 
