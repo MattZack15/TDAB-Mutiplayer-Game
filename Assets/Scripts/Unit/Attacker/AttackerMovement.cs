@@ -15,13 +15,21 @@ public class AttackerMovement : NetworkBehaviour
     public void SetPath(List<Vector3> pathPointPostions)
     {
         path = pathPointPostions;
+
+        BeginPath();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         if (!IsServer) return;
-        
+
+        BeginPath();
+
+    }
+
+    private void BeginPath()
+    {
         // if no path Destory object
         if (path == null || path.Count == 0)
         {
@@ -29,9 +37,8 @@ public class AttackerMovement : NetworkBehaviour
             GetComponent<NetworkObject>().Despawn();
             return;
         }
-        
+
         nextPoint = path[0];
-        
     }
 
     // Update is called once per frame

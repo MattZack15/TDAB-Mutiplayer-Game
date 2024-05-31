@@ -9,6 +9,8 @@ public class PathCreator : MonoBehaviour
     Vector2 endTile;
 
     [SerializeField] int boardIndex = 0;
+    [SerializeField] PathManager pathManager;
+    [SerializeField] PlayerBoard playerBoard;
 
     List<GameObject> tilesInPath = new List<GameObject>();
     
@@ -19,6 +21,7 @@ public class PathCreator : MonoBehaviour
 
     private void Start()
     {
+        PlayerTileInteraction = FindObjectOfType<PlayerTileInteraction>();
         startTile = PlayerBoard.startTile; endTile = PlayerBoard.endTile;
     }
 
@@ -26,7 +29,7 @@ public class PathCreator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             // Add new tile
             GameObject selectedTile = PlayerTileInteraction.GetSelectedTile();
@@ -55,7 +58,14 @@ public class PathCreator : MonoBehaviour
             if (ValidatePath(PathTileIds))
             {
                 //SubmitPathToServer();
+
                 // And start and end tile to path
+                tilesInPath.Insert(0, playerBoard.HexagonGrid.GetTileById(startTile));
+                tilesInPath.Add(playerBoard.HexagonGrid.GetTileById(endTile));
+                
+                pathManager.UpdatePath(tilesInPath);
+
+                ResetPath();
 
             }
             else
@@ -127,19 +137,6 @@ public class PathCreator : MonoBehaviour
         }
     }
 
-    public List<Vector3> GetPathPoints()
-    {
-        // Returns a list of world postions for each tile in the path
-        List<Vector3> points = new List<Vector3>();
-
-        foreach (GameObject tile in tilesInPath)
-        {
-            points.Add(tile.transform.position);
-        }
-
-        return points;
-
-    }
 
     private bool TilesAreAdjacent(Vector3 tileId1, Vector3 tileId2)
     {

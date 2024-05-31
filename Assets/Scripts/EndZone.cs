@@ -33,7 +33,9 @@ public class EndZone : NetworkBehaviour
         {
             GameObject AttackerUnit = other.gameObject;
 
-            AttackerUnit.GetComponent<NetworkObject>().Despawn(true);
+            AttackerSpawner.AddLiveAttacker(AttackerUnit);
+
+            //AttackerUnit.GetComponent<NetworkObject>().Despawn(true);
         }
     }
 }

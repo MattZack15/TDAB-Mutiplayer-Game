@@ -1,5 +1,71 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &104552484282302216
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8819918280912842524}
+  - component: {fileID: 5417365027501379864}
+  - component: {fileID: 961074891559436924}
+  m_Layer: 0
+  m_Name: Path
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8819918280912842524
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104552484282302216}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6725034459188159438}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5417365027501379864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104552484282302216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd28a9f4202300946bb15b61a1214018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boardIndex: 0
+  pathManager: {fileID: 961074891559436924}
+  playerBoard: {fileID: 6134556382195221508}
+  pathStartColor: {r: 0.8930817, g: 0.67540514, b: 0.33982027, a: 1}
+  pathEndColor: {r: 0.7484276, g: 0.41822785, b: 0, a: 1}
+  PlayerTileInteraction: {fileID: 0}
+--- !u!114 &961074891559436924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104552484282302216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef8a6098ad3162f4589e011c7e94cfc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PathCreator: {fileID: 5417365027501379864}
+  pathStartColor: {r: 0, g: 0.17116666, b: 1, a: 1}
+  pathEndColor: {r: 0, g: 0.9206059, b: 1, a: 1}
 --- !u!1 &5738671967921433443
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,6 +99,7 @@ Transform:
   m_Children:
   - {fileID: 8777473979407916996}
   - {fileID: 213501469087026698}
+  - {fileID: 8819918280912842524}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7712223667450254688
@@ -188,3 +255,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   board: {fileID: 6134556382195221508}
   spawnDelay: 1
+  pathManager: {fileID: 961074891559436924}

@@ -752,54 +752,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!1 &733162079
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 733162081}
-  - component: {fileID: 733162080}
-  m_Layer: 0
-  m_Name: Path
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &733162080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 733162079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd28a9f4202300946bb15b61a1214018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boardIndex: 0
-  pathStartColor: {r: 0.8930817, g: 0.67540514, b: 0.33982027, a: 1}
-  pathEndColor: {r: 0.7484276, g: 0.41822785, b: 0, a: 1}
-  PlayerTileInteraction: {fileID: 1836446037}
---- !u!4 &733162081
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 733162079}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &836407094
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,37 +930,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160466227}
   m_CullTransparentMesh: 1
---- !u!1 &1258290307
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1258290308}
-  m_Layer: 0
-  m_Name: TrackEndPoint
-  m_TagString: TrackEnd
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1258290308
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1258290307}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.21, y: 0, z: -4.4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1296880108
 GameObject:
   m_ObjectHideFlags: 0
@@ -1467,6 +1388,7 @@ MonoBehaviour:
   tower: {fileID: 8587929601506611587, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
   attacker: {fileID: 3338505304559047266, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
   playerTileInteraction: {fileID: 1836446037}
+  PlayerBoardsManager: {fileID: 836407095}
 --- !u!114 &1836446037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1645,10 +1567,8 @@ SceneRoots:
   - {fileID: 636924037}
   - {fileID: 3606457}
   - {fileID: 378166749}
-  - {fileID: 1258290308}
   - {fileID: 1836446034}
   - {fileID: 2113605719}
-  - {fileID: 733162081}
   - {fileID: 1837187174}
   - {fileID: 730271638}
   - {fileID: 836407096}

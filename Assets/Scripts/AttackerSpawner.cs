@@ -16,6 +16,8 @@ public class AttackerSpawner : NetworkBehaviour
     Transform SpawnPos;
 
     [SerializeField] float spawnDelay;
+
+    [SerializeField] private PathManager pathManager;
     
     void Start()
     {
@@ -42,6 +44,12 @@ public class AttackerSpawner : NetworkBehaviour
             attackerQueue.Add(attacker);
         }
 
+    }
+
+    public void AddLiveAttacker(GameObject attacker)
+    {
+        attacker.transform.position = SpawnPos.position;
+        attacker.GetComponent<AttackerMovement>().SetPath(pathManager.GetBoardPathPoints());
     }
 
     public void StartSpawner()
@@ -74,7 +82,7 @@ public class AttackerSpawner : NetworkBehaviour
         newAttacker.GetComponent<NetworkObject>().Spawn();
 
         // Init attacker
-        //newAttacker.GetComponent<AttackerMovement>().SetPath();
+        newAttacker.GetComponent<AttackerMovement>().SetPath(pathManager.GetBoardPathPoints());
     }
 
 

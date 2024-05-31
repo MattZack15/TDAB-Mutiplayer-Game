@@ -36,7 +36,6 @@ public class Tower : NetworkBehaviour
         { 
             if (IsServer)
             {
-                trackEndPoint = GameObject.FindGameObjectWithTag("TrackEnd").transform;
                 StartCoroutine(AttackCycle());
                 yield break;
             }

@@ -9,6 +9,7 @@ public class TowerPlacer : NetworkBehaviour
     public GameObject tower;
     public GameObject attacker;
     [SerializeField] private PlayerTileInteraction playerTileInteraction;
+    [SerializeField] PlayerBoardsManager PlayerBoardsManager;
 
     RaycastHit hit;
     // Start is called before the first frame update
@@ -29,22 +30,21 @@ public class TowerPlacer : NetworkBehaviour
 
             Vector3 tilePos = SelectedTile.transform.position;
 
+            int boardId = (int)SelectedTile.GetComponent<HexagonTile>().tileId.z;
+
 
             if (Input.GetKeyDown(KeyCode.A))
             {
 
-                SpawnTowerServerRpc(tilePos, 0);
+                SpawnTowerServerRpc(tilePos, 0, boardId);
             }
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                SpawnTowerServerRpc(tilePos, 1);
-            }
+
         }
 
     }
 
     [Rpc(SendTo.Server)]
-    private void SpawnTowerServerRpc(Vector3 spawnPos, int obj)
+    private void SpawnTowerServerRpc(Vector3 spawnPos, int obj, int boardID)
     {
         GameObject wantedObj;
         if(obj == 0)
@@ -59,6 +59,12 @@ public class TowerPlacer : NetworkBehaviour
 
         GameObject newObj = Instantiate(wantedObj, spawnPos, Quaternion.identity);
         newObj.GetComponent<NetworkObject>().Spawn();
+
+        PlayerBoard CurrentBoard = PlayerBoardsManager.PlayerBoards[boardID];
+        Transform EndPos = CurrentBoard.HexagonGrid.GetTileById(PlayerBoard.endTile).transform;
+
+        newObj.GetComponent<Tower>().trackEndPoint = EndPos;
+
 
     }
 }
