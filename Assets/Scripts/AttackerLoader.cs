@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AttackerLoader : NetworkBehaviour
 {
+    
     public int targetBoard = 0;
+    
     public List<GameObject> attackers;
+    public PlayerWarband Serverwarband;
 
     [SerializeField] PlayerBoardsManager PlayerBoardsManager;
     
@@ -31,10 +33,10 @@ public class AttackerLoader : NetworkBehaviour
     {
         if (!IsServer) return;
 
+        attackers = Serverwarband.OwnedUnits;
+
         //Find Board
         PlayerBoardsManager.PlayerBoards[targetBoard].AttackerSpawner.UpdateAttackerQueue(attackers);
 
     }
-
-
 }

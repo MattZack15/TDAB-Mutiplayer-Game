@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 346011687253312357}
   - component: {fileID: 5910300563084492780}
   - component: {fileID: 2660741680445206693}
+  - component: {fileID: -6629798897719877690}
   - component: {fileID: 8115512447373002805}
   - component: {fileID: 6646692700084126741}
   - component: {fileID: 5657706734441799814}
@@ -282,6 +283,21 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &-6629798897719877690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3338505304559047266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd27eabfa69f3647a4f5edc08baf1b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnitName: Attacker Unit
+  UnitID: 1
+  UnitIcon: {fileID: 21300000, guid: 2826c6a9b8317734aa5f0a2530163f65, type: 3}
 --- !u!114 &8115512447373002805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,7 +370,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0

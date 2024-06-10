@@ -28,7 +28,7 @@ public class HostControls : NetworkBehaviour
         // Init Player Health
         PlayerHealthManager.InitPlayerHealth();
         // Show Health UI
-        PlayerHealthUI.GeneratePlayerHealthUI();
+        //PlayerHealthUI.GeneratePlayerHealthUI();
 
         GameStarted = true;
 

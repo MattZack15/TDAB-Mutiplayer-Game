@@ -8,7 +8,7 @@ public class PathCreator : MonoBehaviour
     Vector2 startTile;
     Vector2 endTile;
 
-    [SerializeField] int boardIndex = 0;
+    private int boardIndex = 0;
     [SerializeField] PathManager pathManager;
     [SerializeField] PlayerBoard playerBoard;
 
@@ -21,6 +21,8 @@ public class PathCreator : MonoBehaviour
 
     private void Start()
     {
+        boardIndex = playerBoard.BoardID;
+
         PlayerTileInteraction = FindObjectOfType<PlayerTileInteraction>();
         startTile = PlayerBoard.startTile; endTile = PlayerBoard.endTile;
     }

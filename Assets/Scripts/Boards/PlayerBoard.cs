@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerBoard : NetworkBehaviour
 {
     public NetworkVariable<ulong> owner = new NetworkVariable<ulong>();
+    public int BoardID;
 
     // Set During board generation
     [HideInInspector] public HexagonGrid HexagonGrid;
@@ -19,9 +20,11 @@ public class PlayerBoard : NetworkBehaviour
     public static Vector2 endTile = new Vector2(6f, 0f);
 
 
-    public void Init(HexagonGrid HexagonGrid)
+    public void Init(HexagonGrid HexagonGrid, int id)
     {
+        // Assign data
         this.HexagonGrid = HexagonGrid;
+        BoardID = id;
 
         // Set board position to match the hexgrid
         transform.position = HexagonGrid.transform.position;

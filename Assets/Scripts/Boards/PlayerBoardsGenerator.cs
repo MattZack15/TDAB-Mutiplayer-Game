@@ -75,7 +75,7 @@ public class PlayerBoardsGenerator : NetworkBehaviour
             Transform newGrid = HexagonGridGenerator.SpawnHexagonGrid(i, GridOffset);
 
             PlayerBoard CurrentBoard = PlayerBoardsManager.PlayerBoards[i];
-            CurrentBoard.Init(newGrid.gameObject.GetComponent<HexagonGrid>());
+            CurrentBoard.Init(newGrid.gameObject.GetComponent<HexagonGrid>(), i);
 
             i++;
 

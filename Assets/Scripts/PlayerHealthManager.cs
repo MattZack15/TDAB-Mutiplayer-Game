@@ -36,4 +36,23 @@ public class PlayerHealthManager : NetworkBehaviour
             i++;
         }
     }
+
+    public void OnAttackerReachEnd(PlayerBoard PlayerBoard)
+    {
+        if (!IsServer) return;
+
+        // Decrement HP from the owner of that board
+        ulong OwnerID = PlayerBoard.owner.Value;
+
+        int i = 0;
+        while (i < playerIds.Count)
+        {
+            if (playerIds[i] == OwnerID)
+            {
+                playerHps[i] = playerHps[i] - 1;
+                break;
+            }
+            i++;
+        }
+    }
 }
