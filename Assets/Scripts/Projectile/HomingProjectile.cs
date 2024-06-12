@@ -13,6 +13,8 @@ public class HomingProjectile : NetworkBehaviour
 
     private Vector3 currentDir;
     private bool willDie = false;
+
+    public Tower SourceTower;
     
     // Start is called before the first frame update
     void Start()
@@ -45,9 +47,10 @@ public class HomingProjectile : NetworkBehaviour
         }
     }
 
-    public void InitProjectile(Transform target = null)
+    public void InitProjectile(Tower SourceTower, Transform target = null)
     {
         this.target = target;
+        this.SourceTower = SourceTower;
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -66,10 +69,8 @@ public class HomingProjectile : NetworkBehaviour
 
     private void Die()
     {
-        if (gameObject.GetComponent<NetworkObject>().IsSpawned)
-        {
-            gameObject.GetComponent<NetworkObject>().Despawn(true);
-        }
+        if (!IsServer) { return; }
+        SourceTower.DestoryProjectile(gameObject);
     }
 
 

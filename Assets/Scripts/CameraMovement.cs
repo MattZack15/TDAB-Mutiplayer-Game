@@ -10,9 +10,12 @@ public class CameraMovement : MonoBehaviour
 
     private bool cameraLocked;
 
+    Vector3 OriginalPos = Vector3.zero;
+
     private void Start()
     {
         cameraLocked = true;
+        OriginalPos = transform.position;
     }
 
     // Update is called once per frame
@@ -22,6 +25,11 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y))
         {
             cameraLocked = !cameraLocked;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SnapToBoard();
         }
         
         
@@ -62,5 +70,10 @@ public class CameraMovement : MonoBehaviour
             transform.position = new Vector3(transform.position.x + deltaX, transform.position.y, transform.position.z);
         }
 
+    }
+
+    private void SnapToBoard()
+    {
+        transform.position = OriginalPos;
     }
 }

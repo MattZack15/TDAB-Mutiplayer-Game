@@ -16,9 +16,12 @@ public class AttackerSpawner : NetworkBehaviour
     Transform SpawnPos;
 
     [SerializeField] float spawnDelay;
-
-    [SerializeField] private PathManager pathManager;
     
+    [SerializeField] private PathManager pathManager;
+
+    private List<GameObject> AttackersAlive = new List<GameObject>();
+
+
     void Start()
     {
         startTileId = PlayerBoard.startTile;
@@ -62,8 +65,9 @@ public class AttackerSpawner : NetworkBehaviour
     IEnumerator SpawnLoop()
     {
         print("starting spawns");
+        AttackersAlive = new List<GameObject>();
 
-        while(attackerQueue.Count > 0)
+        while (attackerQueue.Count > 0)
         {
             GameObject nextAttacker = attackerQueue[0];
             attackerQueue.RemoveAt(0);
@@ -71,7 +75,36 @@ public class AttackerSpawner : NetworkBehaviour
             SpawnAttacker(nextAttacker);
             yield return new WaitForSeconds(spawnDelay);
         }
-        
+
+        StartCoroutine(CheckForRoundEnd());
+    }
+
+    IEnumerator CheckForRoundEnd()
+    {
+        bool AllAttackersDead = false;
+        while (!AllAttackersDead)
+        {
+            
+            if (AttackersAlive.Count == 0)
+            {
+                AllAttackersDead = true;
+                break;
+            }
+
+            foreach (GameObject attacker in AttackersAlive)
+            {
+                if (attacker != null)
+                {
+                    break;
+                }
+                AllAttackersDead = true;
+            }
+            
+            yield return null;
+        }
+
+        print("Attack is Over");
+
     }
 
     private void SpawnAttacker(GameObject attacker)
@@ -83,6 +116,9 @@ public class AttackerSpawner : NetworkBehaviour
 
         // Init attacker
         newAttacker.GetComponent<AttackerMovement>().SetPath(pathManager.GetBoardPathPoints());
+
+        // Track it
+        AttackersAlive.Add(newAttacker);
     }
 
 

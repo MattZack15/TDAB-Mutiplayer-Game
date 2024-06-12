@@ -30,9 +30,13 @@ public class AttackerMovement : NetworkBehaviour
 
     private void BeginPath()
     {
+        if (!IsServer) return;
         // if no path Destory object
         if (path == null || path.Count == 0)
         {
+            path = new List<Vector3>() { new Vector3(0f, 0f, 0f)};
+            return;
+
             print("Error: Unit Was Spawned With no Path");
             GetComponent<NetworkObject>().Despawn();
             return;
@@ -67,6 +71,8 @@ public class AttackerMovement : NetworkBehaviour
     }
     private void UpdateNextPoint()
     {
+        if (!IsServer) return;
+
         if (Vector3.Distance(nextPoint, transform.position) < .1f)
         {
             path.RemoveAt(0);

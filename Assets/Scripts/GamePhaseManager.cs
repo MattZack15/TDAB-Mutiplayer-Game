@@ -12,6 +12,8 @@ public class GamePhaseManager : NetworkBehaviour
 
     Dictionary<ulong, List<GameObject>> attackerList = new Dictionary<ulong, List<GameObject>>();
     
+    List<AttackerSpawner> AttackerSpawners = new List<AttackerSpawner>();
+
     public void StartBattlePhase()
     {
         if (!IsServer) { return; }
@@ -22,11 +24,14 @@ public class GamePhaseManager : NetworkBehaviour
     IEnumerator EnterBattlePhase()
     {
         yield return GetAttackers();
-        
-        
-        
+
         // Match making
-        List<ulong> playerIDs = (List<ulong>)NetworkManager.ConnectedClientsIds;
+        List<ulong> playerIDs = new List<ulong>();
+        foreach (ulong clientID in NetworkManager.ConnectedClientsIds)
+        {
+            playerIDs.Add(clientID);
+        }
+
 
         while (playerIDs.Count > 0)
         {
@@ -36,6 +41,17 @@ public class GamePhaseManager : NetworkBehaviour
             playerIDs.RemoveAt(0);
         }
 
+        print(NetworkManager.ConnectedClientsIds.Count);
+        foreach (ulong playerID in (List<ulong>)NetworkManager.ConnectedClientsIds)
+        {
+            print("ID: " + playerID.ToString());
+        }
+
+        // Start Battle
+        foreach (AttackerSpawner attackerSpawner in AttackerSpawners)
+        {
+            attackerSpawner.StartSpawner();
+        }
     }
 
     private void MakeMatch(ulong player1, ulong player2)
@@ -50,6 +66,11 @@ public class GamePhaseManager : NetworkBehaviour
 
         AttackerSpawner attackerSpawner = playerBoardsManager.PlayerBoardTable[defenderID].AttackerSpawner;
 
+        if (!AttackerSpawners.Contains(attackerSpawner))
+        {
+            AttackerSpawners.Add(attackerSpawner);
+        }
+        
         attackerSpawner.UpdateAttackerQueue(attackerList[attackerID]);
 
     }

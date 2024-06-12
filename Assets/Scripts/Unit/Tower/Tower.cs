@@ -14,6 +14,7 @@ public class Tower : NetworkBehaviour
 
     private Transform currentTarget;
 
+    //List<GameObject> projectilePool = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -69,9 +70,19 @@ public class Tower : NetworkBehaviour
         newProjectile.GetComponent<NetworkObject>().Spawn();
 
 
-        newProjectile.GetComponent<HomingProjectile>().InitProjectile(currentTarget);
+        newProjectile.GetComponent<HomingProjectile>().InitProjectile(this, currentTarget);
 
         yield return new WaitForSeconds(attackSpeed);
+    }
+
+    public void DestoryProjectile(GameObject projectile)
+    {
+        if (!IsServer) { return; }
+
+        if (projectile.GetComponent<NetworkObject>().IsSpawned)
+        {
+            projectile.GetComponent<NetworkObject>().Despawn();
+        }
     }
 
 

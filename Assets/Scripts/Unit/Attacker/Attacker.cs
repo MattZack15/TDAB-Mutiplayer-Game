@@ -21,6 +21,7 @@ public class Attacker : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (!IsServer) return;
         CheckDeath();
     }
@@ -29,7 +30,20 @@ public class Attacker : NetworkBehaviour
     {
         if (hp.Value <= 0)
         {
-            GetComponent<NetworkObject>().Despawn(true);   
+            GetComponent<NetworkObject>().Despawn(true);
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (IsServer)
+        {
+            print("Server is Despawning");
+        }
+
+        if (!IsServer)
+        {
+            print("Client is Despawning");
         }
     }
 
