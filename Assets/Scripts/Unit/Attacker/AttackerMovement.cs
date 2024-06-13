@@ -34,8 +34,6 @@ public class AttackerMovement : NetworkBehaviour
         // if no path Destory object
         if (path == null || path.Count == 0)
         {
-            path = new List<Vector3>() { new Vector3(0f, 0f, 0f)};
-            return;
 
             print("Error: Unit Was Spawned With no Path");
             GetComponent<NetworkObject>().Despawn();

@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PathManager : MonoBehaviour
+public class PathManager : NetworkBehaviour
 {
 
-    [SerializeField] PathCreator PathCreator;
+    //[SerializeField] PathCreator PathCreator;
+    [SerializeField] PlayerBoard board;
 
     List<GameObject> tilesInPath = new List<GameObject>();
 
@@ -14,15 +16,6 @@ public class PathManager : MonoBehaviour
     public Color pathEndColor;
 
 
-    public void UpdatePath(List<GameObject> tilesInPath)
-    {
-        // Called by Path Creator after a valid path is made
-        foreach (GameObject tile in tilesInPath)
-        {
-            this.tilesInPath.Add(tile);
-        }
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -67,4 +60,27 @@ public class PathManager : MonoBehaviour
 
         return GetPathPoints();
     }
+
+    [Rpc(SendTo.Server)]
+    public void SubmitPathToServerRPC(Vector2[] tileIDs, int boardNumber)
+    {
+        // Server Should Verify
+
+        RecivePathClientRPC(tileIDs, boardNumber);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void RecivePathClientRPC(Vector2[] tileIDs, int boardNumber)
+    {
+        tilesInPath = new List<GameObject>();
+
+        // Update path for all clietns on board
+        foreach (Vector2 tileID in tileIDs)
+        {
+            tilesInPath.Add(board.HexagonGrid.GetTileById(tileID));
+        }
+        
+        
+    }
+
 }

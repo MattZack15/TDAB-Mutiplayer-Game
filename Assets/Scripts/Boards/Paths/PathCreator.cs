@@ -59,13 +59,21 @@ public class PathCreator : MonoBehaviour
             
             if (ValidatePath(PathTileIds))
             {
-                //SubmitPathToServer();
 
                 // And start and end tile to path
                 tilesInPath.Insert(0, playerBoard.HexagonGrid.GetTileById(startTile));
                 tilesInPath.Add(playerBoard.HexagonGrid.GetTileById(endTile));
-                
-                pathManager.UpdatePath(tilesInPath);
+
+                // Create Array for sending to server
+                Vector2[] tileIDs = new Vector2[tilesInPath.Count];
+                for (int i = 0; i < tilesInPath.Count; i++)
+                {
+                    Vector3 globalTileID = tilesInPath[i].GetComponent<HexagonTile>().tileId;
+                    tileIDs[i] = new Vector2(globalTileID.x, globalTileID.y);
+                }
+
+
+                pathManager.SubmitPathToServerRPC(tileIDs, boardIndex);
 
                 ResetPath();
 

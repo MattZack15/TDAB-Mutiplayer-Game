@@ -41,11 +41,6 @@ public class GamePhaseManager : NetworkBehaviour
             playerIDs.RemoveAt(0);
         }
 
-        print(NetworkManager.ConnectedClientsIds.Count);
-        foreach (ulong playerID in (List<ulong>)NetworkManager.ConnectedClientsIds)
-        {
-            print("ID: " + playerID.ToString());
-        }
 
         // Start Battle
         foreach (AttackerSpawner attackerSpawner in AttackerSpawners)
