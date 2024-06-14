@@ -12,6 +12,7 @@ public class Shop : NetworkBehaviour
     [SerializeField] private PlayerWarband PlayerWarband;
     [SerializeField] private UnitDex unitDex;
     [SerializeField] private ShopItemsUI ShopItemsUI;
+    [SerializeField] private GamePhaseManager GamePhaseManager;
 
     public bool button;
 
@@ -31,13 +32,13 @@ public class Shop : NetworkBehaviour
     }
 
 
-    public void TryBuyUnit(int UnitID)
+    public void TryBuyUnit(int UnitID, int shopIndex)
     {
-        BuyUnitRPC(UnitID, NetworkManager.Singleton.LocalClientId);
+        BuyUnitRPC(UnitID, shopIndex, NetworkManager.Singleton.LocalClientId);
     }
 
     [Rpc(SendTo.Server)]
-    private void BuyUnitRPC(int UnitID, ulong playerID)
+    private void BuyUnitRPC(int UnitID, int shopIndex, ulong playerID)
     {
         if (!IsServer) { return; }
 
@@ -46,16 +47,17 @@ public class Shop : NetworkBehaviour
         // Write Info To Server
 
         // Send Info To Client
-        BoughtUnitRPC(UnitID, playerID);
+        BoughtUnitRPC(UnitID, shopIndex, playerID);
 
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void BoughtUnitRPC(int UnitID, ulong playerID)
+    private void BoughtUnitRPC(int UnitID, int shopIndex, ulong playerID)
     {
         if (NetworkManager.Singleton.LocalClientId == playerID)
         {
             PlayerWarband.AddUnit(unitDex.Dex[UnitID]);
+            ShopItemsUI.RemoveItem(shopIndex);
         }
     }
 
@@ -84,8 +86,12 @@ public class Shop : NetworkBehaviour
     }
     
     [Rpc(SendTo.Server)]
-    private void ShopRefreshServerRPC(ulong playerID)
+    public void ShopRefreshServerRPC(ulong playerID)
     {
+        // Must be in shop phase
+        if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase) { return; }
+        
+        // Otherwise send them a new shop list
         ShopRefreshClientRPC(CreateShopItems(), playerID);
     }
 

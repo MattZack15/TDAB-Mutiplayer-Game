@@ -17,7 +17,7 @@ public class PathCreator : MonoBehaviour
     public Color pathStartColor;
     public Color pathEndColor;
 
-    public PlayerTileInteraction PlayerTileInteraction;
+    PlayerTileInteraction PlayerTileInteraction;
 
     private void Start()
     {

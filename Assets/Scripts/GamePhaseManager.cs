@@ -6,9 +6,14 @@ using UnityEngine;
 
 public class GamePhaseManager : NetworkBehaviour
 {
+    public enum GamePhases { ShopPhase, BattlePhase }
+
+    public GamePhases GamePhase = GamePhases.ShopPhase;
+
     [SerializeField] PlayerWarband playerWarband;
     [SerializeField] PlayerBoardsManager playerBoardsManager;
     [SerializeField] UnitDex unitDex;
+    [SerializeField] Shop shop;
 
     Dictionary<ulong, List<GameObject>> attackerList = new Dictionary<ulong, List<GameObject>>();
     
@@ -47,6 +52,10 @@ public class GamePhaseManager : NetworkBehaviour
         {
             attackerSpawner.StartSpawner();
         }
+
+        BroadCastBattlePhaseStartRPC();
+
+        StartCoroutine(WaitForBattleEnd());
     }
 
     private void MakeMatch(ulong player1, ulong player2)
@@ -91,6 +100,12 @@ public class GamePhaseManager : NetworkBehaviour
         attackerList.Add(playerID, attackers);
     }
 
+    [Rpc(SendTo.ClientsAndHost)]
+    private void BroadCastBattlePhaseStartRPC()
+    {
+        GamePhase = GamePhases.BattlePhase;
+    }
+
     IEnumerator GetAttackers()
     {
         // Reset old List
@@ -102,9 +117,52 @@ public class GamePhaseManager : NetworkBehaviour
         // Wait For answers
         while (attackerList.Keys.Count != NetworkManager.Singleton.ConnectedClientsIds.Count)
         {
-            print("Waiting For Attackers from Clients...");
+            //print("Waiting For Attackers from Clients...");
             yield return null;
         }
+    }
+
+    IEnumerator WaitForBattleEnd()
+    {
+        bool battleIsOver = false;
+        while (!battleIsOver)
+        {
+            battleIsOver = true;
+            // Check every board
+            foreach (AttackerSpawner spawner in AttackerSpawners)
+            {
+                if (spawner.activeAtttack)
+                {
+                    battleIsOver = false;
+                    break;
+                }
+            }
+            
+            yield return null;
+        }
+
+        StartShopPhase();
+    }
+
+    private void StartShopPhase()
+    {
+        if (!IsServer) { return; }
+        
+        BroadCastShopPhaseStartRPC();
+
+        GamePhase = GamePhases.ShopPhase;
+
+        // Refresh Everyones shop
+        foreach (ulong clientID in NetworkManager.ConnectedClientsIds)
+        {
+            shop.ShopRefreshServerRPC(clientID);
+        }
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void BroadCastShopPhaseStartRPC()
+    {
+        GamePhase = GamePhases.ShopPhase;
     }
 
 }

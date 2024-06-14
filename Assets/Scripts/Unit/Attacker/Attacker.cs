@@ -34,18 +34,6 @@ public class Attacker : NetworkBehaviour
         }
     }
 
-    public override void OnNetworkDespawn()
-    {
-        if (IsServer)
-        {
-            print("Server is Despawning");
-        }
-
-        if (!IsServer)
-        {
-            print("Client is Despawning");
-        }
-    }
 
 
     public void TakeHit()

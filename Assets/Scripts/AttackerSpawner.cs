@@ -21,9 +21,12 @@ public class AttackerSpawner : NetworkBehaviour
 
     private List<GameObject> AttackersAlive = new List<GameObject>();
 
+    public bool activeAtttack;
 
     void Start()
     {
+        if (!IsServer) { return; }
+
         startTileId = PlayerBoard.startTile;
 
         SpawnPos = board.HexagonGrid.GetTileById(startTileId).transform;
@@ -32,6 +35,8 @@ public class AttackerSpawner : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!IsServer) { return; }
+
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             StartSpawner();
@@ -51,6 +56,8 @@ public class AttackerSpawner : NetworkBehaviour
 
     public void AddLiveAttacker(GameObject attacker)
     {
+        if (!IsServer) { return; }
+
         attacker.transform.position = SpawnPos.position;
         attacker.GetComponent<AttackerMovement>().SetPath(pathManager.GetBoardPathPoints());
     }
@@ -58,7 +65,8 @@ public class AttackerSpawner : NetworkBehaviour
     public void StartSpawner()
     {
         if (!IsServer) { return; }
-        
+
+        activeAtttack = true;
         StartCoroutine(SpawnLoop());
     }
 
@@ -81,29 +89,37 @@ public class AttackerSpawner : NetworkBehaviour
 
     IEnumerator CheckForRoundEnd()
     {
-        bool AllAttackersDead = false;
-        while (!AllAttackersDead)
+        bool attackIsActive = true;
+        
+        while (attackIsActive)
         {
-            
+            // If list is empty we are done
             if (AttackersAlive.Count == 0)
             {
-                AllAttackersDead = true;
+                attackIsActive = false;
                 break;
             }
-
+            // if all are null we are done
+            bool allNull = true;
             foreach (GameObject attacker in AttackersAlive)
             {
                 if (attacker != null)
                 {
+                    allNull = false;
                     break;
                 }
-                AllAttackersDead = true;
             }
+            if (allNull)
+            {
+                attackIsActive = false;
+            }
+
             
             yield return null;
         }
 
-        print("Attack is Over");
+        //print("Attack is Over");
+        activeAtttack = false;
 
     }
 

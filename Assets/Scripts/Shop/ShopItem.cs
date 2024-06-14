@@ -9,6 +9,7 @@ public class ShopItem : MonoBehaviour
     private int unitID;
     private Shop shop;
     public UnityEngine.UI.Image picture;
+    public int shopIndex;
 
     // Start is called before the first frame update
     void Start()
@@ -19,11 +20,12 @@ public class ShopItem : MonoBehaviour
 
     public void OnItemClick()
     {
-        shop.TryBuyUnit(unitID);
+        shop.TryBuyUnit(unitID, shopIndex);
     }
 
-    public void PopulateDisplay(GameObject Unit, int UnitID)
+    public void PopulateDisplay(GameObject Unit, int UnitID, int shopIndex)
     {
+        this.shopIndex = shopIndex;
         unitID = UnitID;
         picture.sprite = Unit.GetComponent<Unit>().UnitIcon;
 
