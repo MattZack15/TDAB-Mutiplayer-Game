@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public class HostControls : NetworkBehaviour
 
     [SerializeField] private PlayerHealthManager PlayerHealthManager;
     [SerializeField] private PlayerHealthUI PlayerHealthUI;
+    [SerializeField] private ServerPlayerDataManager ServerPlayerDataManager;
 
 
     public void StartGame()
@@ -29,7 +31,9 @@ public class HostControls : NetworkBehaviour
         PlayerHealthManager.InitPlayerHealth();
         // Show Health UI
         //PlayerHealthUI.GeneratePlayerHealthUI();
-
+        // Server Side Player Data
+        ServerPlayerDataManager.Init(NetworkManager.Singleton.ConnectedClientsIds.ToList());
+        
         GameStarted = true;
 
     }

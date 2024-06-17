@@ -72,7 +72,6 @@ public class AttackerSpawner : NetworkBehaviour
 
     IEnumerator SpawnLoop()
     {
-        print("starting spawns");
         AttackersAlive = new List<GameObject>();
 
         while (attackerQueue.Count > 0)

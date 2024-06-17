@@ -8,29 +8,23 @@ public class Shop : NetworkBehaviour
 {
     // Start is called before the first frame update
     public static int ShopSize = 3;
+    public static int StartingCoins = 4;
+    public static int RefreshCost = 1;
+    public static int UnitCost = 3;
 
     [SerializeField] private PlayerWarband PlayerWarband;
     [SerializeField] private UnitDex unitDex;
     [SerializeField] private ShopItemsUI ShopItemsUI;
     [SerializeField] private GamePhaseManager GamePhaseManager;
+    [SerializeField] private ServerPlayerDataManager ServerPlayerDataManager;
 
-    public bool button;
+    // Client Side Coins 
+    public int coins;
 
-    void Start()
+    private void Start()
     {
-        
+        coins = StartingCoins;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (button)
-        {
-            TryShopRefresh();
-            button = false;
-        }
-    }
-
 
     public void TryBuyUnit(int UnitID, int shopIndex)
     {
@@ -40,11 +34,18 @@ public class Shop : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void BuyUnitRPC(int UnitID, int shopIndex, ulong playerID)
     {
-        if (!IsServer) { return; }
+        // Check if thing is a unit
+        if (!unitDex.Dex[UnitID]) { print("No Such Unit is in the Game"); return; }
+        // Check if its in players Shop
+        ServerPlayerData playerData = ServerPlayerDataManager.GetPlayerData(playerID);
+        if (!playerData.shop.ContainsKey(shopIndex)) { print("No Such Shop item there");  return; }
+        if (playerData.shop[shopIndex] != UnitID) { print("That unit is not at that shop index"); return; }
+        // Must Have the coins
+        if (ServerPlayerDataManager.GetPlayerData(playerID).coins < UnitCost) { print("Not enough coins"); return; }
 
-        if (!unitDex.Dex[UnitID]) { return; }
-
-        // Write Info To Server
+        // Write Info To Server Player Data
+        playerData.shop.Remove(shopIndex);
+        playerData.coins -= UnitCost;
 
         // Send Info To Client
         BoughtUnitRPC(UnitID, shopIndex, playerID);
@@ -58,6 +59,7 @@ public class Shop : NetworkBehaviour
         {
             PlayerWarband.AddUnit(unitDex.Dex[UnitID]);
             ShopItemsUI.RemoveItem(shopIndex);
+            coins -= UnitCost;
         }
     }
 
@@ -90,15 +92,25 @@ public class Shop : NetworkBehaviour
     {
         // Must be in shop phase
         if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase) { return; }
-        
-        // Otherwise send them a new shop list
-        ShopRefreshClientRPC(CreateShopItems(), playerID);
+
+        // Must Have the coins
+        if (ServerPlayerDataManager.GetPlayerData(playerID).coins < RefreshCost) { print("Not enough coins"); return; }
+
+        // Otherwise send give a new shop list
+        int[] newShopItems = CreateShopItems();
+        // Track On Server
+        ServerPlayerDataManager.GetPlayerData(playerID).SetNewShop(newShopItems);
+        ServerPlayerDataManager.GetPlayerData(playerID).coins -= RefreshCost;
+
+        ShopRefreshClientRPC(newShopItems, playerID);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
     private void ShopRefreshClientRPC(int[] ShopItems, ulong playerID)
     {
         if (playerID != NetworkManager.Singleton.LocalClientId) return;
+
+        coins -= RefreshCost;
 
         ShopItemsUI.ReciveNewShopItems(ShopItems);
     }
