@@ -15,7 +15,8 @@ public class HexagonGridGenerator : MonoBehaviour
     private float rc;
     const float root3 = 1.7320508f;
 
-    public Vector2 boardSize;
+    public static Vector2 playerBoardSize = new Vector2(7, 18);
+    public static Vector2 sideBoardSize = new Vector2(1, 18);
 
     public Color color1;
     public Color color2;
@@ -29,7 +30,7 @@ public class HexagonGridGenerator : MonoBehaviour
         DefineHexagon();
     }
 
-    public Transform SpawnHexagonGrid(int gridIndex, Vector2 gridsOffset)
+    public Transform SpawnHexagonGrid(int gridIndex, Vector2 gridsOffset, Vector2 boardSize)
     {
         // Create Template Tile
         GameObject gameObject = new GameObject("Mesh", typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider), typeof(HexagonTile));
@@ -46,7 +47,7 @@ public class HexagonGridGenerator : MonoBehaviour
         HexagonGrid.name = $"Hexagon Grid {gridIndex}";
         
         // Spawn in all tiles
-        SpawnTiles(gameObject, gridIndex, HexagonGrid);
+        SpawnTiles(gameObject, gridIndex, HexagonGrid, boardSize);
 
 
         HexagonGrid.transform.position += new Vector3(gridsOffset.x, 0f, -gridsOffset.y);
@@ -127,7 +128,7 @@ public class HexagonGridGenerator : MonoBehaviour
         rc = (1f / 2f) * root3 * r;
     }
 
-    private Transform SpawnTiles(GameObject hexagon, int gridIndex, GameObject HexagonGrid)
+    private Transform SpawnTiles(GameObject hexagon, int gridIndex, GameObject HexagonGrid, Vector2 boardSize)
     {
         // Spawns all the tiles and returns the parent object
         Transform GridParent = HexagonGrid.transform;

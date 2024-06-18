@@ -23,7 +23,7 @@ public class AttackerSpawner : NetworkBehaviour
 
     public bool activeAtttack;
 
-    void Start()
+    public void Init()
     {
         if (!IsServer) { return; }
 

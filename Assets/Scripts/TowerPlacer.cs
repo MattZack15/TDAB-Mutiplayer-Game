@@ -60,7 +60,7 @@ public class TowerPlacer : NetworkBehaviour
         GameObject newObj = Instantiate(wantedObj, spawnPos, Quaternion.identity);
         newObj.GetComponent<NetworkObject>().Spawn();
 
-        PlayerBoard CurrentBoard = PlayerBoardsManager.PlayerBoards[boardID];
+        PlayerBoard CurrentBoard = PlayerBoardsManager.GetBoardByBoardID(boardID);
         Transform EndPos = CurrentBoard.HexagonGrid.GetTileById(PlayerBoard.endTile).transform;
 
         newObj.GetComponent<Tower>().trackEndPoint = EndPos;

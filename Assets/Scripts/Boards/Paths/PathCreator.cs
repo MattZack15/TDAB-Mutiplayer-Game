@@ -19,7 +19,7 @@ public class PathCreator : MonoBehaviour
 
     PlayerTileInteraction PlayerTileInteraction;
 
-    private void Start()
+    public void Init()
     {
         boardIndex = playerBoard.BoardID;
 

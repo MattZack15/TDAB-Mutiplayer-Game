@@ -6,19 +6,28 @@ using UnityEngine;
 public class PlayerBoardsManager : NetworkBehaviour
 {
     public Dictionary<ulong, PlayerBoard> PlayerBoardTable = new Dictionary<ulong, PlayerBoard>();
-    public List<PlayerBoard> PlayerBoards;
+    //private Dictionary<int, PlayerBoard> BoardIDToBoard = new Dictionary<int, PlayerBoard>();
 
 
     public void Initialize(List<PlayerBoard> PlayerBoardsFound)
     {
         foreach (PlayerBoard PlayerBoard in PlayerBoardsFound)
         {
-            if (IsServer)
-            {
-                PlayerBoardTable.Add(PlayerBoard.owner.Value, PlayerBoard);
-            }
-            
-            PlayerBoards.Add(PlayerBoard);
+
+            PlayerBoardTable.Add(PlayerBoard.owner.Value, PlayerBoard);
         }
+    }
+
+    public PlayerBoard GetBoardByBoardID(int boardID)
+    {
+        foreach (ulong playerID in PlayerBoardTable.Keys)
+        {
+            if (PlayerBoardTable[playerID].BoardID == boardID)
+            {
+                return PlayerBoardTable[playerID];
+            }
+        }
+        print($"Board ID: {boardID} Not Found");
+        return null;
     }
 }
