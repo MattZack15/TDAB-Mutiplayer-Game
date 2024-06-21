@@ -1865,11 +1865,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3635720785ad1e41a9afa000894652d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitIDs: 010000000200000003000000
+  UnitIDs: 01000000020000000300000004000000
   Units:
   - {fileID: 3338505304559047266, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
   - {fileID: 3499740661594837371, guid: a81f3d01a960a864d9135cb1dd501338, type: 3}
   - {fileID: 2242290797943394775, guid: ab84ea0fdb57169458fdbc4562a182e1, type: 3}
+  - {fileID: 8587929601506611587, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
 --- !u!4 &829110238
 Transform:
   m_ObjectHideFlags: 0
@@ -3214,6 +3215,7 @@ GameObject:
   - component: {fileID: 1836446035}
   - component: {fileID: 1836446036}
   - component: {fileID: 1836446037}
+  - component: {fileID: 1836446038}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Untagged
@@ -3286,6 +3288,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCamera: {fileID: 519420031}
+--- !u!114 &1836446038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836446033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2063f678468ca44be8b2cc59891bc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameCamera: {fileID: 519420031}
+  PlayerTileInteraction: {fileID: 1836446037}
+  hoverHeight: 0.5
 --- !u!1 &1837187171
 GameObject:
   m_ObjectHideFlags: 0

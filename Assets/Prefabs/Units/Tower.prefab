@@ -126,7 +126,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7929548134203298738}
   - component: {fileID: 8936748527447044709}
+  - component: {fileID: -7508388100034750028}
   - component: {fileID: 7248474588585844504}
+  - component: {fileID: 5123700867483370982}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -162,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1008165420
+  GlobalObjectIdHash: 1794592505
   InScenePlacedSourceGlobalObjectIdHash: 1008165420
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -171,6 +173,21 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &-7508388100034750028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8587929601506611587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd27eabfa69f3647a4f5edc08baf1b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnitName: Tower
+  UnitID: 4
+  UnitIcon: {fileID: 21300000, guid: 4aea6c3e7f9ba7d4fadaf82b41e66561, type: 3}
 --- !u!114 &7248474588585844504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,3 +204,24 @@ MonoBehaviour:
   attackSpeed: 1
   projectile: {fileID: 1029526933593873950, guid: cea484cffd644fc44a61f06786a81280, type: 3}
   trackEndPoint: {fileID: 0}
+--- !u!65 &5123700867483370982
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8587929601506611587}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.3563836, z: 1}
+  m_Center: {x: 0, y: 0.6883385, z: 0}

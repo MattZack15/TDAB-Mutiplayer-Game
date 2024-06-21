@@ -40,21 +40,24 @@ public class PlayerTileInteraction : MonoBehaviour
 
     public GameObject GetSelectedTile()
     {
-        // Gets object of tile mouse is at
-        GameObject selectedTile = null;
-        
+        // Return The the tile under the mouse
         Ray ray = gameCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hitInfo;
+        RaycastHit[] hits;
 
-        if (Physics.Raycast(ray, out hitInfo))
+        hits = Physics.RaycastAll(ray);
+
+        if (hits.Length == 0) { return null; }
+
+        GameObject HoveredTile = null;
+        foreach (RaycastHit hit in hits)
         {
-            if (hitInfo.collider.gameObject.GetComponent<HexagonTile>() != null) 
+            if (hit.collider.gameObject.GetComponent<HexagonTile>() != null)
             {
-                // Check if we hit a hex tile
-                selectedTile = hitInfo.collider.gameObject;
+                HoveredTile = hit.collider.gameObject;
+                break;
             }
         }
-        
-        return selectedTile;
+
+        return HoveredTile;
     }
 }

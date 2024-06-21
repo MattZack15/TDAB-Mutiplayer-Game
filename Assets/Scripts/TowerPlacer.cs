@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -31,6 +30,7 @@ public class TowerPlacer : NetworkBehaviour
             Vector3 tilePos = SelectedTile.transform.position;
 
             int boardId = (int)SelectedTile.GetComponent<HexagonTile>().tileId.z;
+            boardId = Mathf.Abs(boardId);
 
 
             if (Input.GetKeyDown(KeyCode.A))
