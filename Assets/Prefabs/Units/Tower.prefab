@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 5
-  attackSpeed: 1
+  attackSpeed: 1.5
   projectile: {fileID: 1029526933593873950, guid: cea484cffd644fc44a61f06786a81280, type: 3}
   trackEndPoint: {fileID: 0}
 --- !u!65 &5123700867483370982

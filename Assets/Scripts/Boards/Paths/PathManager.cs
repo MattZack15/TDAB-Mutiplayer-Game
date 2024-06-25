@@ -32,7 +32,6 @@ public class PathManager : NetworkBehaviour
             Color color = Color.Lerp(pathStartColor, pathEndColor, ratio);
             tile.GetComponent<HexagonTile>().UpdateNewColor(color);
 
-            print(tile.GetComponent<Renderer>().material.color);
 
             i++;
         }
