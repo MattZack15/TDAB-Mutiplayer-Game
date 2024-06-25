@@ -1814,6 +1814,7 @@ MonoBehaviour:
   ShopItemsUI: {fileID: 635459567}
   GamePhaseManager: {fileID: 1600264151}
   ServerPlayerDataManager: {fileID: 1251393845}
+  PlayerBoardsManager: {fileID: 836407095}
   coins: 0
 --- !u!114 &791543736
 MonoBehaviour:
@@ -2863,6 +2864,7 @@ MonoBehaviour:
   playerBoardsManager: {fileID: 836407095}
   unitDex: {fileID: 829110237}
   shop: {fileID: 791543735}
+  ServerPlayerDataManager: {fileID: 1251393845}
 --- !u!4 &1600264152
 Transform:
   m_ObjectHideFlags: 0

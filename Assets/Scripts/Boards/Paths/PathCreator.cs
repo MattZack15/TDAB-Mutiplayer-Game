@@ -72,10 +72,11 @@ public class PathCreator : MonoBehaviour
                     tileIDs[i] = new Vector2(globalTileID.x, globalTileID.y);
                 }
 
+                ResetPath();
 
                 pathManager.SubmitPathToServerRPC(tileIDs, boardIndex);
 
-                ResetPath();
+                
 
             }
             else
@@ -85,7 +86,7 @@ public class PathCreator : MonoBehaviour
 
         }
 
-        DrawPath();
+        //DrawPath();
     }
 
     private void TryAddToPath(GameObject tile)
@@ -122,6 +123,7 @@ public class PathCreator : MonoBehaviour
         }
 
         tilesInPath.Add(tile);
+        DrawPath();
 
     }
 

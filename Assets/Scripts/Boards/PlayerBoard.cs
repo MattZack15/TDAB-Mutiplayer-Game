@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+public struct BoardState
+{
+    public int[] Towers;
+    public Vector3[] positions;
+}
 public class PlayerBoard : NetworkBehaviour
 {
     public NetworkVariable<ulong> owner = new NetworkVariable<ulong>();
@@ -16,6 +21,7 @@ public class PlayerBoard : NetworkBehaviour
 
     [SerializeField] private GameObject EndZone;
     [SerializeField] private PathCreator PathCreator;
+    [SerializeField] public SideBoard SideBoard;
 
     public static Vector2 startTile = new Vector2(5f, 17f);
     public static Vector2 endTile = new Vector2(6f, 0f);
@@ -36,6 +42,7 @@ public class PlayerBoard : NetworkBehaviour
         sideGrid.transform.SetParent(transform);
 
         PathCreator.Init();
+        SideBoard.Init(sideGrid);
 
         // Highlight Start and End Tiles
         HexagonGrid.GetTileById(startTile).GetComponent<HexagonTile>().UpdateNewColor(Color.red);
@@ -73,4 +80,30 @@ public class PlayerBoard : NetworkBehaviour
         }
     }
 
+
+
+    public BoardState GetTowerInfo()
+    {
+        List<int> TowerIDs = new List<int>();
+        List<Vector3> positions = new List<Vector3>();
+
+
+        // Loop Through every tile on the board and get the Tower
+        foreach (Vector2 TileId in HexagonGrid.Tiles.Keys)
+        {
+            HexagonTile tile = HexagonGrid.GetTileById(TileId).GetComponent<HexagonTile>();
+
+            if (tile.inhabitor != null && tile.inhabitor.GetComponent<Tower>() != null)
+            {
+                TowerIDs.Add(tile.inhabitor.GetComponent<Unit>().UnitID);
+                positions.Add(tile.inhabitor.transform.position);
+            }
+        }
+
+        BoardState boardState = new BoardState();
+        boardState.Towers = TowerIDs.ToArray();
+        boardState.positions = positions.ToArray();
+
+        return boardState;
+    }
 }

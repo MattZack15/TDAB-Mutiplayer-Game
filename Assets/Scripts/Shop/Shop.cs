@@ -8,15 +8,19 @@ public class Shop : NetworkBehaviour
 {
     // Start is called before the first frame update
     public static int ShopSize = 3;
-    public static int StartingCoins = 4;
+    public static int StartingCoins = 40;
+    // How much money you get at the end of each round
+    public static int RoundEarnings = 4;
     public static int RefreshCost = 1;
     public static int UnitCost = 3;
+    public static int SellValue = 1;
 
     [SerializeField] private PlayerWarband PlayerWarband;
     [SerializeField] private UnitDex unitDex;
     [SerializeField] private ShopItemsUI ShopItemsUI;
     [SerializeField] private GamePhaseManager GamePhaseManager;
     [SerializeField] private ServerPlayerDataManager ServerPlayerDataManager;
+    [SerializeField] private PlayerBoardsManager PlayerBoardsManager;
 
     // Client Side Coins 
     public int coins;
@@ -58,6 +62,8 @@ public class Shop : NetworkBehaviour
         if (NetworkManager.Singleton.LocalClientId == playerID)
         {
             PlayerWarband.AddUnit(unitDex.Dex[UnitID]);
+            PlayerBoard MyBoard = PlayerBoardsManager.PlayerBoardTable[playerID];
+            MyBoard.SideBoard.AddUnitToSideBoard(unitDex.Dex[UnitID]);
             ShopItemsUI.RemoveItem(shopIndex);
             coins -= UnitCost;
         }

@@ -20,7 +20,7 @@ public class PathManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        DrawPath();
+       
     }
 
     void DrawPath()
@@ -31,6 +31,9 @@ public class PathManager : NetworkBehaviour
             float ratio = (float)i / (float)tilesInPath.Count;
             Color color = Color.Lerp(pathStartColor, pathEndColor, ratio);
             tile.GetComponent<HexagonTile>().UpdateNewColor(color);
+
+            print(tile.GetComponent<Renderer>().material.color);
+
             i++;
         }
     }
@@ -79,8 +82,8 @@ public class PathManager : NetworkBehaviour
         {
             tilesInPath.Add(board.HexagonGrid.GetTileById(tileID));
         }
-        
-        
+
+        DrawPath();
     }
 
 }

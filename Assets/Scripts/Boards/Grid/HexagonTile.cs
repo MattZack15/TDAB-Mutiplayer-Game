@@ -13,8 +13,9 @@ public class HexagonTile : MonoBehaviour
     private Color currentColor;
     private Color orignalColor;
 
-    // Server Only
-    public bool occupied;
+    public bool occupied {  private set; get; }
+    // Object that is occuping this Tile
+    public GameObject inhabitor;
 
     private void Awake()
     {
@@ -65,5 +66,17 @@ public class HexagonTile : MonoBehaviour
         tiles.Add(new Vector3(originTile.x - 1, originTile.y - 1, originTile.z));
 
         return tiles;
+    }
+
+    public void SetOccupied(GameObject inhabitor)
+    {
+        this.inhabitor = inhabitor;
+        occupied = true;
+    }
+
+    public void SetUnoccupied()
+    {
+        inhabitor = null;
+        occupied = false;
     }
 }

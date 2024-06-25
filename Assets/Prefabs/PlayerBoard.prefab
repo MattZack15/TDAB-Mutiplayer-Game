@@ -282,6 +282,7 @@ GameObject:
   - component: {fileID: 6725034459188159438}
   - component: {fileID: 7712223667450254688}
   - component: {fileID: 6134556382195221508}
+  - component: {fileID: 3197213597383593972}
   m_Layer: 0
   m_Name: PlayerBoard
   m_TagString: Untagged
@@ -348,6 +349,19 @@ MonoBehaviour:
   AttackerSpawner: {fileID: 1906753824976253557}
   EndZone: {fileID: 7354710593293275553}
   PathCreator: {fileID: 5417365027501379864}
+  SideBoard: {fileID: 3197213597383593972}
+--- !u!114 &3197213597383593972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5738671967921433443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8c134b645037fb4881713702cbba522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6561487300009331525
 GameObject:
   m_ObjectHideFlags: 0

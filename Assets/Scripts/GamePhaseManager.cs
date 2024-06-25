@@ -14,10 +14,20 @@ public class GamePhaseManager : NetworkBehaviour
     [SerializeField] PlayerBoardsManager playerBoardsManager;
     [SerializeField] UnitDex unitDex;
     [SerializeField] Shop shop;
+    [SerializeField] ServerPlayerDataManager ServerPlayerDataManager;
 
-    Dictionary<ulong, List<GameObject>> attackerList = new Dictionary<ulong, List<GameObject>>();
+    Dictionary<ulong, PlayerTurnInfo> PlayerTurnInfos = new Dictionary<ulong, PlayerTurnInfo>();
+
+    List<GameObject> cleanUpOnBattleEnd = new List<GameObject>();
     
     List<AttackerSpawner> AttackerSpawners = new List<AttackerSpawner>();
+
+    public struct PlayerTurnInfo
+    {
+        public List<GameObject> attackerList;
+        public List<GameObject> towerList;
+        public List<Vector3> towerPos;
+    }
 
     public void StartBattlePhase()
     {
@@ -28,7 +38,7 @@ public class GamePhaseManager : NetworkBehaviour
 
     IEnumerator EnterBattlePhase()
     {
-        yield return GetAttackers();
+        yield return GetPlayerTurnInfo();
 
         // Match making
         List<ulong> playerIDs = new List<ulong>();
@@ -66,7 +76,7 @@ public class GamePhaseManager : NetworkBehaviour
 
     private void PrepareBattle(ulong attackerID, ulong defenderID)
     {
-        // Get attackers 
+        // Prepare attackers 
 
         AttackerSpawner attackerSpawner = playerBoardsManager.PlayerBoardTable[defenderID].AttackerSpawner;
 
@@ -74,48 +84,82 @@ public class GamePhaseManager : NetworkBehaviour
         {
             AttackerSpawners.Add(attackerSpawner);
         }
-        
-        attackerSpawner.UpdateAttackerQueue(attackerList[attackerID]);
+        attackerSpawner.UpdateAttackerQueue(PlayerTurnInfos[attackerID].attackerList);
+
+        // Prepare Towers
+        int i = 0;
+        foreach (GameObject tower in PlayerTurnInfos[defenderID].towerList)
+        {
+            GameObject newTower = Instantiate(tower, PlayerTurnInfos[defenderID].towerPos[i], Quaternion.identity);
+            newTower.GetComponent<NetworkObject>().Spawn();
+
+            PlayerBoard CurrentBoard = playerBoardsManager.PlayerBoardTable[defenderID];
+            Transform EndPos = CurrentBoard.HexagonGrid.GetTileById(PlayerBoard.endTile).transform;
+
+            newTower.GetComponent<Tower>().trackEndPoint = EndPos;
+
+            cleanUpOnBattleEnd.Add(newTower);
+
+            i++;
+        }
 
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void RequestAttackersClientRPC()
+    private void RequestTurnInfoClientRPC()
     {
+        ulong myClientId = NetworkManager.Singleton.LocalClientId;
+        // Get My Towers
+        PlayerBoard myPlayerBoard = playerBoardsManager.PlayerBoardTable[myClientId];
+        BoardState BoardState = myPlayerBoard.GetTowerInfo();
+
         // Send my Attackers to Server
-        int[] AttackerIDs = playerWarband.GetOwnedUnitIDs().ToArray();
-        ReciveAttackersServerRPC(NetworkManager.Singleton.LocalClientId, AttackerIDs);
+        SideBoard mySideBoard = myPlayerBoard.gameObject.GetComponent<SideBoard>();
+        int[] AttackerIDs = mySideBoard.GetAttackers().ToArray();
+
+        ReciveTurnInfoServerRPC(myClientId, AttackerIDs, BoardState.Towers, BoardState.positions);
     }
 
     [Rpc(SendTo.Server)]
-    private void ReciveAttackersServerRPC(ulong playerID, int[] attackerIDs) 
+    private void ReciveTurnInfoServerRPC(ulong playerID, int[] attackerIDs, int[] towerIDs, Vector3[] towerPos) 
     {
         List<GameObject> attackers = new List<GameObject>();
-        foreach (int attackerID in attackerIDs) 
+        List<GameObject> towers = new List<GameObject>();
+        foreach (int unitID in attackerIDs) 
         {
-            attackers.Add(unitDex.Dex[attackerID]);
+            attackers.Add(unitDex.Dex[unitID]);
         }
-        
-        
-        attackerList.Add(playerID, attackers);
+        foreach (int unitID in towerIDs)
+        {
+            towers.Add(unitDex.Dex[unitID]);
+        }
+
+        PlayerTurnInfo playerTurnInfo = new PlayerTurnInfo();
+        playerTurnInfo.attackerList = attackers;
+        playerTurnInfo.towerList = towers;
+        playerTurnInfo.towerPos = towerPos.ToList();
+
+        PlayerTurnInfos.Add(playerID, playerTurnInfo);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
     private void BroadCastBattlePhaseStartRPC()
     {
         GamePhase = GamePhases.BattlePhase;
+
+        // Hide Side Board
     }
 
-    IEnumerator GetAttackers()
+    IEnumerator GetPlayerTurnInfo()
     {
         // Reset old List
-        attackerList = new Dictionary<ulong, List<GameObject>>();
+        PlayerTurnInfos = new Dictionary<ulong, PlayerTurnInfo>();
 
-        // Request Attacker Info
-        RequestAttackersClientRPC();
+        // Request Info
+        RequestTurnInfoClientRPC();
 
         // Wait For answers
-        while (attackerList.Keys.Count != NetworkManager.Singleton.ConnectedClientsIds.Count)
+        while (PlayerTurnInfos.Keys.Count != NetworkManager.Singleton.ConnectedClientsIds.Count)
         {
             //print("Waiting For Attackers from Clients...");
             yield return null;
@@ -147,10 +191,26 @@ public class GamePhaseManager : NetworkBehaviour
     private void StartShopPhase()
     {
         if (!IsServer) { return; }
-        
+
+        // Clean up Objects
+        foreach (GameObject go in cleanUpOnBattleEnd)
+        {
+            if (go != null)
+            {
+                go.GetComponent<NetworkObject>().Despawn();
+            }
+        }
+
+        // Give Everyone Money
+        foreach (ulong playerID in NetworkManager.ConnectedClientsIds)
+        {
+            ServerPlayerDataManager.GetPlayerData(playerID).coins += Shop.RoundEarnings;
+        }
+        // Set GamePhase
+        GamePhase = GamePhases.ShopPhase;
+
         BroadCastShopPhaseStartRPC();
 
-        GamePhase = GamePhases.ShopPhase;
 
         // Refresh Everyones shop
         foreach (ulong clientID in NetworkManager.ConnectedClientsIds)
@@ -162,7 +222,11 @@ public class GamePhaseManager : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void BroadCastShopPhaseStartRPC()
     {
+        // Set GamePhase
         GamePhase = GamePhases.ShopPhase;
+
+        // Get Money
+        shop.coins += Shop.RoundEarnings;
     }
 
 }
