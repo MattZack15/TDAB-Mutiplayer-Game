@@ -8,9 +8,9 @@ public class Shop : NetworkBehaviour
 {
     // Start is called before the first frame update
     public static int ShopSize = 3;
-    public static int StartingCoins = 40;
+    public static int StartingCoins = 15;
     // How much money you get at the end of each round
-    public static int RoundEarnings = 4;
+    public static int RoundEarnings = 5;
     public static int RefreshCost = 1;
     public static int UnitCost = 3;
     public static int SellValue = 1;

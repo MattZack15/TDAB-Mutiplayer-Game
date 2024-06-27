@@ -5,17 +5,29 @@ using UnityEngine;
 public class HexagonTile : MonoBehaviour
 {
 
-    private static Color highlightColor = Color.white;
+  
     // (x: X Gird Pos, y:, Y Grid Pos, z: Which grid it belongs to)
     public Vector3 tileId;
 
     private Renderer Renderer;
-    private Color currentColor;
     private Color orignalColor;
 
     public bool occupied {  private set; get; }
     // Object that is occuping this Tile
     public GameObject inhabitor;
+
+    // States
+    private bool highlighted;
+    private bool isDrawnPath;
+    private bool isRealPath;
+    private bool isSideBoard;
+    private bool isStartEndTile;
+
+    private static Color highlightColor = Color.white;
+    private Color drawnPathColor;
+    private Color realPathColor;
+    private Color sideBoardColor;
+    private Color startEndBoardColor;
 
     private void Awake()
     {
@@ -26,29 +38,107 @@ public class HexagonTile : MonoBehaviour
     void Start()
     {
         orignalColor = Renderer.material.color;
-        currentColor = orignalColor;
     }
 
-    public void UpdateNewColor(Color newColor)
+
+    public void SetDrawnPath(Color color)
     {
-        currentColor = newColor;
-        Renderer.material.color = newColor;
+        isDrawnPath = true;
+        drawnPathColor = color;
+
+        ComputeColor();
+    }
+    public void RemoveDrawnPath()
+    {
+        isDrawnPath = false;
+        drawnPathColor = new Color();
+
+        ComputeColor();
+    }
+    public void SetRealPath(Color color)
+    {
+        isRealPath = true;
+        realPathColor = color;
+
+        ComputeColor();
+    }
+    public void RemoveRealPath()
+    {
+        isRealPath = false;
+        realPathColor = new Color();
+
+        ComputeColor();
+    }
+    public void SetSideBoard(Color color)
+    {
+        isSideBoard = true;
+        sideBoardColor = color;
+
+        ComputeColor();
     }
 
-    public void ResetColor()
+    public void SetStartEndTile(Color color)
     {
-        currentColor = orignalColor;
-        Renderer.material.color = orignalColor;
+        isStartEndTile = true;
+        startEndBoardColor = color;
+
+        ComputeColor();
     }
 
     public void Highlight()
     {
-        Renderer.material.color = highlightColor;
+        highlighted = true;
+
+        ComputeColor();
     }
 
     public void Unhighlight()
     {
-        Renderer.material.color = currentColor;
+        highlighted = false;
+
+        ComputeColor();
+    }
+
+    private void ComputeColor()
+    {
+        // Listed By Prio
+        
+        if (highlighted)
+        {
+            DisplayColor(highlightColor);
+            return;
+        }
+
+        if (isSideBoard)
+        {
+            DisplayColor(sideBoardColor);
+            return;
+        }
+
+        if (isStartEndTile)
+        {
+            DisplayColor(startEndBoardColor);
+            return;
+        }
+
+        if (isDrawnPath)
+        {
+            DisplayColor(drawnPathColor);
+            return;
+        }
+
+        if (isRealPath)
+        {
+            DisplayColor(realPathColor);
+            return;
+        }
+
+        DisplayColor(orignalColor);
+    }
+
+    private void DisplayColor(Color color)
+    {
+        Renderer.material.color = color;
     }
 
     public static List<Vector3> GetAdjacentTiles(Vector3 originTile)

@@ -48,29 +48,39 @@ public class UnitPlacement : MonoBehaviour
 
         if (Physics.Raycast(ray, out hitInfo))
         {
-            if (hitInfo.collider.gameObject.GetComponent<Unit>() != null)
+            Unit hitUnit = hitInfo.collider.gameObject.GetComponent<Unit>();
+
+            if (hitUnit == null) 
             {
-                // Check if we hit a Moveable Unit
-                grabbedUnit = hitInfo.collider.gameObject.transform;
-
-                // Find Original Tile;
-                RaycastHit[] hits;
-                hits = Physics.RaycastAll(grabbedUnit.transform.position + new Vector3(0f, .5f, 0f), Vector3.down * 5f);
-                foreach (RaycastHit hit in hits)
-                {
-                    if (hit.collider.gameObject.GetComponent<HexagonTile>() != null)
-                    {
-                        originalTile = hit.collider.gameObject;
-                        break;
-                    }
-                }
-
-                if (originalTile == null)
-                {
-                    print("Can't Find Original Tile");
-                }
-                
+                return;
             }
+
+            if (hitUnit.active)
+            {
+                return;
+            }
+
+
+            // Check if we hit a Moveable Unit
+            grabbedUnit = hitUnit.gameObject.transform;
+
+            // Find Original Tile;
+            RaycastHit[] hits;
+            hits = Physics.RaycastAll(grabbedUnit.transform.position + new Vector3(0f, .5f, 0f), Vector3.down * 5f);
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.collider.gameObject.GetComponent<HexagonTile>() != null)
+                {
+                    originalTile = hit.collider.gameObject;
+                    break;
+                }
+            }
+
+            if (originalTile == null)
+            {
+                print("Can't Find Original Tile");
+            }
+
         }
     }
 

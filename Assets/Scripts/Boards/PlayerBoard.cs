@@ -45,9 +45,9 @@ public class PlayerBoard : NetworkBehaviour
         SideBoard.Init(sideGrid);
 
         // Highlight Start and End Tiles
-        HexagonGrid.GetTileById(startTile).GetComponent<HexagonTile>().UpdateNewColor(Color.red);
+        HexagonGrid.GetTileById(startTile).GetComponent<HexagonTile>().SetStartEndTile(Color.red);
         HexagonTile EndTile = HexagonGrid.GetTileById(endTile).GetComponent<HexagonTile>();
-        EndTile.UpdateNewColor(Color.red);
+        EndTile.SetStartEndTile(Color.red);
 
         // Side Board Coloring
         float i = 0;
@@ -65,7 +65,7 @@ public class PlayerBoard : NetworkBehaviour
             }
 
 
-            sideGrid.Tiles[tildeID].GetComponent<HexagonTile>().UpdateNewColor(newColor);
+            sideGrid.Tiles[tildeID].GetComponent<HexagonTile>().SetSideBoard(newColor);
             i++;
         }
 

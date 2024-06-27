@@ -7,14 +7,19 @@ public class ShopItem : MonoBehaviour
 {
 
     private int unitID;
+    private Unit unit;
+
     private Shop shop;
-    public UnityEngine.UI.Image picture;
+    public Image picture;
     public int shopIndex;
+
+    public UnitToolTip unitToolTip;
 
     // Start is called before the first frame update
     void Start()
     {
         shop = FindObjectOfType<Shop>();
+        unitToolTip = FindObjectOfType<UnitToolTip>();
     }
 
 
@@ -27,7 +32,13 @@ public class ShopItem : MonoBehaviour
     {
         this.shopIndex = shopIndex;
         unitID = UnitID;
-        picture.sprite = Unit.GetComponent<Unit>().UnitIcon;
+        unit = Unit.GetComponent<Unit>();
+        picture.sprite = unit.UnitIcon;
 
+    }
+
+    public void OnItemHover()
+    {
+        unitToolTip.SetDisplay(unit);
     }
 }

@@ -16,13 +16,6 @@ public class PathManager : NetworkBehaviour
     public Color pathEndColor;
 
 
-
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
-
     void DrawPath()
     {
         int i = 0;
@@ -30,11 +23,21 @@ public class PathManager : NetworkBehaviour
         {
             float ratio = (float)i / (float)tilesInPath.Count;
             Color color = Color.Lerp(pathStartColor, pathEndColor, ratio);
-            tile.GetComponent<HexagonTile>().UpdateNewColor(color);
+            tile.GetComponent<HexagonTile>().SetRealPath(color);
 
 
             i++;
         }
+    }
+
+    void ResetPath()
+    {
+        foreach (GameObject tile in tilesInPath)
+        {
+            tile.GetComponent<HexagonTile>().RemoveRealPath();
+        }
+
+        tilesInPath = new List<GameObject>();
     }
 
     private List<Vector3> GetPathPoints()
@@ -74,7 +77,7 @@ public class PathManager : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void RecivePathClientRPC(Vector2[] tileIDs, int boardNumber)
     {
-        tilesInPath = new List<GameObject>();
+        ResetPath();
 
         // Update path for all clietns on board
         foreach (Vector2 tileID in tileIDs)

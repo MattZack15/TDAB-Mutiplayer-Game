@@ -188,6 +188,9 @@ MonoBehaviour:
   UnitName: Tower
   UnitID: 4
   UnitIcon: {fileID: 21300000, guid: 4aea6c3e7f9ba7d4fadaf82b41e66561, type: 3}
+  description: 
+  tribes: 
+  unitType: 1
   AttackerScript: {fileID: 0}
   HpBar: {fileID: 0}
   TowerScirpt: {fileID: 7248474588585844504}

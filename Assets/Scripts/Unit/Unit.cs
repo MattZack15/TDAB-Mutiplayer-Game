@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    public enum UnitType {Attacker, Tower };
+    public enum Tribe { Undead, Nature};
+
     // Data Container
+    [Header("Unit Design")]
     [SerializeField] public string UnitName;
     [SerializeField] public int UnitID;
     [SerializeField] public Sprite UnitIcon;
-
+    [SerializeField] public string description;
+    [SerializeField] public List<Tribe> tribes;
+    [SerializeField] public UnitType unitType;
+    
+    [Header("Serialize for Object Interaction")]
     [SerializeField] Attacker AttackerScript;
     [SerializeField] GameObject HpBar;
-
     [SerializeField] Tower TowerScirpt;
+
+    [HideInInspector] public bool active { get; private set; } = true;
 
     public void SetInactive()
     {
@@ -29,5 +38,7 @@ public class Unit : MonoBehaviour
         {
             TowerScirpt.enabled = false;
         }
+
+        active = false;
     }
 }

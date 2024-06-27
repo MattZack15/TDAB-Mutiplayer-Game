@@ -131,7 +131,7 @@ public class PathCreator : MonoBehaviour
     {
         foreach (GameObject tile in tilesInPath)
         {
-            tile.GetComponent<HexagonTile>().ResetColor();
+            tile.GetComponent<HexagonTile>().RemoveDrawnPath();
         }
 
         tilesInPath = new List<GameObject>();
@@ -144,7 +144,7 @@ public class PathCreator : MonoBehaviour
         {
             float ratio = (float)i/ (float)tilesInPath.Count;
             Color color = Color.Lerp(pathStartColor, pathEndColor, ratio);
-            tile.GetComponent<HexagonTile>().UpdateNewColor(color);
+            tile.GetComponent<HexagonTile>().SetDrawnPath(color);
             i++;
         }
     }
