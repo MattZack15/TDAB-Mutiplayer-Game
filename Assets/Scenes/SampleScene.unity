@@ -642,7 +642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
+  m_sendNavigationEvents: 0
   m_DragThreshold: 10
 --- !u!4 &291500710
 Transform:
@@ -1235,6 +1235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camSpeed: 15
   moveRegionRatio: 0.01
+  playerBoardsManager: {fileID: 836407095}
 --- !u!1 &536245443
 GameObject:
   m_ObjectHideFlags: 0
@@ -3174,7 +3175,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -624, y: 34}
+  m_AnchoredPosition: {x: -624, y: -11}
   m_SizeDelta: {x: 318.12903, y: 348.361}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1197699157

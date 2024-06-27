@@ -30,4 +30,9 @@ public class PlayerBoardsManager : NetworkBehaviour
         print($"Board ID: {boardID} Not Found");
         return null;
     }
+
+    public PlayerBoard GetMyBoard()
+    {        
+        return PlayerBoardTable[NetworkManager.Singleton.LocalClientId];
+    }
 }

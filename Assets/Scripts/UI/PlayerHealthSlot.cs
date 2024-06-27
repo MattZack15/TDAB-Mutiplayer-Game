@@ -9,12 +9,13 @@ public class PlayerHealthSlot : MonoBehaviour
     [SerializeField] private TMP_Text healthText;
 
     private int index;
+    private ulong playerID;
     PlayerHealthManager PlayerHealthManager;
 
     public void PopulateSlot(ulong playerID, int playerHealth, int index, PlayerHealthManager PlayerHealthManager)
     {
         this.PlayerHealthManager = PlayerHealthManager;
-
+        this.playerID = playerID;
 
         playerIDText.text = "Player ID: " + playerID.ToString();
         healthText.text = playerHealth.ToString() + "/" + PlayerHealthManager.baseMaxHealth.ToString();
@@ -26,5 +27,10 @@ public class PlayerHealthSlot : MonoBehaviour
     {
         int playerHealth = PlayerHealthManager.playerHps[index];
         healthText.text = playerHealth.ToString() + "/" + PlayerHealthManager.baseMaxHealth.ToString();
+    }
+
+    public void OnClick()
+    {
+        FindObjectOfType<CameraMovement>().LookAtPlayersBoard(playerID);
     }
 }

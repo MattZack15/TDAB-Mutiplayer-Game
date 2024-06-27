@@ -22,6 +22,7 @@ public class PlayerBoard : NetworkBehaviour
     [SerializeField] private GameObject EndZone;
     [SerializeField] private PathCreator PathCreator;
     [SerializeField] public SideBoard SideBoard;
+    [SerializeField] public Transform camPos;
 
     public static Vector2 startTile = new Vector2(5f, 17f);
     public static Vector2 endTile = new Vector2(6f, 0f);
@@ -41,6 +42,7 @@ public class PlayerBoard : NetworkBehaviour
         HexagonGrid.transform.SetParent(transform);
         sideGrid.transform.SetParent(transform);
 
+
         PathCreator.Init();
         SideBoard.Init(sideGrid);
 
@@ -49,6 +51,28 @@ public class PlayerBoard : NetworkBehaviour
         HexagonTile EndTile = HexagonGrid.GetTileById(endTile).GetComponent<HexagonTile>();
         EndTile.SetStartEndTile(Color.red);
 
+        // Color This Now I guess
+        SetSideBoardColo(sideGrid);
+
+        if (owner.Value == NetworkManager.Singleton.LocalClientId)
+        {
+            // Only Do this if my Board
+            FindObjectOfType<CameraMovement>().MoveToStartPos();
+        }
+
+        if (IsServer)
+        {
+            // Server Only Board Init
+
+            AttackerSpawner.Init();
+
+            //Set Ending Collider
+            EndZone.transform.position = EndTile.transform.position;
+        }
+    }
+
+    private void SetSideBoardColo(HexagonGrid sideGrid)
+    {
         // Side Board Coloring
         float i = 0;
         foreach (Vector2 tildeID in sideGrid.Tiles.Keys)
@@ -68,18 +92,7 @@ public class PlayerBoard : NetworkBehaviour
             sideGrid.Tiles[tildeID].GetComponent<HexagonTile>().SetSideBoard(newColor);
             i++;
         }
-
-        if (IsServer)
-        {
-            // Server Only Board Init
-
-            AttackerSpawner.Init();
-
-            //Set Ending Collider
-            EndZone.transform.position = EndTile.transform.position;
-        }
     }
-
 
 
     public BoardState GetTowerInfo()

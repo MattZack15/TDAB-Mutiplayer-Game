@@ -1,21 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class CameraMovement : MonoBehaviour
 {
     public float camSpeed = 10f;
     public float moveRegionRatio = .1f;
+    private float lerpTime = .25f;
 
     private bool cameraLocked;
 
-    Vector3 OriginalPos = Vector3.zero;
+    [SerializeField] PlayerBoardsManager playerBoardsManager;
 
     private void Start()
     {
         cameraLocked = true;
-        OriginalPos = transform.position;
+    }
+
+    public void MoveToStartPos()
+    {
+        SnapToBoard();
     }
 
     // Update is called once per frame
@@ -74,6 +78,27 @@ public class CameraMovement : MonoBehaviour
 
     private void SnapToBoard()
     {
-        transform.position = OriginalPos;
+        transform.position = playerBoardsManager.GetMyBoard().camPos.position;
+    }
+
+    public void LookAtPlayersBoard(ulong playerID)
+    {
+        Vector3 PlayersBoardPos = playerBoardsManager.PlayerBoardTable[playerID].camPos.position;
+        StartCoroutine(MoveToPos(PlayersBoardPos));
+    }
+
+    IEnumerator MoveToPos(Vector3 endPos)
+    {
+        Vector3 startPos = transform.position;
+
+        float timer = 0;
+        while (timer < lerpTime)
+        {
+            transform.position = Vector3.Slerp(startPos, endPos, timer/lerpTime);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = endPos;
     }
 }
