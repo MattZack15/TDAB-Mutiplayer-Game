@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Tribe;
 
 public class Unit : MonoBehaviour
 {
     public enum UnitType {Attacker, Tower };
-    public enum Tribe { Undead, Nature};
 
     // Data Container
     [Header("Unit Design")]

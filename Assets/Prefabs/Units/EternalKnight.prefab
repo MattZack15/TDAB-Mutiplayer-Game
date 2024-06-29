@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: tribes.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: tribes.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 21ca0b263ec66604fa528bb1ecb84d79, type: 2}
     - target: {fileID: 346011687253312357, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

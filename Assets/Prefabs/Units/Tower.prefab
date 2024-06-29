@@ -189,7 +189,9 @@ MonoBehaviour:
   UnitID: 4
   UnitIcon: {fileID: 21300000, guid: 4aea6c3e7f9ba7d4fadaf82b41e66561, type: 3}
   description: 
-  tribes: 
+  tribes:
+  - {fileID: 11400000, guid: 21ca0b263ec66604fa528bb1ecb84d79, type: 2}
+  - {fileID: 11400000, guid: 2d6ae647d4b35bd439cba9cdac50fa38, type: 2}
   unitType: 1
   AttackerScript: {fileID: 0}
   HpBar: {fileID: 0}

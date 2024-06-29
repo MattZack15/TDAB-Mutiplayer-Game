@@ -13,7 +13,10 @@ public class ShopItem : MonoBehaviour
     public Image picture;
     public int shopIndex;
 
-    public UnitToolTip unitToolTip;
+    UnitToolTip unitToolTip;
+
+    [SerializeField] Transform TribeLayoutGroup;
+    [SerializeField] GameObject TribeLabelPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +37,12 @@ public class ShopItem : MonoBehaviour
         unitID = UnitID;
         unit = Unit.GetComponent<Unit>();
         picture.sprite = unit.UnitIcon;
+
+        foreach (Tribe tribe in unit.tribes)
+        {
+            TribeLabel tribeLabel = Instantiate(TribeLabelPrefab, TribeLayoutGroup).GetComponent<TribeLabel>();
+            tribeLabel.SetDisplay(tribe);
+        }
 
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class UnitToolTip : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class UnitToolTip : MonoBehaviour
     [SerializeField] TMP_Text moveSpeedText;
 
     [SerializeField] Camera cam;
+    [SerializeField] GameObject TribeLabelPrefab;
+    [SerializeField] Transform TribeLayoutGroup;
+    List<GameObject> TribeList = new List<GameObject>();
 
     private void Update()
     {
@@ -31,6 +35,18 @@ public class UnitToolTip : MonoBehaviour
         unitname.SetText(unit.UnitName);
         UnitArt.sprite = unit.UnitIcon;
         unitdescription.SetText(unit.description);
+
+        // Tribes
+        foreach (GameObject go in TribeList)
+        {
+            Destroy(go);
+        }
+        foreach (Tribe tribe in unit.tribes) 
+        {
+            TribeLabel tribeLabel = Instantiate(TribeLabelPrefab, TribeLayoutGroup).GetComponent<TribeLabel>();
+            tribeLabel.SetDisplay(tribe);
+            TribeList.Add(tribeLabel.gameObject);
+        }
 
         if (unit.unitType == Unit.UnitType.Tower)
         {
