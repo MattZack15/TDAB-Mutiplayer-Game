@@ -46,14 +46,27 @@ public class AttackerMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        
         if (!IsServer) return;
 
+        Anim();
 
         if (path.Count > 0)
         {
             Move();
             UpdateNextPoint();
         }
+
+    }
+
+    private void Anim()
+    {
+        Vector3 rotation = transform.eulerAngles;
+        
+        transform.LookAt(nextPoint);
+
+        transform.rotation = Quaternion.Euler(rotation.x, transform.rotation.eulerAngles.y, rotation.z);
 
     }
 

@@ -18,7 +18,9 @@ public class UnitUIOverlay : MonoBehaviour
     {
         targetTrasform.LookAt(cameraTransform);
 
-        targetTrasform.localEulerAngles = new Vector3 (-targetTrasform.localEulerAngles.x, 0f, -targetTrasform.localEulerAngles.z);
+        targetTrasform.eulerAngles = new Vector3 (-targetTrasform.localEulerAngles.x, 0f, -targetTrasform.localEulerAngles.z);
+
+
 
     }
 }

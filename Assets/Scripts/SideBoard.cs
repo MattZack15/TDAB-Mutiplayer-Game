@@ -23,6 +23,7 @@ public class SideBoard : MonoBehaviour
             if (!tile.occupied)
             {
                 GameObject newUnit = Instantiate(Unit, tile.gameObject.transform.position, Quaternion.identity);
+                newUnit.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
                 newUnit.GetComponent<Unit>().SetInactive();
                 tile.SetOccupied(newUnit);
                 return;
