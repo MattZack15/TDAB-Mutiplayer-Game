@@ -5,7 +5,7 @@ using UnityEngine;
 public class ServerUnitData : MonoBehaviour
 {
     // Eternal Knights dead count
-    int ekdCount;
+    public int ekdCount;
     
     // Start is called before the first frame update
     void Start()

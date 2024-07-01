@@ -378,7 +378,7 @@ MonoBehaviour:
     m_InternalValue: 0
   BoardID: 0
   HexagonGrid: {fileID: 0}
-  AttackerSpawner: {fileID: 1906753824976253557}
+  AttackerSpawner: {fileID: 0}
   EndZone: {fileID: 7354710593293275553}
   PathCreator: {fileID: 5417365027501379864}
   SideBoard: {fileID: 3197213597383593972}
@@ -599,7 +599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b852d6d27c7d54e8e7d027d5d0ac21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackerSpawner: {fileID: 1906753824976253557}
+  AttackerSpawner: {fileID: 0}
   PlayerBoard: {fileID: 6134556382195221508}
 --- !u!1 &8490715982078026584
 GameObject:
@@ -610,7 +610,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8777473979407916996}
-  - component: {fileID: 1906753824976253557}
   m_Layer: 0
   m_Name: AttackerSpawner
   m_TagString: Untagged
@@ -633,19 +632,3 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6725034459188159438}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1906753824976253557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8490715982078026584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5a9354ba459c494aa2422fe63c62548, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  board: {fileID: 6134556382195221508}
-  spawnDelay: 1
-  pathManager: {fileID: 961074891559436924}
-  activeAtttack: 0

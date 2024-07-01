@@ -12,6 +12,6 @@ public class AttackerHPBar : MonoBehaviour
 
     void Update()
     {
-        Slider.value = (float)attacker.hp.Value / (float)attacker.maxHp;
+        Slider.value = (float)attacker.hp.Value / (float)attacker.maxHp.Value;
     }
 }

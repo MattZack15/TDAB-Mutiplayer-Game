@@ -9,8 +9,9 @@ public class AttackerSpawner : NetworkBehaviour
     // On round start spawns in those units over time with a delay
 
     [SerializeField] PlayerBoard board;
-    
-    List<GameObject> attackerQueue = new List<GameObject>();
+
+    [HideInInspector]
+    public List<GameObject> attackerQueue = new List<GameObject>();
 
     Vector2 startTileId;
     Transform SpawnPos;
@@ -32,16 +33,7 @@ public class AttackerSpawner : NetworkBehaviour
         SpawnPos = board.HexagonGrid.GetTileById(startTileId).transform;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (!IsServer) { return; }
 
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            StartSpawner();
-        }
-    }
 
     public void UpdateAttackerQueue(List<GameObject> attackers)
     {
@@ -130,7 +122,7 @@ public class AttackerSpawner : NetworkBehaviour
         newAttacker.GetComponent<NetworkObject>().Spawn();
 
         // Init attacker
-        newAttacker.GetComponent<AttackerMovement>().SetPath(pathManager.GetBoardPathPoints());
+        newAttacker.GetComponent<Attacker>().Init(pathManager.GetBoardPathPoints());
 
         // Track it
         AttackersAlive.Add(newAttacker);

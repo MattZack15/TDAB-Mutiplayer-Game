@@ -65,8 +65,10 @@ public class UnitToolTip : MonoBehaviour
             towerStats.SetActive(false);
 
             Attacker attacker = unit.gameObject.GetComponent<Attacker>();
-            healthText.SetText($"{attacker.maxHp}");
-            moveSpeedText.SetText($"{unit.gameObject.GetComponent<AttackerMovement>().moveSpeed}");
+            AttackerStats stats = attacker.GetAttackerStats();
+
+            healthText.SetText($"{stats.baseMaxHp}");
+            moveSpeedText.SetText($"{stats.baseMoveSpeed}");
         }
     }
 

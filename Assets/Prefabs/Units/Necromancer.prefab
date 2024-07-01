@@ -88,8 +88,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: description
-      value: 'Battlecry: Will resurrect the attacker after this with 1 hp'
+      value: 'Entry: Resurrect the next attacker with 1 hp'
       objectReference: {fileID: 0}
+    - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: AttackerScript
+      value: 
+      objectReference: {fileID: 749572440284935390}
     - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: tribes.Array.size
       value: 1
@@ -182,6 +186,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 2.011
       objectReference: {fileID: 0}
+    - target: {fileID: 4802896947108677936, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: attacker
+      value: 
+      objectReference: {fileID: 749572440284935390}
     - target: {fileID: 5660127933202019724, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -204,15 +212,55 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7313268784309158610, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+    - {fileID: 8115512447373002805, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2346437626535949651, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4444526652651440250}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3338505304559047266, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 749572440284935390}
   m_SourcePrefab: {fileID: 100100000, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+--- !u!114 &2993135642126001069 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6646692700084126741, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+  m_PrefabInstance: {fileID: 8481415859314190264}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6620513740283885018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be1f6eba4159aff498366000ab41347b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6135083978127856363 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2346437626535949651, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
   m_PrefabInstance: {fileID: 8481415859314190264}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6620513740283885018 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3338505304559047266, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+  m_PrefabInstance: {fileID: 8481415859314190264}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &749572440284935390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6620513740283885018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7224521eb810a44b86a01a6177f01c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 3
+  speed: 2
+  maxHp:
+    m_InternalValue: 0
+  hp:
+    m_InternalValue: 0
+  OnDeathEffects: []
+  AttackerMovement: {fileID: 2993135642126001069}

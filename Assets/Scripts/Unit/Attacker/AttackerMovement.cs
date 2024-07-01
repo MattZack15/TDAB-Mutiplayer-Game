@@ -6,11 +6,15 @@ using UnityEngine;
 public class AttackerMovement : NetworkBehaviour
 {
 
-    public float moveSpeed = 3f;
+    private Attacker attacker;
 
     List<Vector3> path = new List<Vector3>();
-    Vector3 nextPoint; 
-    
+    Vector3 nextPoint;
+
+    private void Awake()
+    {
+        attacker = GetComponent<Attacker>();
+    }
 
     public void SetPath(List<Vector3> pathPointPostions)
     {
@@ -77,7 +81,7 @@ public class AttackerMovement : NetworkBehaviour
             Vector3 dir = (nextPoint - transform.position).normalized;
             dir.y = 0f;
 
-            transform.position += dir * moveSpeed * Time.deltaTime;
+            transform.position += dir * attacker.GetAttackerStats().moveSpeed * Time.deltaTime;
         }
     }
     private void UpdateNextPoint()
@@ -94,5 +98,10 @@ public class AttackerMovement : NetworkBehaviour
             }
             
         }
+    }
+
+    public List<Vector3> GetCurrentPath()
+    {
+        return path;
     }
 }

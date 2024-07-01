@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using static Tribe;
 
@@ -40,5 +41,22 @@ public class Unit : MonoBehaviour
         }
 
         active = false;
+    }
+
+    public int GetBoard()
+    {
+        // Finds Board number where this unit is
+        
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(transform.position + new Vector3(0f, .5f, 0f), Vector3.down * 5f);
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.gameObject.GetComponent<HexagonTile>() != null)
+            {
+                return (int)hit.collider.gameObject.GetComponent<HexagonTile>().tileId.z;
+            }
+        }
+
+        return 0;
     }
 }
