@@ -17,7 +17,7 @@ public class Attacker : NetworkBehaviour
 {
     [Header("Design Attacker Stats")]
     [SerializeField] protected int health = 1;
-    [SerializeField] protected int speed = 1;
+    [SerializeField] protected float speed = 1;
 
     // Network Varibles for Sync
     public NetworkVariable<int> maxHp = new NetworkVariable<int>();
@@ -28,6 +28,7 @@ public class Attacker : NetworkBehaviour
     public List<OnDeathEffect> OnDeathEffects = new List<OnDeathEffect>();
 
     [SerializeField] AttackerMovement AttackerMovement;
+
 
     public void Init(List<Vector3> pathPointPostions, bool callOnEntry = true)
     {
@@ -65,6 +66,7 @@ public class Attacker : NetworkBehaviour
     }
 
 
+
     private void CheckDeath()
     {
         if (hp.Value <= 0)
@@ -100,6 +102,7 @@ public class Attacker : NetworkBehaviour
     {
         maxHpAugments.Add(amount);
         hp.Value += amount;
+        maxHp.Value += amount;
     }
 
     public void AddMoveSpeed(float moveSpeedBuff)

@@ -3419,6 +3419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12e04fa5d4debd24fa8a9d8fbb329671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ekdCount: 0
 --- !u!114 &1262813305 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8873510587625489621, guid: a74d37704828f7f4caba67668952bab6, type: 3}
@@ -5017,6 +5018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameCamera: {fileID: 519420031}
   PlayerTileInteraction: {fileID: 1836446037}
+  PlayerBoardsManager: {fileID: 836407095}
   hoverHeight: 0.5
 --- !u!1 &1837187171
 GameObject:

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.Netcode.Components;
 using UnityEngine;
 using static Tribe;
 
@@ -28,6 +29,13 @@ public class Unit : MonoBehaviour
     {
         // used for when the unit is not in combat
         // They can sit on your board and do nothing
+
+        // So client can pick it up
+        NetworkTransform NetworkTransform = GetComponent<NetworkTransform>();
+        if (NetworkTransform != null)
+        {
+            NetworkTransform.enabled = false;
+        }
 
         if (AttackerScript != null)
         {

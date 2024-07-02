@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class AttackerSpawner : NetworkBehaviour
+public class AttackerSpawner: NetworkBehaviour
 {
     // Takes in a list of attacking units
     // On round start spawns in those units over time with a delay

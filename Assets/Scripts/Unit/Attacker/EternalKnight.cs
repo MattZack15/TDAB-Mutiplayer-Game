@@ -11,9 +11,16 @@ public class EternalKnight : Attacker
     
     ServerUnitData ServerUnitData;
     private int lastEkdCount = 0;
-    
+
+
     public override void OnDeath()
     {
+
+        if (ServerUnitData == null)
+        {
+            ServerUnitData = FindObjectOfType<ServerUnitData>();
+
+        }
 
         ServerUnitData.ekdCount += 1;
 
@@ -24,7 +31,6 @@ public class EternalKnight : Attacker
     {
         base.OnNetworkSpawn();
 
-        ServerUnitData = FindObjectOfType<ServerUnitData>();
         UpdateStats();
     }
 
@@ -37,6 +43,15 @@ public class EternalKnight : Attacker
 
     private void UpdateStats()
     {
+        if (!IsServer) { return; }
+
+        if (ServerUnitData == null)
+        {
+            ServerUnitData = FindObjectOfType<ServerUnitData>();
+
+        }
+
+        
         int newBuffs = ServerUnitData.ekdCount - lastEkdCount;
 
         for (int i = 0; i < newBuffs; i++)

@@ -13,6 +13,10 @@ public class Necromancer : Attacker
 
         PlayerBoard board = boardsManager.GetBoardByBoardID(GetComponent<Unit>().GetBoard());
 
+        if (board.AttackerSpawner.attackerQueue.Count == 0)
+        {
+            return;
+        }
         GameObject nextAttacker = board.AttackerSpawner.attackerQueue[0];
 
         if (nextAttacker.GetComponent<Necromancer>() == null)

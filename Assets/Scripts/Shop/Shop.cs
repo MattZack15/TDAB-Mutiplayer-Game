@@ -51,6 +51,10 @@ public class Shop : NetworkBehaviour
         playerData.shop.Remove(shopIndex);
         playerData.coins -= UnitCost;
 
+        // Spawn unit
+        PlayerBoard Playersboard = PlayerBoardsManager.PlayerBoardTable[playerID];
+        Playersboard.SideBoard.AddUnitToSideBoard(unitDex.Dex[UnitID]);
+
         // Send Info To Client
         BoughtUnitRPC(UnitID, shopIndex, playerID);
 
@@ -62,8 +66,7 @@ public class Shop : NetworkBehaviour
         if (NetworkManager.Singleton.LocalClientId == playerID)
         {
             PlayerWarband.AddUnit(unitDex.Dex[UnitID]);
-            PlayerBoard MyBoard = PlayerBoardsManager.PlayerBoardTable[playerID];
-            MyBoard.SideBoard.AddUnitToSideBoard(unitDex.Dex[UnitID]);
+
             ShopItemsUI.RemoveItem(shopIndex);
             coins -= UnitCost;
         }

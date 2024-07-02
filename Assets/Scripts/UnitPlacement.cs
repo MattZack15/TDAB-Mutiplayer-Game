@@ -1,26 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
+using Unity.Netcode;
 using UnityEngine;
 
-public class UnitPlacement : MonoBehaviour
+
+public class UnitPlacement : NetworkBehaviour
 {
     [SerializeField] Camera gameCamera;
     [SerializeField] PlayerTileInteraction PlayerTileInteraction;
+    [SerializeField] PlayerBoardsManager PlayerBoardsManager;
 
     [SerializeField] float hoverHeight;
 
     private Transform grabbedUnit;
 
     private GameObject originalTile;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -79,65 +74,100 @@ public class UnitPlacement : MonoBehaviour
             if (originalTile == null)
             {
                 print("Can't Find Original Tile");
+                ResetData();
             }
 
+            // Only Grab Units on our board
+            if (PlayerBoardsManager.GetMyBoard().BoardID != Mathf.Abs(originalTile.gameObject.GetComponent<HexagonTile>().tileId.z))
+            {
+                ResetData();
+            }
+
+
+
         }
+    }
+
+    private bool isLeagalTile(GameObject unit, GameObject tile)
+    {
+        // Tile must be not null
+        if (tile == null)
+        {
+            // Fail placement (Must place on a tile)
+            return false;
+        }
+
+        HexagonTile hexagonTile = tile.GetComponent<HexagonTile>();
+
+        // Cant swap with something that is null
+        if (hexagonTile.occupied && hexagonTile.inhabitor == null)
+        {
+            // Fail placement (Tile cannot have things placed on it)
+            return false;
+        }
+
+        // Can only place attackers on side board
+        if (unit.GetComponent<Attacker>() != null)
+        {
+            if (hexagonTile.tileId.z > 0)
+            {
+                return false;
+            }
+        }
+
+        // Can only place on YOUR board
+        PlayerBoard targetBoard = PlayerBoardsManager.GetBoardByBoardID((int)tile.GetComponent<HexagonTile>().tileId.z);
+        if (targetBoard.BoardID != PlayerBoardsManager.GetMyBoard().BoardID)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private void ResetData()
+    {
+        grabbedUnit = null;
+        originalTile = null;
     }
 
     private void Release()
     {
         if (grabbedUnit == null) { return; }
 
-        void ResetData()
-        {
-            grabbedUnit = null;
-            originalTile = null;
-        }
 
         GameObject hoveredTile = PlayerTileInteraction.GetSelectedTile();
 
-        if (hoveredTile == null) 
+
+        if (!isLeagalTile(grabbedUnit.gameObject, hoveredTile))
         {
-            // Fail placement (Must place on a tile)
             grabbedUnit.position = originalTile.transform.position;
             ResetData();
             return;
         }
-
 
         HexagonTile hoveredHexTile = hoveredTile.GetComponent<HexagonTile>();
-        if (hoveredHexTile.occupied && hoveredHexTile.inhabitor == null)
-        {
-            // Fail placement (Tile cannot have things placed on it)
-            grabbedUnit.position = originalTile.transform.position;
-            ResetData();
-            return;
-        }
-
-        if (grabbedUnit.gameObject.GetComponent<Attacker>() != null)
-        {
-            // Attacker Placment Rules
-            if (hoveredHexTile.tileId.z > 0)
-            {
-                // Fail placement (Attackers must be placed on SideBoard (Negative index))
-                grabbedUnit.position = originalTile.transform.position;
-                ResetData();
-                return;
-            }
-        }
 
         if (hoveredHexTile.occupied && hoveredHexTile.inhabitor != null)
         {
             // Swap Two Objects
             GameObject OtherObj = hoveredHexTile.inhabitor;
 
+            // Must Check to make sure moving other object is also legal
+            if (!isLeagalTile(OtherObj, originalTile))
+            {
+                grabbedUnit.position = originalTile.transform.position;
+                ResetData();
+                return;
+            }
+
             //Positions
-            grabbedUnit.position = hoveredTile.transform.position;
-            OtherObj.transform.position = originalTile.transform.position;
+            RequestUnitPlacmentServerRPC(hoveredTile.GetComponent<HexagonTile>().tileId, grabbedUnit.GetComponent<NetworkObject>().NetworkObjectId);
+            RequestUnitPlacmentServerRPC(originalTile.GetComponent<HexagonTile>().tileId, OtherObj.GetComponent<NetworkObject>().NetworkObjectId);
 
             //Book Keeping
-            originalTile.GetComponent<HexagonTile>().SetOccupied(hoveredHexTile.inhabitor);
-            hoveredHexTile.SetOccupied(grabbedUnit.gameObject);
+            //originalTile.GetComponent<HexagonTile>().SetOccupied();
+            //hoveredHexTile.SetOccupied(grabbedUnit.gameObject);
 
             ResetData();
             return;
@@ -146,7 +176,10 @@ public class UnitPlacement : MonoBehaviour
         // On Succsess
         if (hoveredHexTile.occupied == false)
         {
-            grabbedUnit.position = hoveredTile.transform.position;
+            //grabbedUnit.position = hoveredTile.transform.position;
+
+            RequestUnitPlacmentServerRPC(hoveredTile.GetComponent<HexagonTile>().tileId, grabbedUnit.GetComponent<NetworkObject>().NetworkObjectId);
+
             hoveredTile.GetComponent<HexagonTile>().SetOccupied(grabbedUnit.gameObject);
             originalTile.GetComponent<HexagonTile>().SetUnoccupied();
         }
@@ -179,6 +212,30 @@ public class UnitPlacement : MonoBehaviour
 
     }
 
+    [Rpc(SendTo.Server)]
+    public void RequestUnitPlacmentServerRPC(Vector3 tileID, ulong networkObjectId)
+    {
+        NetworkObject networkObject;
+        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
+
+        // Find that tiles pos
+        
+        Vector3 pos = PlayerBoardsManager.GetTileById(tileID).transform.position;
+        networkObject.transform.position = pos;
+
+        UnitPlacmentClientRPC(tileID, networkObjectId, pos);
+    }
+    [Rpc(SendTo.ClientsAndHost)]
+    public void UnitPlacmentClientRPC(Vector3 tileID, ulong networkObjectId, Vector3 pos)
+    {
+        NetworkObject networkObject;
+        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
+
+        networkObject.transform.position = pos;
+
+        // Set tile to occupied
+        PlayerBoardsManager.GetTileById(tileID).GetComponent<HexagonTile>().SetOccupied(networkObject.gameObject);
+    }
 
 
 }

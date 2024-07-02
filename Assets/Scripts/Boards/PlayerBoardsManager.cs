@@ -20,6 +20,8 @@ public class PlayerBoardsManager : NetworkBehaviour
 
     public PlayerBoard GetBoardByBoardID(int boardID)
     {
+        boardID = Mathf.Abs(boardID);
+
         foreach (ulong playerID in PlayerBoardTable.Keys)
         {
             if (PlayerBoardTable[playerID].BoardID == boardID)
@@ -34,5 +36,21 @@ public class PlayerBoardsManager : NetworkBehaviour
     public PlayerBoard GetMyBoard()
     {        
         return PlayerBoardTable[NetworkManager.Singleton.LocalClientId];
+    }
+
+    public GameObject GetTileById(Vector3 tileID)
+    {
+        int boardID = (int)tileID.z;
+
+        if (tileID.z > 0)
+        {
+            return GetBoardByBoardID(boardID).HexagonGrid.GetTileById(new Vector2(tileID.x, tileID.y));
+        }
+        else
+        {
+            return GetBoardByBoardID(boardID).SideBoard.SideBoardGrid.GetTileById(new Vector2(tileID.x, tileID.y));
+        }
+
+        
     }
 }
