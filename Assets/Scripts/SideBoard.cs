@@ -6,15 +6,38 @@ using UnityEngine;
 public class SideBoard : NetworkBehaviour
 {
     UnitPlacement UnitPlacement;
-    public HexagonGrid SideBoardGrid;
+    [HideInInspector] public HexagonGrid SideBoardGrid;
     
     // Start is called before the first frame update
     public void Init(HexagonGrid SideBoardGrid)
     {
         this.SideBoardGrid = SideBoardGrid;
         UnitPlacement = FindObjectOfType<UnitPlacement>();
+        SetSideBoardColor(SideBoardGrid);
     }
 
+    private void SetSideBoardColor(HexagonGrid sideGrid)
+    {
+        // Side Board Coloring
+        float i = 0;
+        foreach (Vector2 tildeID in sideGrid.Tiles.Keys)
+        {
+            Color newColor = Color.Lerp(Color.yellow, Color.red, i / sideGrid.Tiles.Keys.Count);
+
+            if (i % 3 == 0)
+            {
+                newColor = Color.Lerp(newColor, Color.black, .1f);
+            }
+            if (i % 3 == 2)
+            {
+                newColor = Color.Lerp(newColor, Color.white, .2f);
+            }
+
+
+            sideGrid.Tiles[tildeID].GetComponent<HexagonTile>().SetSideBoard(newColor);
+            i++;
+        }
+    }
 
     public void AddUnitToSideBoard(GameObject Unit)
     {

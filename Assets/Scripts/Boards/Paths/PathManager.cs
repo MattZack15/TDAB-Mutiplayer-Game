@@ -11,18 +11,41 @@ public class PathManager : NetworkBehaviour
 
     List<GameObject> tilesInPath = new List<GameObject>();
 
+    public Vector2[] DefaultPath;
 
-    public Color pathStartColor;
-    public Color pathEndColor;
+    public Color realPathColor;
 
+
+    public void Init()
+    {
+        if (!IsServer) { return; }
+        CreateDefaultPath();
+    }
+
+    private void CreateDefaultPath()
+    {        
+        SubmitPathToServerRPC(DefaultPath, board.BoardID);
+    }
 
     void DrawPath()
     {
         int i = 0;
         foreach (GameObject tile in tilesInPath)
         {
-            float ratio = (float)i / (float)tilesInPath.Count;
-            Color color = Color.Lerp(pathStartColor, pathEndColor, ratio);
+
+            Color color = realPathColor;
+
+            float rand = Random.Range(-0.09f, 0.1f);
+
+            if (rand >= 0)
+            {
+                color = Color.Lerp(color, Color.white, rand);
+            }
+            else
+            {
+                color = Color.Lerp(color, Color.black, -1f*rand);
+            }
+
             tile.GetComponent<HexagonTile>().SetRealPath(color);
 
 

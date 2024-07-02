@@ -5021,6 +5021,7 @@ MonoBehaviour:
   gameCamera: {fileID: 519420031}
   PlayerTileInteraction: {fileID: 1836446037}
   PlayerBoardsManager: {fileID: 836407095}
+  GamePhaseManager: {fileID: 1600264151}
   hoverHeight: 0.5
 --- !u!1 &1837187171
 GameObject:

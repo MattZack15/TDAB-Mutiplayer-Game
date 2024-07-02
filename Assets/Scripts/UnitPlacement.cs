@@ -9,6 +9,7 @@ public class UnitPlacement : NetworkBehaviour
     [SerializeField] Camera gameCamera;
     [SerializeField] PlayerTileInteraction PlayerTileInteraction;
     [SerializeField] PlayerBoardsManager PlayerBoardsManager;
+    [SerializeField] GamePhaseManager GamePhaseManager;
 
     [SerializeField] float hoverHeight;
 
@@ -38,6 +39,12 @@ public class UnitPlacement : NetworkBehaviour
 
     private void TryGrab()
     {
+
+        if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase)
+        {
+            return;
+        }
+
         Ray ray = gameCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
 
@@ -52,7 +59,6 @@ public class UnitPlacement : NetworkBehaviour
 
             if (hitUnit.active)
             {
-                print("2");
                 return;
             }
 
@@ -136,6 +142,12 @@ public class UnitPlacement : NetworkBehaviour
     {
         if (grabbedUnit == null) { return; }
 
+        if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase)
+        {
+            grabbedUnit.position = originalTile.transform.position;
+            ResetData();
+            return;
+        }
 
         GameObject hoveredTile = PlayerTileInteraction.GetSelectedTile();
 
@@ -191,6 +203,14 @@ public class UnitPlacement : NetworkBehaviour
 
     private void DragUnit()
     {
+
+        if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase)
+        {
+            grabbedUnit.position = originalTile.transform.position;
+            ResetData();
+            return;
+        }
+
         Vector3 HoverPoint = originalTile.transform.position;
 
         // Find World Pos;

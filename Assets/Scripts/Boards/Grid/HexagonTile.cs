@@ -35,11 +35,11 @@ public class HexagonTile : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    public void SetBaseColo(Color color)
     {
-        orignalColor = Renderer.material.color;
+        orignalColor = color;
+        ComputeColor();
     }
-
 
     public void SetDrawnPath(Color color)
     {

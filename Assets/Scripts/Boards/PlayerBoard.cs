@@ -21,6 +21,7 @@ public class PlayerBoard : NetworkBehaviour
 
     [SerializeField] private GameObject EndZone;
     [SerializeField] private PathCreator PathCreator;
+    [SerializeField] private PathManager PathManager;
     [SerializeField] public SideBoard SideBoard;
     [SerializeField] public Transform camPos;
 
@@ -44,6 +45,7 @@ public class PlayerBoard : NetworkBehaviour
 
 
         PathCreator.Init();
+        PathManager.Init();
         SideBoard.Init(sideGrid);
 
         // Highlight Start and End Tiles
@@ -51,8 +53,6 @@ public class PlayerBoard : NetworkBehaviour
         HexagonTile EndTile = HexagonGrid.GetTileById(endTile).GetComponent<HexagonTile>();
         EndTile.SetStartEndTile(Color.red);
 
-        // Color This Now I guess
-        SetSideBoardColo(sideGrid);
 
         if (owner.Value == NetworkManager.Singleton.LocalClientId)
         {
@@ -71,28 +71,7 @@ public class PlayerBoard : NetworkBehaviour
         }
     }
 
-    private void SetSideBoardColo(HexagonGrid sideGrid)
-    {
-        // Side Board Coloring
-        float i = 0;
-        foreach (Vector2 tildeID in sideGrid.Tiles.Keys)
-        {
-            Color newColor = Color.Lerp(Color.yellow, Color.red, i / sideGrid.Tiles.Keys.Count);
 
-            if (i % 3 == 0)
-            {
-                newColor = Color.Lerp(newColor, Color.black, .1f);
-            }
-            if (i % 3 == 2)
-            {
-                newColor = Color.Lerp(newColor, Color.white, .2f);
-            }
-
-
-            sideGrid.Tiles[tildeID].GetComponent<HexagonTile>().SetSideBoard(newColor);
-            i++;
-        }
-    }
 
 
     public BoardState GetTowerInfo()

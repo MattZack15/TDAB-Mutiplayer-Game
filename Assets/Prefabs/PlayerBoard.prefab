@@ -62,8 +62,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 6134556382195221508}
-  pathStartColor: {r: 0, g: 0.17116666, b: 1, a: 1}
-  pathEndColor: {r: 0, g: 0.9206059, b: 1, a: 1}
+  DefaultPath:
+  - {x: 5, y: 17}
+  - {x: 5, y: 15}
+  - {x: 5, y: 13}
+  - {x: 5, y: 11}
+  - {x: 5, y: 9}
+  - {x: 6, y: 8}
+  - {x: 6, y: 6}
+  - {x: 6, y: 4}
+  - {x: 6, y: 2}
+  - {x: 6, y: 0}
+  realPathColor: {r: 0.8235295, g: 0.6117647, b: 0.29411766, a: 1}
+  testColor1: {r: 0.8235294, g: 0.6117647, b: 0.29411766, a: 1}
 --- !u!1 &471236089786983575
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,6 +392,7 @@ MonoBehaviour:
   AttackerSpawner: {fileID: 2179409369394625063}
   EndZone: {fileID: 7354710593293275553}
   PathCreator: {fileID: 5417365027501379864}
+  PathManager: {fileID: 961074891559436924}
   SideBoard: {fileID: 3197213597383593972}
   camPos: {fileID: 8182135478699107217}
 --- !u!114 &3197213597383593972
@@ -395,6 +407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c134b645037fb4881713702cbba522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SideBoardGrid: {fileID: 0}
 --- !u!1 &6561487300009331525
 GameObject:
   m_ObjectHideFlags: 0

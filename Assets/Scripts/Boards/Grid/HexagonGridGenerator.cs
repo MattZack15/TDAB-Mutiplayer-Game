@@ -150,7 +150,7 @@ public class HexagonGridGenerator : MonoBehaviour
                 GameObject newHexagon = Instantiate(hexagon);
                 newHexagon.transform.position += new Vector3((1.5f * i * hexagonWidth) + xOffset, yOffset, 0f);
 
-                ColorTile(newHexagon.GetComponent<Renderer>(), j);
+                ColorTile(newHexagon.GetComponent<HexagonTile>(), j);
 
                 newHexagon.transform.SetParent(GridParent);
 
@@ -171,22 +171,23 @@ public class HexagonGridGenerator : MonoBehaviour
         return GridParent;
     }
 
-    private void ColorTile(Renderer TileRenderer, int y)
+    private void ColorTile(HexagonTile HexagonTile, int y)
     {
-        int color = y % 3;
+        int type = y % 3;
+        Color color = Color.white;
 
-        if (color == 0)
+        if (type == 0)
         {
-            TileRenderer.material.color = color1;
+            color = color1;
         }
-        else if (color == 1)
+        else if (type == 1)
         {
-            TileRenderer.material.color = color2;
+            color = color2;
         }
-        else if (color == 2)
+        else if (type == 2)
         {
-            TileRenderer.material.color = color3;
+            color = color3;
         }
-
+        HexagonTile.SetBaseColo(color);
     }
 }
