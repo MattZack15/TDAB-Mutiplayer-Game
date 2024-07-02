@@ -52,6 +52,7 @@ public class UnitPlacement : NetworkBehaviour
 
             if (hitUnit.active)
             {
+                print("2");
                 return;
             }
 

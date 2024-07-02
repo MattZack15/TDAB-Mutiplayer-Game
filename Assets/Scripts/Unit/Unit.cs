@@ -51,6 +51,28 @@ public class Unit : MonoBehaviour
         active = false;
     }
 
+    public void SetActive()
+    {
+        NetworkTransform NetworkTransform = GetComponent<NetworkTransform>();
+        if (NetworkTransform != null)
+        {
+            NetworkTransform.enabled = true;
+        }
+
+        if (AttackerScript != null)
+        {
+            GetComponent<AttackerMovement>().enabled = true;
+            HpBar.SetActive(true);
+        }
+
+        if (TowerScirpt != null)
+        {
+            TowerScirpt.enabled = true;
+        }
+
+        active = true;
+    }
+
     public int GetBoard()
     {
         // Finds Board number where this unit is

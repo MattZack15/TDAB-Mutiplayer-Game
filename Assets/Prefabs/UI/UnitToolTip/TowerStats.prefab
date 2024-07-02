@@ -280,7 +280,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: ff7ac0d8719c97248a340f19a092f8a0, type: 3}
     - target: {fileID: 6137818017221025156, guid: a74d37704828f7f4caba67668952bab6, type: 3}
       propertyPath: m_text
-      value: Defender
+      value: Tower
       objectReference: {fileID: 0}
     - target: {fileID: 7644971240362560601, guid: a74d37704828f7f4caba67668952bab6, type: 3}
       propertyPath: m_Sprite

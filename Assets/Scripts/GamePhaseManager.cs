@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GamePhaseManager : NetworkBehaviour
 {
@@ -21,6 +22,35 @@ public class GamePhaseManager : NetworkBehaviour
     List<GameObject> cleanUpOnBattleEnd = new List<GameObject>();
     
     List<AttackerSpawner> AttackerSpawners = new List<AttackerSpawner>();
+
+    public bool button;
+
+    private void Update()
+    {
+        if (button)
+        {
+            button = false;
+            Goon();
+        }
+    }
+
+    private void Goon()
+    {
+        // Get My Towers
+        PlayerBoard myPlayerBoard = playerBoardsManager.GetMyBoard();
+
+        // Loop Through every tile on the board and get the Tower
+        foreach (Vector2 TileId in myPlayerBoard.HexagonGrid.Tiles.Keys)
+        {
+            HexagonTile tile = myPlayerBoard.HexagonGrid.GetTileById(TileId).GetComponent<HexagonTile>();
+
+            if (tile.inhabitor != null && tile.inhabitor.GetComponent<Tower>() != null)
+            {
+                Instantiate(tile.inhabitor);
+            }
+        }
+    }
+
 
     public struct PlayerTurnInfo
     {
