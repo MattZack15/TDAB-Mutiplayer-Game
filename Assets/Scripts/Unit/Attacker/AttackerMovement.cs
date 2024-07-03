@@ -18,7 +18,10 @@ public class AttackerMovement : NetworkBehaviour
 
     public void SetPath(List<Vector3> pathPointPostions)
     {
-        path = pathPointPostions;
+        // Create a copy
+        path = new List<Vector3>();
+
+        foreach (Vector3 point in pathPointPostions) { path.Add(point); }
 
         BeginPath();
     }

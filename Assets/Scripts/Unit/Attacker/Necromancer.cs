@@ -7,6 +7,8 @@ public class Necromancer : Attacker
 {
     public override void OnEntry()
     {
+        return;
+        
         // Give Reborn To Next Attacker
 
         PlayerBoardsManager boardsManager = FindObjectOfType<PlayerBoardsManager>();

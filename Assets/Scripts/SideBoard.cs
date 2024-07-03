@@ -52,7 +52,9 @@ public class SideBoard : NetworkBehaviour
                 GameObject newUnit = Instantiate(Unit, tile.gameObject.transform.position, Quaternion.identity);
                 NetworkObject newUnitNetworkObject = newUnit.GetComponent<NetworkObject>();
                 newUnitNetworkObject.Spawn();
-                
+
+                newUnit.GetComponent<Unit>().SetInactive();
+
                 newUnit.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
 
                 UnitPlacement.RequestUnitPlacmentServerRPC(tile.tileId, newUnitNetworkObject.NetworkObjectId);

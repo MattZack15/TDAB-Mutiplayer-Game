@@ -23,7 +23,6 @@ public class Unit : MonoBehaviour
     [SerializeField] GameObject HpBar;
     [SerializeField] Tower TowerScirpt;
 
-    [HideInInspector] public bool active { get; private set; } = true;
 
     public void SetInactive()
     {
@@ -48,7 +47,6 @@ public class Unit : MonoBehaviour
             TowerScirpt.enabled = false;
         }
 
-        active = false;
     }
 
     public void SetActive()
@@ -70,7 +68,6 @@ public class Unit : MonoBehaviour
             TowerScirpt.enabled = true;
         }
 
-        active = true;
     }
 
     public int GetBoard()

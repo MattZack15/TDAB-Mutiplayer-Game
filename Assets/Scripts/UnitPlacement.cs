@@ -57,11 +57,6 @@ public class UnitPlacement : NetworkBehaviour
                 return;
             }
 
-            if (hitUnit.active)
-            {
-                return;
-            }
-
 
             // Check if we hit a Moveable Unit
             grabbedUnit = hitUnit.gameObject.transform;
