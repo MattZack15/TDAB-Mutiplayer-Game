@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public struct BoardState
-{
-    public int[] Towers;
-    public Vector3[] positions;
-}
 public class PlayerBoard : NetworkBehaviour
 {
     public NetworkVariable<ulong> owner = new NetworkVariable<ulong>();
@@ -19,7 +14,7 @@ public class PlayerBoard : NetworkBehaviour
     // Accssed by other object to spawn stuff
     public AttackerSpawner AttackerSpawner;
 
-    [SerializeField] private GameObject EndZone;
+    [SerializeField] public GameObject EndZone;
     [SerializeField] private PathCreator PathCreator;
     [SerializeField] private PathManager PathManager;
     [SerializeField] public SideBoard SideBoard;
@@ -72,30 +67,4 @@ public class PlayerBoard : NetworkBehaviour
     }
 
 
-
-
-    public BoardState GetTowerInfo()
-    {
-        List<int> TowerIDs = new List<int>();
-        List<Vector3> positions = new List<Vector3>();
-
-
-        // Loop Through every tile on the board and get the Tower
-        foreach (Vector2 TileId in HexagonGrid.Tiles.Keys)
-        {
-            HexagonTile tile = HexagonGrid.GetTileById(TileId).GetComponent<HexagonTile>();
-
-            if (tile.inhabitor != null && tile.inhabitor.GetComponent<Tower>() != null)
-            {
-                TowerIDs.Add(tile.inhabitor.GetComponent<Unit>().UnitID);
-                positions.Add(tile.inhabitor.transform.position);
-            }
-        }
-
-        BoardState boardState = new BoardState();
-        boardState.Towers = TowerIDs.ToArray();
-        boardState.positions = positions.ToArray();
-
-        return boardState;
-    }
 }

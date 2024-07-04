@@ -17,58 +17,23 @@ public class GamePhaseManager : NetworkBehaviour
     [SerializeField] Shop shop;
     [SerializeField] ServerPlayerDataManager ServerPlayerDataManager;
 
-    Dictionary<ulong, PlayerTurnInfo> PlayerTurnInfos = new Dictionary<ulong, PlayerTurnInfo>();
 
-    List<GameObject> cleanUpOnBattleEnd = new List<GameObject>();
+    List<GameObject> deactivateOnBattleEnd = new List<GameObject>();
     
     List<AttackerSpawner> AttackerSpawners = new List<AttackerSpawner>();
 
-    public bool button;
-
-    private void Update()
-    {
-        if (button)
-        {
-            button = false;
-            Goon();
-        }
-    }
-
-    private void Goon()
-    {
-        // Get My Towers
-        PlayerBoard myPlayerBoard = playerBoardsManager.GetMyBoard();
-
-        // Loop Through every tile on the board and get the Tower
-        foreach (Vector2 TileId in myPlayerBoard.HexagonGrid.Tiles.Keys)
-        {
-            HexagonTile tile = myPlayerBoard.HexagonGrid.GetTileById(TileId).GetComponent<HexagonTile>();
-
-            if (tile.inhabitor != null && tile.inhabitor.GetComponent<Tower>() != null)
-            {
-                Instantiate(tile.inhabitor);
-            }
-        }
-    }
 
 
-    public struct PlayerTurnInfo
-    {
-        public List<GameObject> attackerList;
-        public List<GameObject> towerList;
-        public List<Vector3> towerPos;
-    }
 
     public void StartBattlePhase()
     {
         if (!IsServer) { return; }
-        
-        StartCoroutine(EnterBattlePhase());
+
+        EnterBattlePhase();
     }
 
-    IEnumerator EnterBattlePhase()
+    private void EnterBattlePhase()
     {
-        yield return GetPlayerTurnInfo();
 
         // Match making
         List<ulong> playerIDs = new List<ulong>();
@@ -107,70 +72,59 @@ public class GamePhaseManager : NetworkBehaviour
     private void PrepareBattle(ulong attackerID, ulong defenderID)
     {
         // Prepare attackers 
+        PrepareAttackers(attackerID, defenderID);
 
+        PrepareTowers(defenderID);
+
+    }
+
+    private void PrepareAttackers(ulong attackerID, ulong defenderID)
+    {
         AttackerSpawner attackerSpawner = playerBoardsManager.PlayerBoardTable[defenderID].AttackerSpawner;
 
-        if (!AttackerSpawners.Contains(attackerSpawner))
+        if (!AttackerSpawners.Contains(attackerSpawner)) 
         {
             AttackerSpawners.Add(attackerSpawner);
         }
-        attackerSpawner.UpdateAttackerQueue(PlayerTurnInfos[attackerID].attackerList);
 
-        // Prepare Towers
-        int i = 0;
-        foreach (GameObject tower in PlayerTurnInfos[defenderID].towerList)
+        List<GameObject> attackers = playerBoardsManager.PlayerBoardTable[attackerID].GetComponent<SideBoard>().GetAttackers();
+
+        List<GameObject> attackersInstances = new List<GameObject>();
+
+
+        foreach (GameObject attacker in attackers) 
         {
-            GameObject newTower = Instantiate(tower, PlayerTurnInfos[defenderID].towerPos[i], Quaternion.identity);
-            newTower.GetComponent<NetworkObject>().Spawn();
+            GameObject newAttacker = Instantiate(attacker, attackerSpawner.transform.position, Quaternion.identity);
 
-            PlayerBoard CurrentBoard = playerBoardsManager.PlayerBoardTable[defenderID];
-            Transform EndPos = CurrentBoard.HexagonGrid.GetTileById(PlayerBoard.endTile).transform;
-
-            newTower.GetComponent<Tower>().trackEndPoint = EndPos;
-
-            cleanUpOnBattleEnd.Add(newTower);
-
-            i++;
+            newAttacker.SetActive(false);
+            attackersInstances.Add(newAttacker);
         }
 
+        attackerSpawner.UpdateAttackerQueue(attackersInstances);
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
-    private void RequestTurnInfoClientRPC()
+    private void PrepareTowers(ulong defenderID)
     {
-        ulong myClientId = NetworkManager.Singleton.LocalClientId;
-        // Get My Towers
-        PlayerBoard myPlayerBoard = playerBoardsManager.PlayerBoardTable[myClientId];
-        BoardState BoardState = myPlayerBoard.GetTowerInfo();
+        // Loop Through all Boards and Enable their Towers
 
-        // Send my Attackers to Server
-        SideBoard mySideBoard = myPlayerBoard.gameObject.GetComponent<SideBoard>();
-        int[] AttackerIDs = mySideBoard.GetAttackers().ToArray();
+        PlayerBoard DefenderBoard = playerBoardsManager.PlayerBoardTable[defenderID];
+        HexagonGrid hexagonGrid = DefenderBoard.HexagonGrid;
+        foreach (Vector2 TileId in hexagonGrid.Tiles.Keys)
+        {
+            HexagonTile tile = hexagonGrid.GetTileById(TileId).GetComponent<HexagonTile>();
 
-        ReciveTurnInfoServerRPC(myClientId, AttackerIDs, BoardState.Towers, BoardState.positions);
+            if (tile.inhabitor != null && tile.inhabitor.GetComponent<Tower>() != null)
+            {
+                GameObject tower = tile.inhabitor;
+                tower.GetComponent<Unit>().SetActive();
+                tower.GetComponent<Tower>().Init(DefenderBoard.BoardID);
+
+                deactivateOnBattleEnd.Add(tower);
+            }
+        }
     }
 
-    [Rpc(SendTo.Server)]
-    private void ReciveTurnInfoServerRPC(ulong playerID, int[] attackerIDs, int[] towerIDs, Vector3[] towerPos) 
-    {
-        List<GameObject> attackers = new List<GameObject>();
-        List<GameObject> towers = new List<GameObject>();
-        foreach (int unitID in attackerIDs) 
-        {
-            attackers.Add(unitDex.Dex[unitID]);
-        }
-        foreach (int unitID in towerIDs)
-        {
-            towers.Add(unitDex.Dex[unitID]);
-        }
 
-        PlayerTurnInfo playerTurnInfo = new PlayerTurnInfo();
-        playerTurnInfo.attackerList = attackers;
-        playerTurnInfo.towerList = towers;
-        playerTurnInfo.towerPos = towerPos.ToList();
-
-        PlayerTurnInfos.Add(playerID, playerTurnInfo);
-    }
 
     [Rpc(SendTo.ClientsAndHost)]
     private void BroadCastBattlePhaseStartRPC()
@@ -180,21 +134,6 @@ public class GamePhaseManager : NetworkBehaviour
         // Hide Side Board
     }
 
-    IEnumerator GetPlayerTurnInfo()
-    {
-        // Reset old List
-        PlayerTurnInfos = new Dictionary<ulong, PlayerTurnInfo>();
-
-        // Request Info
-        RequestTurnInfoClientRPC();
-
-        // Wait For answers
-        while (PlayerTurnInfos.Keys.Count != NetworkManager.Singleton.ConnectedClientsIds.Count)
-        {
-            //print("Waiting For Attackers from Clients...");
-            yield return null;
-        }
-    }
 
     IEnumerator WaitForBattleEnd()
     {
@@ -223,11 +162,11 @@ public class GamePhaseManager : NetworkBehaviour
         if (!IsServer) { return; }
 
         // Clean up Objects
-        foreach (GameObject go in cleanUpOnBattleEnd)
+        foreach (GameObject Tower in deactivateOnBattleEnd)
         {
-            if (go != null)
+            if (Tower != null)
             {
-                go.GetComponent<NetworkObject>().Despawn();
+                Tower.GetComponent<Unit>().SetInactive();
             }
         }
 

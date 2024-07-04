@@ -77,9 +77,9 @@ public class SideBoard : NetworkBehaviour
         newUnit.GetComponent<Unit>().SetInactive();
     }
 
-    public List<int> GetAttackers()
+    public List<GameObject> GetAttackers()
     {
-        List<int> attackerIDs = new List<int>();
+        List<GameObject> attackers = new List<GameObject>();
 
         // Loop Through every tile on the side board and get the units in Order
         foreach (Vector2 TileId in SideBoardGrid.Tiles.Keys)
@@ -88,10 +88,10 @@ public class SideBoard : NetworkBehaviour
 
             if (tile.inhabitor != null && tile.inhabitor.GetComponent<Attacker>() != null)
             {
-                attackerIDs.Add(tile.inhabitor.GetComponent<Unit>().UnitID);
+                attackers.Add(tile.inhabitor);
             }
         }
 
-        return attackerIDs;
+        return attackers;
     }
 }

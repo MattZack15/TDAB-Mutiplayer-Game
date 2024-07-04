@@ -11,7 +11,7 @@ public class AttackerSpawner: NetworkBehaviour
     [SerializeField] PlayerBoard board;
 
     [HideInInspector]
-    public List<GameObject> attackerQueue = new List<GameObject>();
+    private List<GameObject> attackerQueue = new List<GameObject>();
 
     Vector2 startTileId;
     Transform SpawnPos;
@@ -71,7 +71,7 @@ public class AttackerSpawner: NetworkBehaviour
             GameObject nextAttacker = attackerQueue[0];
             attackerQueue.RemoveAt(0);
 
-            SpawnAttacker(nextAttacker);
+            ReleaseAttacker(nextAttacker);
             yield return new WaitForSeconds(spawnDelay);
         }
 
@@ -84,11 +84,16 @@ public class AttackerSpawner: NetworkBehaviour
         
         while (attackIsActive)
         {
+
+            
             // If list is empty we are done
             if (AttackersAlive.Count == 0)
             {
-                attackIsActive = false;
-                break;
+                if (attackerQueue.Count == 0)
+                {
+                    attackIsActive = false;
+                    break;
+                }
             }
             // if all are null we are done
             bool allNull = true;
@@ -102,7 +107,10 @@ public class AttackerSpawner: NetworkBehaviour
             }
             if (allNull)
             {
-                attackIsActive = false;
+                if (attackerQueue.Count == 0)
+                {
+                    attackIsActive = false;
+                }
             }
 
             
@@ -114,19 +122,32 @@ public class AttackerSpawner: NetworkBehaviour
 
     }
 
-    private void SpawnAttacker(GameObject attacker)
+    private void ReleaseAttacker(GameObject attacker)
     {
         if (!IsServer) { return; }
 
-        GameObject newAttacker = Instantiate(attacker, SpawnPos.position, Quaternion.identity);
-        newAttacker.GetComponent<NetworkObject>().Spawn();
+        attacker.transform.position = SpawnPos.position;
+        attacker.SetActive(true);
+        attacker.GetComponent<Unit>().SetActive();
+        attacker.GetComponent<NetworkObject>().Spawn();
+        attacker.GetComponent<Attacker>().Init(pathManager.GetBoardPathPoints());
 
-        // Init attacker
-        newAttacker.GetComponent<Attacker>().Init(pathManager.GetBoardPathPoints());
 
         // Track it
-        AttackersAlive.Add(newAttacker);
+        AttackersAlive.Add(attacker);
     }
 
+    public GameObject PeekNextAttacker()
+    {
+        if (attackerQueue.Count > 0)
+        {
+            return attackerQueue[0];
+        }
+        else
+        {
+            return null;
+        }
+        
+    }
 
 }

@@ -16,42 +16,31 @@ public class Tower : NetworkBehaviour
 
     List<GameObject> projectilePool = new List<GameObject>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        StartCoroutine(InitObject());
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if (IsServer)
+        if (!IsServer) { return; }
+        if (trackEndPoint == null)
         {
-            FindTarget();
+            print("Tower must not have been Init");
+            return;
         }
+
+
+        FindTarget();
     }
 
-    IEnumerator InitObject()
+    public void Init(int boardID)
     {
-        while (true)
-        { 
-            if (IsServer)
-            {
-                StartCoroutine(AttackCycle());
-                yield break;
-            }
-            if (IsClient && !IsServer)
-            {
-                yield break;
-            }
-
-            yield return null;
-        }
+        trackEndPoint = FindObjectOfType<PlayerBoardsManager>().GetBoardByBoardID(boardID).EndZone.transform;
+        
+        StartCoroutine(AttackCycle());
     }
 
     IEnumerator AttackCycle()
     {
-        while (true)
+        while (this.enabled)
         {
             
             if (currentTarget == null)
