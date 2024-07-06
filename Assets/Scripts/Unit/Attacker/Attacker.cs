@@ -89,6 +89,8 @@ public class Attacker : NetworkBehaviour
     {
         if (!IsServer) return;
 
+        if (!this.enabled) return;
+
         hp.Value -= 1;
     }
 

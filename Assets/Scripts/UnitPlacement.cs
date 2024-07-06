@@ -155,6 +155,8 @@ public class UnitPlacement : NetworkBehaviour
         }
 
         HexagonTile hoveredHexTile = hoveredTile.GetComponent<HexagonTile>();
+        Vector3 targetTileId = hoveredHexTile.tileId;
+        Vector3 prevTileId = originalTile.GetComponent<HexagonTile>().tileId;
 
         if (hoveredHexTile.occupied && hoveredHexTile.inhabitor != null)
         {
@@ -169,13 +171,7 @@ public class UnitPlacement : NetworkBehaviour
                 return;
             }
 
-            //Positions
-            RequestUnitPlacmentServerRPC(hoveredTile.GetComponent<HexagonTile>().tileId, grabbedUnit.GetComponent<NetworkObject>().NetworkObjectId);
-            RequestUnitPlacmentServerRPC(originalTile.GetComponent<HexagonTile>().tileId, OtherObj.GetComponent<NetworkObject>().NetworkObjectId);
-
-            //Book Keeping
-            //originalTile.GetComponent<HexagonTile>().SetOccupied();
-            //hoveredHexTile.SetOccupied(grabbedUnit.gameObject);
+            RequestUnitSwapServerRPC(targetTileId, prevTileId, grabbedUnit.GetComponent<NetworkObject>().NetworkObjectId, OtherObj.GetComponent<NetworkObject>().NetworkObjectId);
 
             ResetData();
             return;
@@ -184,12 +180,7 @@ public class UnitPlacement : NetworkBehaviour
         // On Succsess
         if (hoveredHexTile.occupied == false)
         {
-            //grabbedUnit.position = hoveredTile.transform.position;
-
-            RequestUnitPlacmentServerRPC(hoveredTile.GetComponent<HexagonTile>().tileId, grabbedUnit.GetComponent<NetworkObject>().NetworkObjectId);
-
-            hoveredTile.GetComponent<HexagonTile>().SetOccupied(grabbedUnit.gameObject);
-            originalTile.GetComponent<HexagonTile>().SetUnoccupied();
+            RequestUnitPlacmentServerRPC(targetTileId, prevTileId, grabbedUnit.GetComponent<NetworkObject>().NetworkObjectId);
         }
 
 
@@ -229,28 +220,66 @@ public class UnitPlacement : NetworkBehaviour
     }
 
     [Rpc(SendTo.Server)]
-    public void RequestUnitPlacmentServerRPC(Vector3 tileID, ulong networkObjectId)
+    public void RequestUnitPlacmentServerRPC(Vector3 targettileID, Vector3 prevtileID, ulong networkObjectId)
     {
-        NetworkObject networkObject;
-        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
-
         // Find that tiles pos
-        
-        Vector3 pos = PlayerBoardsManager.GetTileById(tileID).transform.position;
-        networkObject.transform.position = pos;
+        Vector3 pos = PlayerBoardsManager.GetTileById(targettileID).transform.position;
 
-        UnitPlacmentClientRPC(tileID, networkObjectId, pos);
+        UnitPlacmentClientRPC(targettileID, prevtileID, networkObjectId, pos);
     }
     [Rpc(SendTo.ClientsAndHost)]
-    public void UnitPlacmentClientRPC(Vector3 tileID, ulong networkObjectId, Vector3 pos)
+    public void UnitPlacmentClientRPC(Vector3 targettileID, Vector3 prevtileID, ulong networkObjectId, Vector3 pos)
     {
         NetworkObject networkObject;
         NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
 
         networkObject.transform.position = pos;
 
-        // Set tile to occupied
-        PlayerBoardsManager.GetTileById(tileID).GetComponent<HexagonTile>().SetOccupied(networkObject.gameObject);
+        // Tile book keeping
+        PlayerBoardsManager.GetTileById(targettileID).GetComponent<HexagonTile>().SetOccupied(networkObject.gameObject);
+        PlayerBoardsManager.GetTileById(prevtileID).GetComponent<HexagonTile>().SetUnoccupied();
+
+    }
+
+    [Rpc(SendTo.Server)]
+    public void RequestUnitSwapServerRPC(Vector3 targettileID, Vector3 prevtileID, ulong networkObjectId1, ulong networkObjectId2)
+    {
+        // Swaps Unit1 to targettileID and Unit2 to prevtileID
+
+        Vector3 pos1 = PlayerBoardsManager.GetTileById(targettileID).transform.position;
+        Vector3 pos2 = PlayerBoardsManager.GetTileById(prevtileID).transform.position;
+
+        UnitSwapClientRPC(targettileID, prevtileID, networkObjectId1, networkObjectId2, pos1, pos2);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void UnitSwapClientRPC(Vector3 targettileID, Vector3 prevtileID, ulong networkObjectId1, ulong networkObjectId2, Vector3 pos1, Vector3 pos2)
+    {
+        NetworkObject Unit1;
+        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId1, out Unit1);
+
+        NetworkObject Unit2;
+        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId2, out Unit2);
+
+        Unit1.transform.position = pos1;
+        Unit2.transform.position = pos2;
+
+        // Tile book keeping
+        PlayerBoardsManager.GetTileById(targettileID).GetComponent<HexagonTile>().SetOccupied(Unit1.gameObject);
+        PlayerBoardsManager.GetTileById(prevtileID).GetComponent<HexagonTile>().SetOccupied(Unit2.gameObject);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void PlaceUnitOnSideBoardClientRPC(Vector3 targettileID, ulong networkObjectId, Vector3 pos)
+    {
+        // Use this to start because Unit was never on a tile before
+        NetworkObject networkObject;
+        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
+
+        networkObject.transform.position = pos;
+
+        // Tile book keeping
+        PlayerBoardsManager.GetTileById(targettileID).GetComponent<HexagonTile>().SetOccupied(networkObject.gameObject);
     }
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.UIElements;
 
 public class Reborn : OnDeathEffect
 {
@@ -21,15 +22,21 @@ public class Reborn : OnDeathEffect
         GameObject rebornUnit = Instantiate(UnitPrefab, transform.position, transform.rotation);
         rebornUnit.GetComponent<NetworkObject>().Spawn();
 
+        Attacker rebornAttacker = rebornUnit.GetComponent<Attacker>();
+        List<Vector3> path = GetComponent<AttackerMovement>().GetCurrentPath();
+        rebornAttacker.Init(path, false);
+
+        FindObjectOfType<PlayerBoardsManager>().GetBoardByBoardID(rebornUnit.GetComponent<Unit>().GetBoard()).AttackerSpawner.TrackNewAttacker(rebornUnit);
+
         // Only Reborn Once Reborn
         if (rebornUnit.GetComponent<Reborn>() != null)
         {
             rebornUnit.GetComponent<Reborn>().enabled = false;
+            rebornUnit.GetComponent<Attacker>().OnDeathEffects.Remove(rebornUnit.GetComponent<Reborn>());
         }
 
-        Attacker rebornAttacker = GetComponent<Attacker>();
-        rebornAttacker.Init(GetComponent<AttackerMovement>().GetCurrentPath(), false);
-
+        
+        // Start Unit With 1 Hp
         int hpLoss = rebornAttacker.GetAttackerStats().baseMaxHp - 1;
 
         rebornAttacker.RemoveHp(hpLoss);

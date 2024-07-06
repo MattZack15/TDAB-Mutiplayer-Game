@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1110495097
+  GlobalObjectIdHash: 3232721656
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnDelay: 0.5
-  tokens:
+  tokenPrefabs:
   - {fileID: 8005509962314411557, guid: d6466af96f927914985b0049a4de5a71, type: 3}
   - {fileID: 8005509962314411557, guid: b805ee228cb3ff44cbf7e2ee4321afb5, type: 3}
   - {fileID: 8005509962314411557, guid: f788c1401bbc5d0458ed0f728eab2572, type: 3}

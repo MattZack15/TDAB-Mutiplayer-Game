@@ -7,25 +7,41 @@ public class CrumbleDeathEffectHandler : NetworkBehaviour
 {
     [SerializeField] float spawnDelay = .5f;    
     
-    [SerializeField] List<GameObject> tokens = new List<GameObject>();
+    [SerializeField] List<GameObject> tokenPrefabs = new List<GameObject>();
 
 
-    public void Init(List<Vector3> path)
+    public void Init(List<Vector3> path, int boardID)
     {
-        StartCoroutine(SpawnTokens(path));
+        StartCoroutine(SpawnTokens(path, boardID));
     }
 
-    IEnumerator SpawnTokens(List<Vector3> path)
+    IEnumerator SpawnTokens(List<Vector3> path, int boardID)
     {
         
-        foreach (GameObject token in tokens) 
+        // Create Tokens
+        List<GameObject> tokens = new List<GameObject>();
+        foreach (GameObject token in tokenPrefabs) 
         {
             Attacker newAttacker = Instantiate(token, transform.position, transform.rotation).GetComponent<Attacker>();
-            newAttacker.GetComponent<NetworkObject>().Spawn();
-            newAttacker.Init(path);
+
+            newAttacker.gameObject.SetActive(false);
+
+            // Track it
+            FindObjectOfType<PlayerBoardsManager>().GetBoardByBoardID(boardID).AttackerSpawner.TrackNewAttacker(newAttacker.gameObject);
+
+            tokens.Add(newAttacker.gameObject);
+        }
+        // Release Tokens
+        foreach (GameObject token in tokens)
+        {
+
+            token.SetActive(true);
+            token.GetComponent<NetworkObject>().Spawn();
+            token.GetComponent<Attacker>().Init(path);
 
             yield return new WaitForSeconds(spawnDelay);
         }
+
         
         Destroy(gameObject);
     }

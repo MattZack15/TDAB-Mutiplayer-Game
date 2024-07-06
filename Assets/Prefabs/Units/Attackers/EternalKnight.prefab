@@ -110,7 +110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5910300563084492780, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2883693609
+      value: 2051388536
       objectReference: {fileID: 0}
     - target: {fileID: 6646692700084126741, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: attacker
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b378ebfcddbb7f24bbc8e6c135a3e74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 2
+  health: 1
   speed: 2
   maxHp:
     m_InternalValue: 0

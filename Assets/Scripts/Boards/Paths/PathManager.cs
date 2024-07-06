@@ -19,10 +19,10 @@ public class PathManager : NetworkBehaviour
     public void Init()
     {
         if (!IsServer) { return; }
-        CreateDefaultPath();
+        
     }
 
-    private void CreateDefaultPath()
+    public void CreateDefaultPath()
     {        
         SubmitPathToServerRPC(DefaultPath, board.BoardID);
     }

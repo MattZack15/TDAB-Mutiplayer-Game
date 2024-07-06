@@ -7,7 +7,6 @@ public class Necromancer : Attacker
 {
     public override void OnEntry()
     {
-        return;
         
         // Give Reborn To Next Attacker
 
@@ -25,11 +24,10 @@ public class Necromancer : Attacker
 
         if (nextAttacker.GetComponent<Necromancer>() == null)
         {
-            // CANNOT EDIT THE ATTACKER NOW
             
             Reborn RebornEffect = nextAttacker.AddComponent<Reborn>();
 
-            nextAttacker.GetComponent<Attacker>();
+            nextAttacker.GetComponent<Attacker>().OnDeathEffects.Add(RebornEffect);
         }
         else
         {

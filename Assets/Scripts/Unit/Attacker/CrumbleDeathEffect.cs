@@ -10,7 +10,7 @@ public class CrumbleDeathEffect : OnDeathEffect
     {
         CrumbleDeathEffectHandler handler = Instantiate(handlerPrefab, transform.position, transform.rotation).GetComponent<CrumbleDeathEffectHandler>();
         
-        handler.Init(GetComponent<AttackerMovement>().GetCurrentPath());
+        handler.Init(GetComponent<AttackerMovement>().GetCurrentPath(), GetComponent<Unit>().GetBoard());
 
     }
 }

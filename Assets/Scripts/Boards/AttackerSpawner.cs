@@ -46,13 +46,6 @@ public class AttackerSpawner: NetworkBehaviour
 
     }
 
-    public void AddLiveAttacker(GameObject attacker)
-    {
-        if (!IsServer) { return; }
-
-        attacker.transform.position = SpawnPos.position;
-        attacker.GetComponent<AttackerMovement>().SetPath(pathManager.GetBoardPathPoints());
-    }
 
     public void StartSpawner()
     {
@@ -137,6 +130,14 @@ public class AttackerSpawner: NetworkBehaviour
         AttackersAlive.Add(attacker);
     }
 
+    public void SendAttackerToStart(GameObject attacker)
+    {
+        if (!IsServer) { return; }
+
+        attacker.transform.position = SpawnPos.position;
+        attacker.GetComponent<AttackerMovement>().SetPath(pathManager.GetBoardPathPoints());
+    }
+
     public GameObject PeekNextAttacker()
     {
         if (attackerQueue.Count > 0)
@@ -148,6 +149,12 @@ public class AttackerSpawner: NetworkBehaviour
             return null;
         }
         
+    }
+
+    public void TrackNewAttacker(GameObject attacker)
+    {
+        // Used when Attackers summon attackers mid battle
+        AttackersAlive.Add(attacker);
     }
 
 }

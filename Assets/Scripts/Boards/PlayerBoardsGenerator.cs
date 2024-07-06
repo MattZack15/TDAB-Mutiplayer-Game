@@ -11,7 +11,7 @@ public class PlayerBoardsGenerator : NetworkBehaviour
     [SerializeField] private Vector2 spacing;
 
     [SerializeField] GameObject PlayerBoardPrefab;
-
+    [SerializeField] HostControls HostControls;
     [SerializeField] PlayerBoardsManager PlayerBoardsManager;
 
     public void SpawnPlayerBoards()
@@ -80,8 +80,10 @@ public class PlayerBoardsGenerator : NetworkBehaviour
 
         PlayerBoardsManager.Initialize(PlayerBoards.ToList());
         SpawnGridsLocally();
-        
 
+        // Signal We are done
+
+        HostControls.SignalBoardsSpawnedServerRpc(NetworkManager.Singleton.LocalClientId);
     }
 
     private void SpawnGridsLocally()

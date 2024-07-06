@@ -12,13 +12,13 @@ public class Tower : NetworkBehaviour
 
     public Transform trackEndPoint;
 
-    private Transform currentTarget;
+    protected Transform currentTarget;
 
     List<GameObject> projectilePool = new List<GameObject>();
 
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (!IsServer) { return; }
         if (trackEndPoint == null)
@@ -53,7 +53,7 @@ public class Tower : NetworkBehaviour
         }
     }
 
-    IEnumerator Attack()
+    protected virtual IEnumerator Attack()
     {
         GameObject newProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
         newProjectile.GetComponent<NetworkObject>().Spawn();

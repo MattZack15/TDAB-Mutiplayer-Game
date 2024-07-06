@@ -13,7 +13,9 @@ public class HostControls : NetworkBehaviour
     [SerializeField] private PlayerHealthManager PlayerHealthManager;
     [SerializeField] private PlayerHealthUI PlayerHealthUI;
     [SerializeField] private ServerPlayerDataManager ServerPlayerDataManager;
+    [SerializeField] private Shop shop;
 
+    List<ulong> playersReady = new List<ulong>();
 
     public void StartGame()
     {
@@ -33,8 +35,45 @@ public class HostControls : NetworkBehaviour
         //PlayerHealthUI.GeneratePlayerHealthUI();
         // Server Side Player Data
         ServerPlayerDataManager.Init(NetworkManager.Singleton.ConnectedClientsIds.ToList());
-        
+
+        StartCoroutine(WaitBoardSpawnsOnClients());
         GameStarted = true;
 
+    }
+
+    [Rpc(SendTo.Server)]
+    public void SignalBoardsSpawnedServerRpc(ulong clientID)
+    {
+        if (!playersReady.Contains(clientID))
+        {
+            playersReady.Add(clientID);
+        }
+    }
+
+    IEnumerator WaitBoardSpawnsOnClients()
+    {
+        playersReady = new List<ulong>();
+        while (playersReady.Count < NetworkManager.Singleton.ConnectedClientsIds.Count)
+        {
+            yield return null;
+        }
+
+        OnGameStart();
+    }
+
+    private void OnGameStart()
+    {
+        // Set Defautl Paths
+        foreach (PathManager pathManager in FindObjectsOfType<PathManager>())
+        {
+            pathManager.CreateDefaultPath();
+        }
+
+        // Set Shops
+        foreach (ulong playerID in NetworkManager.Singleton.ConnectedClientsIds)
+        {
+            shop.ShopRefreshServerRPC(playerID);
+        }
+        
     }
 }

@@ -25,11 +25,7 @@ public class EndZone : NetworkBehaviour
         PlayerHealthManager = FindObjectOfType<PlayerHealthManager>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -39,14 +35,10 @@ public class EndZone : NetworkBehaviour
         {
             GameObject AttackerUnit = other.gameObject;
 
-            AttackerSpawner.AddLiveAttacker(AttackerUnit);
+            AttackerSpawner.SendAttackerToStart(AttackerUnit);
 
             PlayerHealthManager.OnAttackerReachEnd(PlayerBoard);
 
-
-            //AttackerUnit.SetActive(false);
-
-            //AttackerUnit.GetComponent<NetworkObject>().Despawn(true);
         }
     }
 }

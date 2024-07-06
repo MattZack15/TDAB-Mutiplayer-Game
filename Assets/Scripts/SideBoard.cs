@@ -57,7 +57,7 @@ public class SideBoard : NetworkBehaviour
 
                 newUnit.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
 
-                UnitPlacement.RequestUnitPlacmentServerRPC(tile.tileId, newUnitNetworkObject.NetworkObjectId);
+                UnitPlacement.PlaceUnitOnSideBoardClientRPC(tile.tileId, newUnitNetworkObject.NetworkObjectId, tile.transform.position);
 
                 AddUnitToSideBoardClientRPC(newUnitNetworkObject.NetworkObjectId);
                 return;
@@ -69,6 +69,8 @@ public class SideBoard : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void AddUnitToSideBoardClientRPC(ulong networkObjectId)
     {
+        // May Not need to do this but whatever
+
         NetworkObject networkObject;
         NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
 

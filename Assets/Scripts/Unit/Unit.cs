@@ -39,6 +39,7 @@ public class Unit : MonoBehaviour
         if (AttackerScript != null)
         {
             GetComponent<AttackerMovement>().enabled = false;
+            AttackerScript.enabled = false;
             HpBar.SetActive(false);
         }
 
@@ -60,6 +61,7 @@ public class Unit : MonoBehaviour
         if (AttackerScript != null)
         {
             GetComponent<AttackerMovement>().enabled = true;
+            AttackerScript.enabled = true;
             HpBar.SetActive(true);
         }
 
