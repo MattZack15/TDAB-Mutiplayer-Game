@@ -144,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8936748527447044709, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2555940284
+      value: 2422668030
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7248474588585844504, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
@@ -159,6 +159,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -3620142896457872812}
   m_SourcePrefab: {fileID: 100100000, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+--- !u!4 &511502369761347669 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7131560373207861580, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+  m_PrefabInstance: {fileID: 7341251044999676185}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1355346641027518618 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8587929601506611587, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
@@ -177,10 +182,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 10
-  attackSpeed: 1
+  attackSpeed: 1.75
   projectile: {fileID: 0}
+  projectileSourceLocation: {fileID: 511502369761347669}
   trackEndPoint: {fileID: 0}
   ParticleSystemPrefab: {fileID: 2841141252179466865, guid: 7d82974842dc5df40be99412af0b7779, type: 3}
+  chargeTime: 3
 --- !u!4 &6643087327194581759 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4166287413829618662, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}

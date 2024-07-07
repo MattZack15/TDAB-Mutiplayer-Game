@@ -9,8 +9,9 @@ public class Tower : NetworkBehaviour
     public float attackSpeed;
 
     [SerializeField] private GameObject projectile;
+    [SerializeField] protected Transform projectileSourceLocation;
 
-    public Transform trackEndPoint;
+    [HideInInspector] public Transform trackEndPoint;
 
     protected Transform currentTarget;
 
@@ -55,7 +56,7 @@ public class Tower : NetworkBehaviour
 
     protected virtual IEnumerator Attack()
     {
-        GameObject newProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
+        GameObject newProjectile = Instantiate(projectile, projectileSourceLocation.position, Quaternion.identity);
         newProjectile.GetComponent<NetworkObject>().Spawn();
 
 
@@ -84,7 +85,7 @@ public class Tower : NetworkBehaviour
 
 
 
-    private void FindTarget()
+    protected virtual void FindTarget()
     {
         // Target Closest To end Point
         List<Transform> attackerTransforms = AttackersInRange();
@@ -102,14 +103,18 @@ public class Tower : NetworkBehaviour
         {
             if (raycastHit.collider.gameObject.tag != "Attacker") continue;
 
-            attackerTransforms.Add(raycastHit.collider.gameObject.transform);
+            GameObject Attacker = raycastHit.collider.gameObject;
+            // Ignore if on a different Board
+            if (Attacker.GetComponent<Unit>().GetBoard() != GetComponent<Unit>().GetBoard()) continue;
+
+            attackerTransforms.Add(Attacker.transform);
 
         }
 
         return attackerTransforms;
     }
 
-    Transform GetClosestUnit(Transform[] enemies)
+    protected Transform GetClosestUnit(Transform[] enemies)
     {
         Transform bestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;

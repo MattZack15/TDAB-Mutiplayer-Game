@@ -9,6 +9,8 @@ public class HomingProjectile : NetworkBehaviour
     [SerializeField] private float speed;
     [SerializeField] private Rigidbody2D rb;
 
+    private static Vector3 heightOffset = new Vector3 (0f, .5f, 0f);
+
     private Transform target;
 
     private Vector3 currentDir;
@@ -33,7 +35,7 @@ public class HomingProjectile : NetworkBehaviour
             return;
         }
 
-        Vector3 dir = (target.position - transform.position).normalized;
+        Vector3 dir = ((target.position+ heightOffset) - transform.position).normalized;
         Travel(dir);
         RotateToDirection(dir);
 

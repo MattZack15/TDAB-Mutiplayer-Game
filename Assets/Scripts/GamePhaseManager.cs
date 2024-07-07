@@ -58,7 +58,15 @@ public class GamePhaseManager : NetworkBehaviour
             attackerSpawner.StartSpawner();
         }
 
-        BroadCastBattlePhaseStartRPC();
+        ulong[] towerIds = new ulong[deactivateOnBattleEnd.Count];
+        int i = 0;
+        foreach(GameObject tower in deactivateOnBattleEnd)
+        {
+            towerIds[i] = tower.GetComponent<NetworkObject>().NetworkObjectId;
+            i++;
+        }
+        
+        BroadCastBattlePhaseStartRPC(towerIds);
 
         StartCoroutine(WaitForBattleEnd());
     }
@@ -127,11 +135,19 @@ public class GamePhaseManager : NetworkBehaviour
 
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void BroadCastBattlePhaseStartRPC()
+    private void BroadCastBattlePhaseStartRPC(ulong[] towersIds)
     {
+        foreach (ulong towerId in towersIds)
+        {
+            NetworkObject Unit1;
+            NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(towerId, out Unit1);
+
+            Unit1.gameObject.GetComponent<Unit>().SetActive();
+        }
+
+        
         GamePhase = GamePhases.BattlePhase;
 
-        // Hide Side Board
     }
 
 
@@ -162,6 +178,15 @@ public class GamePhaseManager : NetworkBehaviour
         if (!IsServer) { return; }
 
         // Clean up Objects
+
+        ulong[] towerIds = new ulong[deactivateOnBattleEnd.Count];
+        int i = 0;
+        foreach (GameObject tower in deactivateOnBattleEnd)
+        {
+            towerIds[i] = tower.GetComponent<NetworkObject>().NetworkObjectId;
+            i++;
+        }
+
         foreach (GameObject Tower in deactivateOnBattleEnd)
         {
             if (Tower != null)
@@ -178,7 +203,8 @@ public class GamePhaseManager : NetworkBehaviour
         // Set GamePhase
         GamePhase = GamePhases.ShopPhase;
 
-        BroadCastShopPhaseStartRPC();
+        
+        BroadCastShopPhaseStartRPC(towerIds);
 
 
         // Refresh Everyones shop
@@ -189,8 +215,16 @@ public class GamePhaseManager : NetworkBehaviour
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void BroadCastShopPhaseStartRPC()
+    private void BroadCastShopPhaseStartRPC(ulong[] towersIds)
     {
+        foreach (ulong towerId in towersIds)
+        {
+            NetworkObject Unit1;
+            NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(towerId, out Unit1);
+
+            Unit1.gameObject.GetComponent<Unit>().SetActive();
+        }
+
         // Set GamePhase
         GamePhase = GamePhases.ShopPhase;
 
