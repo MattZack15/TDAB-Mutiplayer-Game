@@ -282,5 +282,16 @@ public class UnitPlacement : NetworkBehaviour
         PlayerBoardsManager.GetTileById(targettileID).GetComponent<HexagonTile>().SetOccupied(networkObject.gameObject);
     }
 
+    public GameObject GetHeldUnit()
+    {
+        if (grabbedUnit)
+        {
+            return grabbedUnit.gameObject;
+        }
+        else
+        {
+            return null;
+        }
+    }
 
 }

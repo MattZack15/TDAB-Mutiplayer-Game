@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using System.Threading.Tasks;
 
+#pragma warning disable 4014 // Disables Warning For Calling async task in non awaited function
+
 public class RelayServerUI : MonoBehaviour
 {
     [SerializeField] TMP_InputField joinCodeInputField;

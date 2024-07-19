@@ -11,6 +11,11 @@ public class ShopUI : MonoBehaviour
 
     [SerializeField] GameObject shopUIObj;
 
+    [SerializeField] GameObject shopItemsUI;
+    [SerializeField] GameObject sellUnitUI;
+    
+    [SerializeField] UnitPlacement unitPlacement;
+
     // Update is called once per frame
     void Update()
     {
@@ -23,6 +28,28 @@ public class ShopUI : MonoBehaviour
         else
         {
             shopUIObj.SetActive(true);
+        }
+
+       
+    }
+
+    private void LateUpdate()
+    {
+        SetInteractionAreaDisplay();
+    }
+
+    private void SetInteractionAreaDisplay()
+    {
+        // Displays either the Shop items or the sell area
+        if (unitPlacement.GetHeldUnit())
+        {
+            shopItemsUI.SetActive(false);
+            sellUnitUI.SetActive(true);
+        }
+        else
+        {
+            shopItemsUI.SetActive(true);
+            sellUnitUI.SetActive(false);
         }
     }
 }

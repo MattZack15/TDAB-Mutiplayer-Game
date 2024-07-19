@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Shop : NetworkBehaviour
 {
-    // Start is called before the first frame update
+    
     public static int ShopSize = 3;
     public static int StartingCoins = 15;
     // How much money you get at the end of each round
@@ -122,5 +122,36 @@ public class Shop : NetworkBehaviour
         coins -= RefreshCost;
 
         ShopItemsUI.ReciveNewShopItems(ShopItems);
+    }
+
+    public void TrySellUnit(GameObject unit)
+    {
+        SellUnitServerRPC(NetworkManager.Singleton.LocalClientId, unit.GetComponent<NetworkObject>().NetworkObjectId);
+    }
+
+    [Rpc(SendTo.Server)]
+    public void SellUnitServerRPC(ulong playerID, ulong unitNetworkID)
+    {
+        // Check to make sure that player owns that unit
+
+        // Remove Unit
+        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(unitNetworkID, out NetworkObject unit);
+        unit.Despawn();
+
+        // Give Coins
+        ServerPlayerDataManager.GetPlayerData(playerID).coins += SellValue;
+
+        // Inform Client
+        SellUnitServerRPC(playerID);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SellUnitServerRPC(ulong playerID)
+    {
+        if (playerID != NetworkManager.Singleton.LocalClientId) return;
+
+        // Update unit placment
+
+        coins += SellValue;
     }
 }

@@ -6,6 +6,10 @@ using UnityEngine;
 public class PathManager : NetworkBehaviour
 {
 
+    // How many tiles am i allowed to use for my path
+    public NetworkVariable<int> tilesUnlocked = new NetworkVariable<int>();
+    static int baseTilesUnlocked = 15;
+
     //[SerializeField] PathCreator PathCreator;
     [SerializeField] PlayerBoard board;
 
@@ -19,7 +23,7 @@ public class PathManager : NetworkBehaviour
     public void Init()
     {
         if (!IsServer) { return; }
-        
+        tilesUnlocked.Value = baseTilesUnlocked;
     }
 
     public void CreateDefaultPath()

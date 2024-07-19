@@ -116,6 +116,13 @@ public class PathCreator : MonoBehaviour
             return;
         }
 
+        // Cannot Exceed Tile Limit
+        if ((tilesInPath.Count + 1) > pathManager.tilesUnlocked.Value)
+        {
+            return;
+        }
+
+
         // Must Be Connected to the last tile we placed        
         if (!TilesAreAdjacent(tileId, tilesInPath[tilesInPath.Count - 1].GetComponent<HexagonTile>().tileId))
         {
