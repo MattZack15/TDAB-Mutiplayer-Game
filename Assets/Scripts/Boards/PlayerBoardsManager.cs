@@ -20,6 +20,7 @@ public class PlayerBoardsManager : NetworkBehaviour
 
     public PlayerBoard GetBoardByBoardID(int boardID)
     {
+        // If given SideBoard will return main board
         boardID = Mathf.Abs(boardID);
 
         foreach (ulong playerID in PlayerBoardTable.Keys)

@@ -75,7 +75,7 @@ public class SideBoard : NetworkBehaviour
         NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
 
         GameObject newUnit = networkObject.gameObject;
-
+        // we do have to do this
         newUnit.GetComponent<Unit>().SetInactive();
     }
 

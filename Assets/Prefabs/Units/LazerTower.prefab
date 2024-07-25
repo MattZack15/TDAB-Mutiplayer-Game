@@ -92,7 +92,8 @@ PrefabInstance:
       objectReference: {fileID: -3620142896457872812}
     - target: {fileID: -7508388100034750028, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: description
-      value: Shoots a Lazer at the target which deals more damage over time
+      value: Fires a beam that increases in damage per tick, up to a maximum of 3x
+        damage
       objectReference: {fileID: 0}
     - target: {fileID: -7508388100034750028, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: tribes.Array.size
@@ -182,10 +183,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 10
-  attackSpeed: 1.75
+  attackSpeed: 0.25
+  damage: 10
   projectile: {fileID: 0}
   projectileSourceLocation: {fileID: 511502369761347669}
   trackEndPoint: {fileID: 0}
+  chargedDamage: 30
   ParticleSystemPrefab: {fileID: 2841141252179466865, guid: 7d82974842dc5df40be99412af0b7779, type: 3}
   chargeTime: 3
 --- !u!4 &6643087327194581759 stripped

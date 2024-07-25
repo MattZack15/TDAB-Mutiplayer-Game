@@ -156,15 +156,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5910300563084492780, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2480603708
+      value: 2451733267
       objectReference: {fileID: 0}
     - target: {fileID: 8115512447373002805, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: speed
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8115512447373002805, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: health
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7313268784309158610, guid: 087d016a43b8a6547b695cd90249e182, type: 3}

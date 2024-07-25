@@ -95,9 +95,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: e1fee762aa4ab5b41beb94f9c2ee7264, type: 2}
     - target: {fileID: 7248474588585844504, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: damage
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7248474588585844504, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: projectile
       value: 
       objectReference: {fileID: 6655218978394179173, guid: 99c008ec56efe994a8436479c7f816b6, type: 3}
+    - target: {fileID: 7248474588585844504, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: attackSpeed
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 7929548134203298738, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -144,7 +152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8936748527447044709, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2218648970
+      value: 207985444
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6706990088639824661, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}

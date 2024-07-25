@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 
 
@@ -276,11 +277,22 @@ public class UnitPlacement : NetworkBehaviour
         NetworkObject networkObject;
         NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
 
-        networkObject.transform.position = pos;
+        if (!networkObject.gameObject.GetComponent<NetworkTransform>().enabled)
+        {
+            networkObject.transform.position = pos;
+        }
+        
 
         // Tile book keeping
         PlayerBoardsManager.GetTileById(targettileID).GetComponent<HexagonTile>().SetOccupied(networkObject.gameObject);
     }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void ClearTileClientRPC(Vector3 tileID)
+    {
+        PlayerBoardsManager.GetTileById(tileID).GetComponent<HexagonTile>().SetUnoccupied();
+    }
+
 
     public GameObject GetHeldUnit()
     {
@@ -291,6 +303,18 @@ public class UnitPlacement : NetworkBehaviour
         else
         {
             return null;
+        }
+    }
+
+    public Vector3 GetHeldUnitTileID()
+    {
+        if (grabbedUnit)
+        {
+            return originalTile.GetComponent<HexagonTile>().tileId;
+        }
+        else
+        {
+            return Vector3.zero;
         }
     }
 

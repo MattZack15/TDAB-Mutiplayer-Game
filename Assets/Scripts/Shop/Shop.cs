@@ -8,7 +8,7 @@ public class Shop : NetworkBehaviour
 {
     
     public static int ShopSize = 3;
-    public static int StartingCoins = 15;
+    public static int StartingCoins = 150;
     // How much money you get at the end of each round
     public static int RoundEarnings = 5;
     public static int RefreshCost = 1;
@@ -21,6 +21,7 @@ public class Shop : NetworkBehaviour
     [SerializeField] private GamePhaseManager GamePhaseManager;
     [SerializeField] private ServerPlayerDataManager ServerPlayerDataManager;
     [SerializeField] private PlayerBoardsManager PlayerBoardsManager;
+    [SerializeField] private UnitPlacement unitPlacement;
 
     // Client Side Coins 
     public int coins;
@@ -124,19 +125,24 @@ public class Shop : NetworkBehaviour
         ShopItemsUI.ReciveNewShopItems(ShopItems);
     }
 
-    public void TrySellUnit(GameObject unit)
+    public void TrySellUnit(GameObject unit, Vector3 tileID)
     {
-        SellUnitServerRPC(NetworkManager.Singleton.LocalClientId, unit.GetComponent<NetworkObject>().NetworkObjectId);
+        SellUnitServerRPC(NetworkManager.Singleton.LocalClientId, unit.GetComponent<NetworkObject>().NetworkObjectId, tileID);
     }
 
     [Rpc(SendTo.Server)]
-    public void SellUnitServerRPC(ulong playerID, ulong unitNetworkID)
+    public void SellUnitServerRPC(ulong playerID, ulong unitNetworkID, Vector3 tileID)
     {
         // Check to make sure that player owns that unit
 
         // Remove Unit
         NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(unitNetworkID, out NetworkObject unit);
+
         unit.Despawn();
+        
+        // Must Update Tile So we can still place units on it
+        unitPlacement.ClearTileClientRPC(tileID);
+
 
         // Give Coins
         ServerPlayerDataManager.GetPlayerData(playerID).coins += SellValue;
@@ -149,8 +155,6 @@ public class Shop : NetworkBehaviour
     public void SellUnitServerRPC(ulong playerID)
     {
         if (playerID != NetworkManager.Singleton.LocalClientId) return;
-
-        // Update unit placment
 
         coins += SellValue;
     }

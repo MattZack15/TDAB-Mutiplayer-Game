@@ -85,13 +85,13 @@ public class Attacker : NetworkBehaviour
         }
     }
 
-    public void TakeHit()
+    public void TakeHit(int damage)
     {
         if (!IsServer) return;
 
         if (!this.enabled) return;
 
-        hp.Value -= 1;
+        hp.Value -= damage;
     }
 
     public void RemoveHp(int amount)

@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerHealthManager : NetworkBehaviour
 {
 
+    [SerializeField] private PlayerHealthUI playerHealthUI;
     [SerializeField] public int baseMaxHealth;
 
     public NetworkList<ulong> playerIds;
@@ -14,10 +15,11 @@ public class PlayerHealthManager : NetworkBehaviour
 
     void Awake()
     {
+        //NetworkList can't be initialized at declaration time like NetworkVariable. It must be initialized in Awake instead.
+        //If you do initialize at declaration, you will run into Memmory leak errors.
         playerIds = new NetworkList<ulong>();
         playerHps = new NetworkList<int>();
     }
-
 
     public void InitPlayerHealth()
     {
@@ -35,6 +37,8 @@ public class PlayerHealthManager : NetworkBehaviour
             playerHps.Add(baseMaxHealth);
             i++;
         }
+
+        playerHealthUI.Init();
     }
 
     public void OnAttackerReachEnd(PlayerBoard PlayerBoard)

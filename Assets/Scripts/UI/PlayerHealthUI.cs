@@ -13,15 +13,10 @@ public class PlayerHealthUI : MonoBehaviour
 
     List<GameObject> playerHealthSlots = new List<GameObject>();
 
-    private void Update()
+    public void Init()
     {
-        int playerCount = PlayerHealthManager.playerIds.Count;
-
-        if (playerCount != playerHealthSlots.Count)
-        {
-            ResetPlayerHealthUI();
-            GeneratePlayerHealthUI();
-        }
+        ResetPlayerHealthUI();
+        GeneratePlayerHealthUI();
     }
 
     private void ResetPlayerHealthUI()

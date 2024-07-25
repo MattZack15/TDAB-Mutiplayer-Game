@@ -323,6 +323,8 @@ MonoBehaviour:
   description: 
   tribes: []
   unitType: 0
+  UpgradedVersion: {fileID: 0}
+  level: 1
   AttackerScript: {fileID: 8115512447373002805}
   HpBar: {fileID: 6406241764264928596}
   TowerScirpt: {fileID: 0}
@@ -338,7 +340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef144317f541b2a44848afa3a77aca11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
+  health: 300
   speed: 3.5
   maxHp:
     m_InternalValue: 0

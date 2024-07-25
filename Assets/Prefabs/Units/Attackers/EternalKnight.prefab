@@ -29,6 +29,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 524473782159846610}
     - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: UpgradedVersion
+      value: 
+      objectReference: {fileID: 2591582935393387696, guid: 97bf052d36f519c46b639c5a8536524e, type: 3}
+    - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: tribes.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -154,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b378ebfcddbb7f24bbc8e6c135a3e74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
+  health: 150
   speed: 2
   maxHp:
     m_InternalValue: 0
@@ -162,7 +166,7 @@ MonoBehaviour:
     m_InternalValue: 0
   OnDeathEffects: []
   AttackerMovement: {fileID: 4825774950005884684}
-  hpBuff: 1
+  hpBuff: 50
   moveSpeedBuff: 0.1
 --- !u!114 &4825774950005884684 stripped
 MonoBehaviour:

@@ -7,6 +7,7 @@ public class ShopSellUnitUI : MonoBehaviour
 {
     private bool hoveringWithUnit;
     private GameObject unit;
+    private Vector3 unitTileID;
     
     [SerializeField] UnitPlacement unitPlacement;
     [SerializeField] Shop shop;
@@ -18,7 +19,7 @@ public class ShopSellUnitUI : MonoBehaviour
         {
             if (Input.GetMouseButtonUp(0))
             {
-                shop.TrySellUnit(unit);
+                shop.TrySellUnit(unit, unitTileID);
             }
         }
     }
@@ -29,6 +30,7 @@ public class ShopSellUnitUI : MonoBehaviour
         {
             hoveringWithUnit = true;
             unit = unitPlacement.GetHeldUnit();
+            unitTileID = unitPlacement.GetHeldUnitTileID();
 
         }
         else

@@ -7,6 +7,7 @@ public class Tower : NetworkBehaviour
 {
     public float range;
     public float attackSpeed;
+    public int damage;
 
     [SerializeField] private GameObject projectile;
     [SerializeField] protected Transform projectileSourceLocation;
@@ -30,6 +31,19 @@ public class Tower : NetworkBehaviour
 
 
         FindTarget();
+        LookAtTarget();
+    }
+
+    private void LookAtTarget()
+    {
+        if (currentTarget == null) return;
+        
+        Vector3 rotation = transform.eulerAngles;
+
+        transform.LookAt(currentTarget);
+
+        transform.rotation = Quaternion.Euler(rotation.x, transform.rotation.eulerAngles.y, rotation.z);
+
     }
 
     public void Init(int boardID)
@@ -60,7 +74,7 @@ public class Tower : NetworkBehaviour
         newProjectile.GetComponent<NetworkObject>().Spawn();
 
 
-        newProjectile.GetComponent<HomingProjectile>().InitProjectile(this, currentTarget);
+        newProjectile.GetComponent<HomingProjectile>().InitProjectile(this, damage, currentTarget);
         projectilePool.Add(newProjectile);
 
         yield return new WaitForSeconds(attackSpeed);

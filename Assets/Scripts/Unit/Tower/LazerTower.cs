@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class LazerTower : Tower
 {
+    [SerializeField] private int chargedDamage;
+    
     [SerializeField] GameObject ParticleSystemPrefab;
     private GameObject Beam;
 
@@ -115,37 +117,16 @@ public class LazerTower : Tower
 
     protected override IEnumerator Attack()
     {
-        float beamPower = GetBeamPower();
+        int beamDamage = GetBeamDamage();
 
+        currentTarget.gameObject.GetComponent<Attacker>().TakeHit(beamDamage);
 
-        yield return new WaitForSeconds(.25f * (1f/ beamPower));
-
-        if (currentTarget == null)
-        {
-            yield break;
-        }
-        currentTarget.gameObject.GetComponent<Attacker>().TakeHit();
-
-        yield return new WaitForSeconds((attackSpeed - .25f) * (1f / beamPower));
+        yield return new WaitForSeconds(attackSpeed);
     }
 
-    private float GetBeamPower()
+    private int GetBeamDamage()
     {
-        float beamPower = 1f;
-        if (activeBeamTimer.Value <= (1f / 2f) * chargeTime)
-        {
-            beamPower = 1f;
-        }
-        else if (activeBeamTimer.Value <= (2f / 2f) * chargeTime)
-        {
-            beamPower = 2f;
-        }
-        else
-        {
-            beamPower = 3f;
-        }
-
-        return beamPower;
+        return (int)Mathf.Lerp((float)damage, (float)chargedDamage, activeBeamTimer.Value / chargeTime);
     }
 
     private void DrawBeam()

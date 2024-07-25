@@ -34,6 +34,8 @@ public class GamePhaseManager : NetworkBehaviour
 
     private void EnterBattlePhase()
     {
+        // Reset Previous Data
+        deactivateOnBattleEnd = new List<GameObject>();
 
         // Match making
         List<ulong> playerIDs = new List<ulong>();
@@ -90,16 +92,18 @@ public class GamePhaseManager : NetworkBehaviour
     {
         AttackerSpawner attackerSpawner = playerBoardsManager.PlayerBoardTable[defenderID].AttackerSpawner;
 
+        // Used for being able to check when battle is over
         if (!AttackerSpawners.Contains(attackerSpawner)) 
         {
             AttackerSpawners.Add(attackerSpawner);
         }
 
+        // Get List of attackers from sideboard
         List<GameObject> attackers = playerBoardsManager.PlayerBoardTable[attackerID].GetComponent<SideBoard>().GetAttackers();
 
         List<GameObject> attackersInstances = new List<GameObject>();
 
-
+        // Spawn them all disabled
         foreach (GameObject attacker in attackers) 
         {
             GameObject newAttacker = Instantiate(attacker, attackerSpawner.transform.position, Quaternion.identity);
@@ -139,10 +143,9 @@ public class GamePhaseManager : NetworkBehaviour
     {
         foreach (ulong towerId in towersIds)
         {
-            NetworkObject Unit1;
-            NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(towerId, out Unit1);
-
-            Unit1.gameObject.GetComponent<Unit>().SetActive();
+            NetworkObject Unit;
+            NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(towerId, out Unit);
+            Unit.gameObject.GetComponent<Unit>().SetActive();
         }
 
         
@@ -219,10 +222,10 @@ public class GamePhaseManager : NetworkBehaviour
     {
         foreach (ulong towerId in towersIds)
         {
-            NetworkObject Unit1;
-            NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(towerId, out Unit1);
+            NetworkObject Unit;
+            NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(towerId, out Unit);
 
-            Unit1.gameObject.GetComponent<Unit>().SetActive();
+            Unit.gameObject.GetComponent<Unit>().SetInactive();
         }
 
         // Set GamePhase

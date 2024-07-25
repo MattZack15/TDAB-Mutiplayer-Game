@@ -179,6 +179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7929548134203298738}
   - component: {fileID: 8936748527447044709}
+  - component: {fileID: -3805395610603178837}
   - component: {fileID: -7508388100034750028}
   - component: {fileID: 7248474588585844504}
   - component: {fileID: 5123700867483370982}
@@ -218,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1794592505
+  GlobalObjectIdHash: 1008165420
   InScenePlacedSourceGlobalObjectIdHash: 1008165420
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -227,6 +228,37 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &-3805395610603178837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8587929601506611587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 0
+  SlerpPosition: 0
 --- !u!114 &-7508388100034750028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,6 +279,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 21ca0b263ec66604fa528bb1ecb84d79, type: 2}
   - {fileID: 11400000, guid: 2d6ae647d4b35bd439cba9cdac50fa38, type: 2}
   unitType: 1
+  UpgradedVersion: {fileID: 0}
+  level: 1
   AttackerScript: {fileID: 0}
   HpBar: {fileID: 0}
   TowerScirpt: {fileID: 7248474588585844504}
@@ -264,6 +298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 5
   attackSpeed: 1.5
+  damage: 100
   projectile: {fileID: 1029526933593873950, guid: cea484cffd644fc44a61f06786a81280, type: 3}
   projectileSourceLocation: {fileID: 7131560373207861580}
   trackEndPoint: {fileID: 0}

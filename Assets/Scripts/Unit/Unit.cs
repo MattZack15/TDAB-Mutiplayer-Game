@@ -9,7 +9,6 @@ public class Unit : MonoBehaviour
 {
     public enum UnitType {Attacker, Tower };
 
-    // Data Container
     [Header("Unit Design")]
     [SerializeField] public string UnitName;
     [SerializeField] public int UnitID;
@@ -17,7 +16,12 @@ public class Unit : MonoBehaviour
     [SerializeField] public string description;
     [SerializeField] public List<Tribe> tribes;
     [SerializeField] public UnitType unitType;
-    
+
+    [Header("Upgrade")]
+    [SerializeField] public GameObject UpgradedVersion;
+    [SerializeField] public int level;
+
+
     [Header("Serialize for Object Interaction")]
     [SerializeField] Attacker AttackerScript;
     [SerializeField] GameObject HpBar;

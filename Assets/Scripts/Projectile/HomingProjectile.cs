@@ -8,6 +8,8 @@ public class HomingProjectile : NetworkBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private Rigidbody2D rb;
+    // Defined by Source Tower
+    private int damage;
 
     private static Vector3 heightOffset = new Vector3 (0f, .5f, 0f);
 
@@ -54,10 +56,11 @@ public class HomingProjectile : NetworkBehaviour
         transform.rotation = Quaternion.LookRotation(dir);
     }
 
-    public void InitProjectile(Tower SourceTower, Transform target = null)
+    public void InitProjectile(Tower SourceTower, int damage, Transform target = null)
     {
         this.target = target;
         this.SourceTower = SourceTower;
+        this.damage = damage;
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -67,7 +70,7 @@ public class HomingProjectile : NetworkBehaviour
         if (collision.CompareTag("Attacker"))
         {
             
-            collision.gameObject.GetComponent<Attacker>().TakeHit();
+            collision.gameObject.GetComponent<Attacker>().TakeHit(damage);
 
             Die();
 

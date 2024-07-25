@@ -54,7 +54,7 @@ public class UnitToolTip : MonoBehaviour
             attackerStats.SetActive(false);
 
             Tower tower = unit.gameObject.GetComponent<Tower>();
-            damageText.SetText("1");
+            damageText.SetText($"{tower.damage}");
             attackSpeedText.SetText($"{ tower.attackSpeed}");
             rangeText.SetText($"{tower.range}");
 
