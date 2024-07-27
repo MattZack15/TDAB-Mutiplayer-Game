@@ -8,14 +8,6 @@ public class UnitUpgrades : NetworkBehaviour
     [SerializeField] PlayerBoardsManager playerBoardsManager;
     [SerializeField] UnitPlacement unitPlacement;
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            print("Checking For Upgrades");
-            CheckForUnitUpgrade(1);
-        }
-    }
 
     // When we get three of a unit, we destory them and spawn in the upgraded unit
 

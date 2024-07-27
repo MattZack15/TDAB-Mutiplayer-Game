@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShopPool : MonoBehaviour
@@ -22,25 +19,43 @@ public class ShopPool : MonoBehaviour
     // Starting Prob - 50 Teir1 30 Tier2 20 Tier 3
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Pools.Add(Tier1);
         Pools.Add(Tier2);
         Pools.Add(Tier3);
 
-        RollTierPool(Tier1Probablity);
     }
 
-    // Update is called once per frame
-    void Update()
+    public int[] GenerateShopSelection(ulong playerID, int amountOfItems)
     {
-        
+        int[] ShopItems = new int[amountOfItems];
+
+        // Default To Tier1 Shop
+        List<int> Probablities = Tier1Probablity;
+
+        for (int i = 0; i < amountOfItems; i++)
+        {
+            List<GameObject> pool = RollTierPool(Probablities);
+            int unitID = pool[Random.Range(0, pool.Count)].GetComponent<Unit>().UnitID;
+
+            ShopItems[i] = unitID;
+        }
+
+        return ShopItems;
     }
 
     private List<GameObject> RollTierPool(List<int> Probablities)
     {
         // Pick a Tier based on a list of Probablity
-        int roll = UnityEngine.Random.Range(1, 100 + 1);
+        
+        int maxRoll = 0;
+        foreach (int weight in Probablities)
+        {
+            maxRoll += weight;
+        }
+        
+        int roll = Random.Range(1, maxRoll + 1);
         //print($"Rolled a {roll}");
         
         int i = 0;

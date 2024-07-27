@@ -15,6 +15,7 @@ public class Shop : NetworkBehaviour
     public static int UnitCost = 3;
     public static int SellValue = 1;
 
+    [SerializeField] private ShopPool ShopPool;
     [SerializeField] private PlayerWarband PlayerWarband;
     [SerializeField] private UnitDex unitDex;
     [SerializeField] private ShopItemsUI ShopItemsUI;
@@ -22,6 +23,8 @@ public class Shop : NetworkBehaviour
     [SerializeField] private ServerPlayerDataManager ServerPlayerDataManager;
     [SerializeField] private PlayerBoardsManager PlayerBoardsManager;
     [SerializeField] private UnitPlacement unitPlacement;
+    [SerializeField] private UnitUpgrades UnitUpgrades;
+    
 
     // Client Side Coins 
     public int coins;
@@ -56,6 +59,8 @@ public class Shop : NetworkBehaviour
         PlayerBoard Playersboard = PlayerBoardsManager.PlayerBoardTable[playerID];
         Playersboard.SideBoard.AddUnitToSideBoard(unitDex.Dex[UnitID]);
 
+        UnitUpgrades.CheckForUnitUpgrade(Playersboard.BoardID);
+
         // Send Info To Client
         BoughtUnitRPC(UnitID, shopIndex, playerID);
 
@@ -73,23 +78,6 @@ public class Shop : NetworkBehaviour
         }
     }
 
-    private int[] CreateShopItems ()
-    {
-        if (!IsServer) return null;
-        // Returns a list of Unit Ids for a shop
-        int[] ShopItems = new int[ShopSize];
-
-        int i = 0;
-        while(i < ShopSize)
-        {
-            int RandomUnit = unitDex.UnitIDs[Random.Range(0, unitDex.UnitIDs.Count)];
-            
-            ShopItems[i] = RandomUnit;
-            i++;
-        }
-
-        return ShopItems;
-    }
 
     public void TryShopRefresh()
     {
@@ -107,7 +95,7 @@ public class Shop : NetworkBehaviour
         if (ServerPlayerDataManager.GetPlayerData(playerID).coins < RefreshCost) { print("Not enough coins"); return; }
 
         // Otherwise send give a new shop list
-        int[] newShopItems = CreateShopItems();
+        int[] newShopItems = ShopPool.GenerateShopSelection(playerID, ShopSize);
         // Track On Server
         ServerPlayerDataManager.GetPlayerData(playerID).SetNewShop(newShopItems);
         ServerPlayerDataManager.GetPlayerData(playerID).coins -= RefreshCost;

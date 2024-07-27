@@ -23,7 +23,7 @@ public class LazerTower : Tower
     // Start is called before the first frame update
     void Start()
     {
-        Beam = Instantiate(ParticleSystemPrefab);
+        Beam = Instantiate(ParticleSystemPrefab, transform);
 
         Material material = Beam.GetComponent<ParticleSystemRenderer>().material;
 
@@ -169,5 +169,13 @@ public class LazerTower : Tower
         main.startSize = beamParticleStartingSize * Mathf.Lerp(1f, 3f, activeBeamTimer.Value / chargeTime);
 
 
+    }
+
+    private void OnDisable()
+    {
+        if (Beam)
+        {
+            Beam.SetActive(false);
+        }
     }
 }
