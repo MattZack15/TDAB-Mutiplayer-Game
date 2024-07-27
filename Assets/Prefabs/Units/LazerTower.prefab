@@ -96,6 +96,10 @@ PrefabInstance:
         damage
       objectReference: {fileID: 0}
     - target: {fileID: -7508388100034750028, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: UpgradedVersion
+      value: 
+      objectReference: {fileID: 6474298500608486977, guid: 8cc480c5464cfcb49b8a5ffb2562080e, type: 3}
+    - target: {fileID: -7508388100034750028, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: tribes.Array.size
       value: 0
       objectReference: {fileID: 0}

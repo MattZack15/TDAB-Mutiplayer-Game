@@ -87,6 +87,10 @@ PrefabInstance:
       value: Apprentice
       objectReference: {fileID: 0}
     - target: {fileID: -7508388100034750028, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: UpgradedVersion
+      value: 
+      objectReference: {fileID: 8094738826141379613, guid: cb95b787204647c41bbb2614bfac3778, type: 3}
+    - target: {fileID: -7508388100034750028, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: tribes.Array.size
       value: 0
       objectReference: {fileID: 0}

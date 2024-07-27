@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitDex : MonoBehaviour
 {
-    
-    [SerializeField] public List<int> UnitIDs = new List<int>();
+
+    [HideInInspector] public List<int> UnitIDs = new List<int>();
     [SerializeField] public List<GameObject> Units = new List<GameObject>();
 
     // Contains units and their IDs
@@ -14,9 +15,17 @@ public class UnitDex : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if (UnitIDs.Count != Units.Count)
+        UnitIDs = new List<int>();
+        foreach (GameObject Unit in Units)
         {
-            print("Error: UnitIDs.Count != Units.Count");
+            int UnitID = Unit.GetComponent<Unit>().UnitID;
+
+            if (UnitIDs.Contains(UnitID))
+            {
+                print($"Error Duplicate UnitID \n{UnitID}, {Unit.GetComponent<Unit>().UnitName}");
+            }
+
+            UnitIDs.Add(UnitID);
         }
 
         // Build Dict

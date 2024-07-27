@@ -142,6 +142,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Balloon
       objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Size.x
+      value: 0.624842
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0616461
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Size.z
+      value: 0.6160086
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Center.x
+      value: 0.05130598
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Center.y
+      value: 0.532471
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Center.z
+      value: 0.047596186
+      objectReference: {fileID: 0}
     - target: {fileID: 5660127933202019724, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -152,7 +176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5910300563084492780, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1224944782
+      value: 3949380403
       objectReference: {fileID: 0}
     - target: {fileID: 6646692700084126741, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: moveSpeed

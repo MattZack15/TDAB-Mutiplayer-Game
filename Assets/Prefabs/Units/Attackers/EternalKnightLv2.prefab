@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 524473782159846610, guid: a81f3d01a960a864d9135cb1dd501338, type: 3}
       propertyPath: moveSpeedBuff
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1875772059137081468, guid: a81f3d01a960a864d9135cb1dd501338, type: 3}
       propertyPath: m_LocalPosition.x
@@ -66,11 +66,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3499740661594837371, guid: a81f3d01a960a864d9135cb1dd501338, type: 3}
       propertyPath: m_Name
-      value: EternalKnight Lv2
+      value: EternalKnightLv2
       objectReference: {fileID: 0}
     - target: {fileID: 4412237303763131615, guid: a81f3d01a960a864d9135cb1dd501338, type: 3}
       propertyPath: level
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412237303763131615, guid: a81f3d01a960a864d9135cb1dd501338, type: 3}
+      propertyPath: UnitID
+      value: 2002
       objectReference: {fileID: 0}
     - target: {fileID: 4412237303763131615, guid: a81f3d01a960a864d9135cb1dd501338, type: 3}
       propertyPath: UpgradedVersion

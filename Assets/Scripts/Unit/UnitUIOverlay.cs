@@ -1,26 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UnitUIOverlay : MonoBehaviour
 {
-    [SerializeField] Transform targetTrasform;
-    private Transform cameraTransform;
+    [SerializeField] GameObject LevelIcon;
+
+    [HideInInspector] public GameObject parentObj;
 
     // Roates the UI to face the camera
     void Start()
     {
-        cameraTransform = FindObjectOfType<Camera>().gameObject.transform;
+        parentObj = transform.parent.parent.gameObject;
+
+        // Level Icon
+        if (parentObj.GetComponent<Unit>().level > 1)
+        {
+            LevelIcon.SetActive(true);
+        }
+        else
+        {
+            LevelIcon.SetActive(false);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        targetTrasform.LookAt(cameraTransform);
 
-        targetTrasform.eulerAngles = new Vector3 (-targetTrasform.localEulerAngles.x, 0f, -targetTrasform.localEulerAngles.z);
-
-
-
-    }
 }

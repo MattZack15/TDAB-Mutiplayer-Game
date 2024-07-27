@@ -6,6 +6,7 @@ using UnityEngine;
 public class UnitUpgrades : NetworkBehaviour
 {
     [SerializeField] PlayerBoardsManager playerBoardsManager;
+    [SerializeField] UnitPlacement unitPlacement;
 
     public void Update()
     {
@@ -22,19 +23,19 @@ public class UnitUpgrades : NetworkBehaviour
     {
         if (!IsServer) { return; }
 
-        print("Starting");
+        
+        // <UnitName, List<(Unit, Tile)>>
+        Dictionary<string, List<(GameObject, GameObject)>> UnitsCount = new Dictionary<string, List<(GameObject, GameObject)>>();
 
-        Dictionary<string, List<GameObject>> UnitsCount = new Dictionary<string, List<GameObject>>();
-
-        void IncrementDict(string unitName, GameObject Unit)
+        void IncrementDict(string unitName, GameObject Unit, GameObject tile)
         {
             if (UnitsCount.ContainsKey(unitName))
             {
-                UnitsCount[unitName].Add(Unit);
+                UnitsCount[unitName].Add((Unit, tile));
             }
             else
             {
-                UnitsCount.Add(unitName, new List<GameObject> { Unit });
+                UnitsCount.Add(unitName, new List<(GameObject, GameObject)> { (Unit, tile) });
             }
         }
 
@@ -48,15 +49,13 @@ public class UnitUpgrades : NetworkBehaviour
                 {
                     
                     GameObject Unit = tile.inhabitor;
-
-                    print(Unit);
                     
                     Unit UnitComp = Unit.GetComponent<Unit>();
                     // Check if Unit is unupgraded
                     if (UnitComp.level == 1)
                     {
                         string unitName = UnitComp.UnitName;
-                        IncrementDict(unitName, Unit);
+                        IncrementDict(unitName, Unit, tile.gameObject);
                     }
                 }
             }
@@ -74,21 +73,21 @@ public class UnitUpgrades : NetworkBehaviour
                 UpgradeUnit(UnitsCount[key], Board.SideBoard);
             }
 
-            print($"{key}: {UnitsCount[key].Count}");
+            //print($"{key}: {UnitsCount[key].Count}");
         }
 
 
     }
 
-    private void UpgradeUnit(List<GameObject> Units, SideBoard sideBoard)
+    private void UpgradeUnit(List<(GameObject, GameObject)> UnitsAndTiles, SideBoard sideBoard)
     {
 
         // Spawn Upgraded Unit
-        GameObject UpgradedUnit = Units[0].GetComponent<Unit>().UpgradedVersion;
+        GameObject UpgradedUnit = UnitsAndTiles[0].Item1.GetComponent<Unit>().UpgradedVersion;
 
         if (UpgradedUnit == null)
         {
-            print($"This Unit Has no Upgrade {Units[0].GetComponent<Unit>().UnitName}");
+            print($"This Unit Has no Upgrade {UnitsAndTiles[0].Item1.GetComponent<Unit>().UnitName}");
             return;
         }
 
@@ -96,9 +95,19 @@ public class UnitUpgrades : NetworkBehaviour
 
 
         // Destory previous Units
-        foreach (GameObject unit in Units)
+        int i = 0;
+        foreach ((GameObject, GameObject) UnitAndTile in UnitsAndTiles)
         {
-            unit.GetComponent<NetworkObject>().Despawn();
+            unitPlacement.ClearTileClientRPC(UnitAndTile.Item2.GetComponent<HexagonTile>().tileId);
+
+            UnitAndTile.Item1.GetComponent<NetworkObject>().Despawn();
+
+            // Only Destory 3 for an upgrade
+            i++;
+            if (i == 3)
+            {
+                break;
+            }
         }
     }
 

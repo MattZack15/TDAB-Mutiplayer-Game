@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6917408919104915849
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 749572440284935390, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 749572440284935390, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: speed
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 749572440284935390, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: health
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 2860227517220411476, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 745663208
+      objectReference: {fileID: 0}
+    - target: {fileID: 6217839198748555390, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6217839198748555390, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: UnitID
+      value: 5002
+      objectReference: {fileID: 0}
+    - target: {fileID: 6217839198748555390, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: description
+      value: 'Entry: The next 2 Attackers with be resurrected with 1 hp'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6217839198748555390, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: UpgradedVersion
+      value: 
+      objectReference: {fileID: 297053855855197267}
+    - target: {fileID: 6620513740283885018, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: m_Name
+      value: NecromancerLv2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176651270595503325, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176651270595503325, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176651270595503325, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176651270595503325, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176651270595503325, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176651270595503325, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176651270595503325, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176651270595503325, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176651270595503325, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176651270595503325, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+--- !u!1 &297053855855197267 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6620513740283885018, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
+  m_PrefabInstance: {fileID: 6917408919104915849}
+  m_PrefabAsset: {fileID: 0}

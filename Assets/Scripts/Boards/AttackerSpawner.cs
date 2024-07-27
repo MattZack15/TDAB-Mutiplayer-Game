@@ -138,11 +138,11 @@ public class AttackerSpawner: NetworkBehaviour
         attacker.GetComponent<AttackerMovement>().SetPath(pathManager.GetBoardPathPoints());
     }
 
-    public GameObject PeekNextAttacker()
+    public GameObject PeekNextAttacker(int position)
     {
-        if (attackerQueue.Count > 0)
+        if (attackerQueue.Count > position)
         {
-            return attackerQueue[0];
+            return attackerQueue[position];
         }
         else
         {

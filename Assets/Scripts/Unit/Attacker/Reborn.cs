@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Unity.Netcode;
-using UnityEngine.UIElements;
+
 
 public class Reborn : OnDeathEffect
 {
@@ -14,6 +13,15 @@ public class Reborn : OnDeathEffect
         unitDex = FindObjectOfType<UnitDex>();
     }
 
+    private void Start()
+    {
+        if (IsServer)
+        {
+            // Play VFX
+            FindObjectOfType<VFXManager>().SpawnRebornVFXRPC(GetComponent<NetworkObject>().NetworkObjectId);
+        }
+    }
+    
 
     public override void TriggerEffect()
     {

@@ -61,6 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8a6098ad3162f4589e011c7e94cfc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilesUnlocked:
+    m_InternalValue: 0
   board: {fileID: 6134556382195221508}
   DefaultPath:
   - {x: 5, y: 17}
@@ -74,7 +76,6 @@ MonoBehaviour:
   - {x: 6, y: 2}
   - {x: 6, y: 0}
   realPathColor: {r: 0.8235295, g: 0.6117647, b: 0.29411766, a: 1}
-  testColor1: {r: 0.8235294, g: 0.6117647, b: 0.29411766, a: 1}
 --- !u!1 &471236089786983575
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,8 +88,8 @@ GameObject:
   - component: {fileID: 3995355761180009486}
   - component: {fileID: 4837411736250805804}
   - component: {fileID: 6180376575947181100}
-  - component: {fileID: 4775895823200040196}
   - component: {fileID: 3770944008776982274}
+  - component: {fileID: 7426772648024356277}
   m_Layer: 0
   m_Name: BoardNamePlate
   m_TagString: Untagged
@@ -179,19 +180,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4775895823200040196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 471236089786983575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89d885a99e840ce4e975cee591c6f74b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTrasform: {fileID: 626570944193191881}
 --- !u!114 &3770944008776982274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +194,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerBoard: {fileID: 6134556382195221508}
   text: {fileID: 4440379309712066985}
+--- !u!114 &7426772648024356277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471236089786983575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd4afd6e4048784db0ffd76bb44eed5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTrasform: {fileID: 626570944193191881}
 --- !u!1 &2619052232815678918
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,7 +660,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 6134556382195221508}
-  attackerQueue: []
   spawnDelay: 1
   pathManager: {fileID: 961074891559436924}
   activeAtttack: 0

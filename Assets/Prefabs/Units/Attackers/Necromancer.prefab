@@ -88,12 +88,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: description
-      value: 'Entry: Resurrect the next attacker with 1 hp'
+      value: 'Entry: The next Attacker with be resurrected with 1 hp'
       objectReference: {fileID: 0}
     - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: AttackerScript
       value: 
       objectReference: {fileID: 749572440284935390}
+    - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: UpgradedVersion
+      value: 
+      objectReference: {fileID: 297053855855197267, guid: 1f39f8159d5b1484588d1f93c517d7aa, type: 3}
     - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: tribes.Array.size
       value: 1
@@ -190,6 +194,26 @@ PrefabInstance:
       propertyPath: attacker
       value: 
       objectReference: {fileID: 749572440284935390}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0216702
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Size.y
+      value: 1.5358717
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Size.z
+      value: 0.51494133
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Center.y
+      value: 0.7695838
+      objectReference: {fileID: 0}
     - target: {fileID: 5660127933202019724, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -200,7 +224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5910300563084492780, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2000274461
+      value: 2800451079
       objectReference: {fileID: 0}
     - target: {fileID: 7313268784309158610, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: m_Sprite
@@ -264,3 +288,4 @@ MonoBehaviour:
     m_InternalValue: 0
   OnDeathEffects: []
   AttackerMovement: {fileID: 2993135642126001069}
+  level: 1

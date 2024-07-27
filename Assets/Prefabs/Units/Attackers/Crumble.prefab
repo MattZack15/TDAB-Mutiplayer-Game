@@ -25,6 +25,10 @@ PrefabInstance:
       value: 'When this dies: Summon Crinkle, Crankle, and Crunkle (Tiny Undead)'
       objectReference: {fileID: 0}
     - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: UpgradedVersion
+      value: 
+      objectReference: {fileID: 543743470953388302, guid: e5b82791911802f4b9d0f9a7089af98a, type: 3}
+    - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: tribes.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -83,6 +87,22 @@ PrefabInstance:
     - target: {fileID: 4639668830293919028, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 2.228
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Size.y
+      value: 1.6839248
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Size.z
+      value: 0.52214754
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Center.y
+      value: 0.84361035
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Center.z
+      value: -0.0492118
       objectReference: {fileID: 0}
     - target: {fileID: 5660127933202019724, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: m_AnchorMax.x
@@ -169,7 +189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a4a61e874442e454d905a854f0774647, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: -0.022
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a4a61e874442e454d905a854f0774647, type: 3}
       propertyPath: m_LocalPosition.y
