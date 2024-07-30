@@ -19,12 +19,15 @@ public class Attacker : NetworkBehaviour
     [SerializeField] protected int health = 1;
     [SerializeField] protected float speed = 1;
 
+    [SerializeField] Color deathParticleColor;
+
     // Network Varibles for Sync
     public NetworkVariable<int> maxHp = new NetworkVariable<int>();
     public NetworkVariable<int> hp = new NetworkVariable<int>();
 
     List<int> maxHpAugments = new List<int>();
-    List<float> moveSpeedAugments = new List<float>();
+    List<float> flatMoveSpeedAugments = new List<float>();
+    List<float> percentMoveSpeedAugments = new List<float>();
     public List<OnDeathEffect> OnDeathEffects = new List<OnDeathEffect>();
 
     [SerializeField] AttackerMovement AttackerMovement;
@@ -77,6 +80,8 @@ public class Attacker : NetworkBehaviour
 
     public virtual void OnDeath()
     {
+        FindObjectOfType<VFXManager>().PlayDeathParticlesRPC(transform.position, new Vector3(deathParticleColor.r, deathParticleColor.g, deathParticleColor.b));
+        
         GetComponent<NetworkObject>().Despawn(true);
 
         foreach (OnDeathEffect deathEffect in OnDeathEffects)
@@ -107,9 +112,36 @@ public class Attacker : NetworkBehaviour
         maxHp.Value += amount;
     }
 
-    public void AddMoveSpeed(float moveSpeedBuff)
+    public void AddFlatMoveSpeed(float moveSpeedBuff)
     {
-        moveSpeedAugments.Add(moveSpeedBuff);
+        flatMoveSpeedAugments.Add(moveSpeedBuff);
+    }
+
+    public void RemoveFlatMoveSpeed(float moveSpeedBuff)
+    {
+        if (!flatMoveSpeedAugments.Contains(moveSpeedBuff))
+        {
+            print("This does not contain that Buff");
+            return;
+        }
+
+        flatMoveSpeedAugments.Remove(moveSpeedBuff);
+    }
+
+    public void AddPercentMoveSpeed(float moveSpeedBuff)
+    {
+        percentMoveSpeedAugments.Add(moveSpeedBuff);
+    }
+
+    public void RemovePercentMoveSpeed(float moveSpeedBuff)
+    {
+        if (!percentMoveSpeedAugments.Contains(moveSpeedBuff))
+        {
+            print("This does not contain that Buff");
+            return;
+        }
+
+        percentMoveSpeedAugments.Remove(moveSpeedBuff);
     }
 
 
@@ -131,9 +163,13 @@ public class Attacker : NetworkBehaviour
         CalcedStats.baseMoveSpeed = speed;
         
         CalcedStats.moveSpeed = speed;
-        foreach (float buff in moveSpeedAugments)
+        foreach (float buff in flatMoveSpeedAugments)
         {
             CalcedStats.moveSpeed += buff;
+        }
+        foreach (float buff in percentMoveSpeedAugments)
+        {
+            CalcedStats.moveSpeed *= buff;
         }
 
         return CalcedStats;

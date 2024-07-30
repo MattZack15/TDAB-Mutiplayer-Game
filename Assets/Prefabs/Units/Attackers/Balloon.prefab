@@ -194,6 +194,18 @@ PrefabInstance:
       propertyPath: health
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 8115512447373002805, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: deathParticleColor.b
+      value: 0.227451
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115512447373002805, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: deathParticleColor.g
+      value: 0.21176472
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115512447373002805, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: deathParticleColor.r
+      value: 0.854902
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7313268784309158610, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
     m_RemovedGameObjects: []

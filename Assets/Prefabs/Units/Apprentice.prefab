@@ -92,8 +92,12 @@ PrefabInstance:
       objectReference: {fileID: 8094738826141379613, guid: cb95b787204647c41bbb2614bfac3778, type: 3}
     - target: {fileID: -7508388100034750028, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: tribes.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7508388100034750028, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: tribes.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8dd9f094dea63614db129f1051540511, type: 2}
     - target: {fileID: 5806325203948643061, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: m_Controller
       value: 

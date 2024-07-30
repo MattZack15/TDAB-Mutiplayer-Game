@@ -57,7 +57,7 @@ public class EternalKnight : Attacker
         for (int i = 0; i < newBuffs; i++)
         {
             AddMaxHp(hpBuff);
-            AddMoveSpeed(moveSpeedBuff);
+            AddFlatMoveSpeed(moveSpeedBuff);
         }
 
         lastEkdCount = ServerUnitData.ekdCount;

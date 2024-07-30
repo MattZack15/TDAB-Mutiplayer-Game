@@ -8,6 +8,7 @@ public class Tower : NetworkBehaviour
     public float range;
     public float attackSpeed;
     public int damage;
+    [SerializeField] private bool lookAtTarget = true;
 
     [SerializeField] private GameObject projectile;
     [SerializeField] protected Transform projectileSourceLocation;
@@ -16,7 +17,7 @@ public class Tower : NetworkBehaviour
 
     protected Transform currentTarget;
 
-    List<GameObject> projectilePool = new List<GameObject>();
+    protected List<GameObject> projectilePool = new List<GameObject>();
 
 
     // Update is called once per frame
@@ -31,7 +32,10 @@ public class Tower : NetworkBehaviour
 
 
         FindTarget();
-        LookAtTarget();
+        if (lookAtTarget)
+        {
+            LookAtTarget();
+        }
     }
 
     private void LookAtTarget()
@@ -74,7 +78,7 @@ public class Tower : NetworkBehaviour
         newProjectile.GetComponent<NetworkObject>().Spawn();
 
 
-        newProjectile.GetComponent<HomingProjectile>().InitProjectile(this, damage, currentTarget);
+        newProjectile.GetComponent<Projectile>().InitProjectile(this, damage, currentTarget);
         projectilePool.Add(newProjectile);
 
         yield return new WaitForSeconds(attackSpeed);
@@ -149,4 +153,6 @@ public class Tower : NetworkBehaviour
 
         return bestTarget;
     }
+
+
 }

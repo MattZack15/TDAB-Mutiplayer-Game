@@ -4,43 +4,49 @@ using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 
-public class HomingProjectile : NetworkBehaviour
+public class HomingProjectile : Projectile
 {
-    [SerializeField] private float speed;
-    [SerializeField] private Rigidbody2D rb;
-    // Defined by Source Tower
-    private int damage;
 
-    private static Vector3 heightOffset = new Vector3 (0f, .5f, 0f);
-
-    private Transform target;
+    protected Transform target;
 
     private Vector3 currentDir;
-    private bool willDie = false;
 
-    public Tower SourceTower;
-    
+    public override void InitProjectile(Tower SourceTower, int damage, Transform target)
+    {
+        base.InitProjectile(SourceTower, damage, target);
+        
+        this.target = target;
+    }
+
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
         if (!IsServer) { return; }
 
         if(target == null)
         {
-            transform.position += (Vector3)currentDir * speed * Time.deltaTime;
-            if (!willDie)
-            {
-                Invoke("Die", 3f);
-                willDie = true;
-            }
-                
+            TravelToNullTarget();
             return;
         }
 
-        Vector3 dir = ((target.position+ heightOffset) - transform.position).normalized;
+        base.Update();
+    }
+
+    private void TravelToNullTarget()
+    {
+        transform.position += (Vector3)currentDir * speed * Time.deltaTime;
+        if (!willDie)
+        {
+            Invoke("Die", 3f);
+            willDie = true;
+        }
+    }
+
+    public override void Movement()
+    {
+        Vector3 dir = ((target.position + heightOffset) - transform.position).normalized;
         Travel(dir);
         RotateToDirection(dir);
-
     }
 
     private void Travel(Vector3 dir)
@@ -51,82 +57,13 @@ public class HomingProjectile : NetworkBehaviour
         transform.position += (Vector3)dir * speed * Time.deltaTime;
     }
 
-    private void RotateToDirection(Vector3 dir)
-    {
-        transform.rotation = Quaternion.LookRotation(dir);
-    }
-
-    public void InitProjectile(Tower SourceTower, int damage, Transform target = null)
-    {
-        this.target = target;
-        this.SourceTower = SourceTower;
-        this.damage = damage;
-    }
-
-    private void OnTriggerEnter(Collider collision)
-    {
-        if (!IsServer) { return; }
-
-        if (collision.CompareTag("Attacker"))
-        {
-            
-            collision.gameObject.GetComponent<Attacker>().TakeHit(damage);
-
-            Die();
-
-        }
-    }
-
-    private void Die()
-    {
-        if (!IsServer) { return; }
-
-        DestoryProjectileClientRPC(transform.position);
-        
-        if (SourceTower != null)
-        {
-            SourceTower.DestoryProjectile(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-        
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    private void DestoryProjectileClientRPC(Vector3 finalLocation)
-    {
-        // Clients Only
-        if (IsServer) { return; }
-        
-        GetComponent<NetworkTransform>().enabled = false;
-        StartCoroutine(LerpToLocation(finalLocation));
-    }
 
 
-    IEnumerator LerpToLocation(Vector3 finalLocation)
-    {
-        
-        Vector3 originalPos = transform.position;
 
-        float distance = (finalLocation - originalPos).magnitude;
-        float timeToReach = distance / speed;
 
-        float timer = 0f;
-        while (timer < timeToReach)
-        {
-            transform.position = Vector3.Lerp(originalPos, finalLocation, timer/timeToReach);
-            RotateToDirection((finalLocation - originalPos).normalized);
 
-            timer += Time.deltaTime;
-            yield return null;
-        }
 
-        transform.position = finalLocation;
 
-        gameObject.SetActive(false);
-    }
 
 
 

@@ -6,9 +6,12 @@ using Unity.Netcode;
 public class VFXManager : NetworkBehaviour
 {
     [SerializeField] GameObject RebornVFX;
+    [SerializeField] GameObject deathParticlesPrefab;
+    [SerializeField] GameObject iceBallParticlesPrefab;
 
     // Responsible for creating VFX locally
-    // Start is called before the first frame update
+    
+    // FindObjectOfType<VFXManager>().Play()
 
     [Rpc(SendTo.ClientsAndHost)]
     public void SpawnRebornVFXRPC(ulong networkObjectId)
@@ -22,6 +25,27 @@ public class VFXManager : NetworkBehaviour
         }
 
         Instantiate(RebornVFX, networkObject.transform);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void PlayDeathParticlesRPC(Vector3 spawnPos, Vector3 colorCode)
+    {
+        Color color = new Color(colorCode.x, colorCode.y, colorCode.z);
+        
+        GameObject particlesObj = Instantiate(deathParticlesPrefab, spawnPos, Quaternion.identity);
+        particlesObj.transform.rotation = Quaternion.LookRotation(Vector3.up);
+        ParticleSystem particleSystem = particlesObj.GetComponent<ParticleSystem>();
+
+        particleSystem.GetComponent<ParticleSystemRenderer>().material.color = color;
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void PlayIceBallParticlesRPC(Vector3 spawnPos)
+    {
+
+        GameObject particlesObj = Instantiate(iceBallParticlesPrefab, spawnPos, Quaternion.identity);
+        particlesObj.transform.rotation = Quaternion.LookRotation(Vector3.up);
+
     }
 
 }

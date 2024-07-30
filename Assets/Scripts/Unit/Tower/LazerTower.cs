@@ -149,6 +149,9 @@ public class LazerTower : Tower
         if (changedTarget)
         {
             beamParticles.Clear();
+            
+            beamParticles.Simulate(1.5f);
+
             beamParticles.Play();
 
             changedTarget = false;

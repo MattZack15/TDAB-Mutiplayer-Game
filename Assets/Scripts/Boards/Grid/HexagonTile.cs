@@ -32,6 +32,9 @@ public class HexagonTile : MonoBehaviour
     private void Awake()
     {
         Renderer = GetComponent<Renderer>();
+
+        int hexagonGridLayer = LayerMask.NameToLayer("HexagonGrid");
+        gameObject.layer = hexagonGridLayer;
     }
 
     // Start is called before the first frame update

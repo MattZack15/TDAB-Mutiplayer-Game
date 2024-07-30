@@ -19,6 +19,15 @@ public class PlayerHealthUI : MonoBehaviour
         GeneratePlayerHealthUI();
     }
 
+    private void Update()
+    {
+        if (playerHealthSlots.Count != PlayerHealthManager.playerIds.Count)
+        {
+            ResetPlayerHealthUI();
+            GeneratePlayerHealthUI();
+        }
+    }
+
     private void ResetPlayerHealthUI()
     {
         foreach (GameObject playerHealthObj in playerHealthSlots)
