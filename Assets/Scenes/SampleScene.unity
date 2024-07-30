@@ -2343,7 +2343,7 @@ MonoBehaviour:
   Tier3:
   - {fileID: 2877969248798440227, guid: 8d93440859e76c349b91953508ca7b73, type: 3}
   - {fileID: 6620513740283885018, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
-  Tier1Probablity: 030000000200000001000000
+  Tier1Probablity: 000000000000000001000000
 --- !u!1 &813392872
 GameObject:
   m_ObjectHideFlags: 0

@@ -181,6 +181,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e92b05a7c3bd0c84a8d740068ebaf1e5, type: 2}
+    - target: {fileID: 6342726722231297644, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.25
+      objectReference: {fileID: 0}
     - target: {fileID: 7131560373207861580, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.25
@@ -247,7 +251,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8936748527447044709, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2918737461
+      value: 3471305649
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6706990088639824661, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}

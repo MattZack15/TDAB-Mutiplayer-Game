@@ -103,6 +103,10 @@ PrefabInstance:
       propertyPath: tribes.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6342726722231297644, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.29
+      objectReference: {fileID: 0}
     - target: {fileID: 7929548134203298738, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -149,7 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8936748527447044709, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2422668030
+      value: 2555940284
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7248474588585844504, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
@@ -189,6 +193,7 @@ MonoBehaviour:
   range: 10
   attackSpeed: 0.25
   damage: 10
+  lookAtTarget: 1
   projectile: {fileID: 0}
   projectileSourceLocation: {fileID: 511502369761347669}
   trackEndPoint: {fileID: 0}
