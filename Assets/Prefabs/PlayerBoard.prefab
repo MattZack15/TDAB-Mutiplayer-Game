@@ -76,6 +76,7 @@ MonoBehaviour:
   - {x: 6, y: 2}
   - {x: 6, y: 0}
   realPathColor: {r: 0.8235295, g: 0.6117647, b: 0.29411766, a: 1}
+  greyedPathColor: {r: 0.42352942, g: 0.6901961, b: 0.3882353, a: 1}
 --- !u!1 &471236089786983575
 GameObject:
   m_ObjectHideFlags: 0

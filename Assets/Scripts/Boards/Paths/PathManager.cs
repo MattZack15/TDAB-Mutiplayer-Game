@@ -10,18 +10,24 @@ public class PathManager : NetworkBehaviour
     public NetworkVariable<int> tilesUnlocked = new NetworkVariable<int>();
     static int baseTilesUnlocked = 15;
 
+    //public bool drawMode;
+
     //[SerializeField] PathCreator PathCreator;
     [SerializeField] PlayerBoard board;
+    DrawPathUI drawPathUI;
 
     List<GameObject> tilesInPath = new List<GameObject>();
 
     public Vector2[] DefaultPath;
 
     public Color realPathColor;
+    public Color greyedPathColor;
 
 
     public void Init()
     {
+        drawPathUI = FindObjectOfType<DrawPathUI>();
+        
         if (!IsServer) { return; }
         tilesUnlocked.Value = baseTilesUnlocked;
     }
@@ -31,13 +37,13 @@ public class PathManager : NetworkBehaviour
         SubmitPathToServerRPC(DefaultPath, board.BoardID);
     }
 
-    void DrawPath()
+    void DrawPath(Color pathColor)
     {
         int i = 0;
         foreach (GameObject tile in tilesInPath)
         {
 
-            Color color = realPathColor;
+            Color color = pathColor;
 
             float rand = Random.Range(-0.09f, 0.1f);
 
@@ -106,13 +112,32 @@ public class PathManager : NetworkBehaviour
     {
         ResetPath();
 
+        ExitDrawMode();
+
         // Update path for all clietns on board
         foreach (Vector2 tileID in tileIDs)
         {
             tilesInPath.Add(board.HexagonGrid.GetTileById(tileID));
         }
 
-        DrawPath();
+        DrawPath(realPathColor);
+    }
+
+    public void EnterDrawMode()
+    {
+        // Grey Out Path
+        DrawPath(greyedPathColor);
+
+        // Enable UI
+        drawPathUI.gameObject.SetActive(true);
+
+
+    }
+
+    public void ExitDrawMode()
+    {
+        DrawPath(realPathColor);
+        drawPathUI.gameObject.SetActive(false);
     }
 
 }

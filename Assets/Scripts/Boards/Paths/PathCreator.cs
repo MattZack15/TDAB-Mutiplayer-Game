@@ -18,6 +18,7 @@ public class PathCreator : MonoBehaviour
     public Color pathEndColor;
 
     PlayerTileInteraction PlayerTileInteraction;
+    DrawPathUI drawPathUI;
 
     public void Init()
     {
@@ -25,6 +26,7 @@ public class PathCreator : MonoBehaviour
 
         PlayerTileInteraction = FindObjectOfType<PlayerTileInteraction>();
         startTile = PlayerBoard.startTile; endTile = PlayerBoard.endTile;
+        drawPathUI = FindObjectOfType<DrawPathUI>();
     }
 
 
@@ -99,6 +101,8 @@ public class PathCreator : MonoBehaviour
             if (TilesAreAdjacent(tileId, new Vector3(startTile.x, startTile.y, boardIndex)))
             {
                 tilesInPath.Add(tile);
+                pathManager.EnterDrawMode();
+                DrawPath();
             }
             return;
         }
@@ -134,8 +138,20 @@ public class PathCreator : MonoBehaviour
 
     }
 
+    private void UpdateDrawPathUI()
+    {
+        int tilesUsed = tilesInPath.Count;
+        int tilesLeft = pathManager.tilesUnlocked.Value - tilesUsed;
+
+
+        drawPathUI.UpdateDisplay(tilesLeft);
+
+    }
+
     private void ResetPath()
     {
+        pathManager.ExitDrawMode();
+        
         foreach (GameObject tile in tilesInPath)
         {
             tile.GetComponent<HexagonTile>().RemoveDrawnPath();
@@ -154,6 +170,8 @@ public class PathCreator : MonoBehaviour
             tile.GetComponent<HexagonTile>().SetDrawnPath(color);
             i++;
         }
+
+        UpdateDrawPathUI();
     }
 
 
