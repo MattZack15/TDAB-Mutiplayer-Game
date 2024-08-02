@@ -86,7 +86,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: description
-      value: Gains health for every undead this sees die
+      value: Gains 100 health for every undead it sees die
       objectReference: {fileID: 0}
     - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: tribes.Array.size
@@ -178,7 +178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5910300563084492780, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2634918991
+      value: 342147141
       objectReference: {fileID: 0}
     - target: {fileID: 8115512447373002805, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: speed
@@ -213,13 +213,36 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2346437626535949651, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4242491054486454985}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3338505304559047266, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 930507752914397877}
   m_SourcePrefab: {fileID: 100100000, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
 --- !u!4 &3554438843949779014 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2346437626535949651, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
   m_PrefabInstance: {fileID: 1280112860394110229}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4582165504987033463 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3338505304559047266, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+  m_PrefabInstance: {fileID: 1280112860394110229}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &930507752914397877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4582165504987033463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79a8a5ed294e45b4696b56c39a67519f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthPerUndead: 100
+  minScale: 0.5
+  scaleIncrement: 0.05
 --- !u!1001 &5806004856992449193
 PrefabInstance:
   m_ObjectHideFlags: 0

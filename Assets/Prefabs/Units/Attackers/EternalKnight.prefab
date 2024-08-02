@@ -141,6 +141,11 @@ PrefabInstance:
       insertIndex: 5
       addedObject: {fileID: 524473782159846610}
   m_SourcePrefab: {fileID: 100100000, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+--- !u!95 &3477272672501989050 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3351964990612536739, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+  m_PrefabInstance: {fileID: 2217270150215107353}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3499740661594837371 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3338505304559047266, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
@@ -167,6 +172,7 @@ MonoBehaviour:
     m_InternalValue: 0
   OnDeathEffects: []
   AttackerMovement: {fileID: 4825774950005884684}
+  Animator: {fileID: 3477272672501989050}
   hpBuff: 50
   moveSpeedBuff: 0.05
 --- !u!114 &4825774950005884684 stripped

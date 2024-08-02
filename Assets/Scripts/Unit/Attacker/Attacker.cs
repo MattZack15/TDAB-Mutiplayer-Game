@@ -19,6 +19,7 @@ public class Attacker : NetworkBehaviour
     [SerializeField] protected int health = 1;
     [SerializeField] protected float speed = 1;
 
+    [Header("Graphical")]
     [SerializeField] Color deathParticleColor;
 
     // Network Varibles for Sync
@@ -31,20 +32,50 @@ public class Attacker : NetworkBehaviour
     public List<OnDeathEffect> OnDeathEffects = new List<OnDeathEffect>();
 
     [SerializeField] AttackerMovement AttackerMovement;
-
+    public Animator Animator;
 
     public void Init(List<Vector3> pathPointPostions, bool callOnEntry = true)
     {
         // Called When Attacker Is Spawned Into the battle
         
         if (!IsServer) { return; }
-        
+
+        bool hasWalkAnim()
+        {
+            if (Animator == null)
+            {
+                print("Animator == null");
+                return false;
+            }
+
+            if (Animator.runtimeAnimatorController == null)
+            {
+                return false;
+            }
+            
+            foreach (AnimationClip clip in Animator.runtimeAnimatorController.animationClips)
+            {
+                if (clip.name == "walk")
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        if (hasWalkAnim())
+        {
+            FindObjectOfType<VFXManager>().PlayWalkAnimRPC(GetComponent<NetworkObject>().NetworkObjectId);
+        }
+
         AttackerMovement.SetPath(pathPointPostions);
         if (callOnEntry)
         {
             OnEntry();
         }
     }
+
 
     public override void OnNetworkSpawn()
     {
@@ -80,8 +111,12 @@ public class Attacker : NetworkBehaviour
 
     public virtual void OnDeath()
     {
+        if (!IsServer) return;
+
         FindObjectOfType<VFXManager>().PlayDeathParticlesRPC(transform.position, new Vector3(deathParticleColor.r, deathParticleColor.g, deathParticleColor.b));
-        
+
+        FindObjectOfType<ServerUnitData>().RegisterDeath(gameObject);
+
         GetComponent<NetworkObject>().Despawn(true);
 
         foreach (OnDeathEffect deathEffect in OnDeathEffects)

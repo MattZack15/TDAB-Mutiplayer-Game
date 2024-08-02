@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3826333156112307292
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 930507752914397877, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: healthPerUndead
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517317348601446000, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517317348601446000, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517317348601446000, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517317348601446000, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517317348601446000, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517317348601446000, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517317348601446000, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517317348601446000, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517317348601446000, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517317348601446000, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620303501148709587, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: description
+      value: Gains 200 health for every undead it sees die
+      objectReference: {fileID: 0}
+    - target: {fileID: 4582165504987033463, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: m_Name
+      value: Reanimated GiantLv2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883666512352772857, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3440102092
+      objectReference: {fileID: 0}
+    - target: {fileID: 6867725003051665561, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6867725003051665561, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7017672888415089952, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: speed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7017672888415089952, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: health
+      value: 2000
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 568972660c223b64b87f46547d27a2f8, type: 3}

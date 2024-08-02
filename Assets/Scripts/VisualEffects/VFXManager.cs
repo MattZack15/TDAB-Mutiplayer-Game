@@ -26,6 +26,19 @@ public class VFXManager : NetworkBehaviour
 
         Instantiate(RebornVFX, networkObject.transform);
     }
+    [Rpc(SendTo.ClientsAndHost)]
+    public void PlayWalkAnimRPC(ulong networkObjectId)
+    {
+        NetworkObject networkObject;
+        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
+
+        if (networkObject == null)
+        {
+            print("Object Not Found");
+        }
+
+        networkObject.gameObject.GetComponent<Attacker>().Animator.Play("walk");
+    }
 
     [Rpc(SendTo.ClientsAndHost)]
     public void PlayDeathParticlesRPC(Vector3 spawnPos, Vector3 colorCode)

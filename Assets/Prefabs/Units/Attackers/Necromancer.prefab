@@ -263,6 +263,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2346437626535949651, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
   m_PrefabInstance: {fileID: 8481415859314190264}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &6570919737407576603 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3351964990612536739, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+  m_PrefabInstance: {fileID: 8481415859314190264}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6620513740283885018 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3338505304559047266, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
@@ -289,4 +294,5 @@ MonoBehaviour:
     m_InternalValue: 0
   OnDeathEffects: []
   AttackerMovement: {fileID: 2993135642126001069}
+  Animator: {fileID: 6570919737407576603}
   level: 1
