@@ -53,6 +53,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3620303501148709587, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: UnitID
+      value: 13002
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620303501148709587, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
       propertyPath: description
       value: Gains 200 health for every undead it sees die
       objectReference: {fileID: 0}
@@ -62,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4883666512352772857, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 3440102092
+      value: 3513688486
       objectReference: {fileID: 0}
     - target: {fileID: 6867725003051665561, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
       propertyPath: m_AnchorMax.x

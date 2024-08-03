@@ -20,7 +20,11 @@ public class HostControls : NetworkBehaviour
     public void StartGame()
     {
         if (GameStarted) return;
-        if (!IsServer) return;
+        if (!IsServer)
+        {
+            print("You are not Server");
+            return;
+        };
 
 
         //int playerCount = NetworkManager.ConnectedClientsIds.Count;

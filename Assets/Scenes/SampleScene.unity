@@ -1828,7 +1828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a604e10df144b5448963734172082d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugClientSide: 1
+  debugClientSide: 0
 --- !u!4 &696273002
 Transform:
   m_ObjectHideFlags: 0
@@ -2690,6 +2690,7 @@ MonoBehaviour:
   - {fileID: 2877969248798440227, guid: 8d93440859e76c349b91953508ca7b73, type: 3}
   - {fileID: 1703230077685975848, guid: 70e90009528755043807753e185ed2c8, type: 3}
   - {fileID: 4582165504987033463, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+  - {fileID: 760759260481289003, guid: 09c0300618f3d074f804eb704afb48ac, type: 3}
 --- !u!4 &829110238
 Transform:
   m_ObjectHideFlags: 0
