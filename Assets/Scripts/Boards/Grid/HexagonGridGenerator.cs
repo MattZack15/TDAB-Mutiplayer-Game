@@ -24,8 +24,7 @@ public class HexagonGridGenerator : MonoBehaviour
 
     private Mesh mesh;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         DefineHexagon();
     }

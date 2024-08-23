@@ -10,8 +10,10 @@ public class Tower : NetworkBehaviour
     public int damage;
     [SerializeField] private bool lookAtTarget = true;
 
+    [SerializeField] public List<TowerAttribute> TowerAttributes = new List<TowerAttribute>();
+
     [SerializeField] private GameObject projectile;
-    [SerializeField] protected Transform projectileSourceLocation;
+    [SerializeField] public Transform projectileSourceLocation;
 
     [HideInInspector] public Transform trackEndPoint;
 
@@ -72,7 +74,7 @@ public class Tower : NetworkBehaviour
         }
     }
 
-    protected virtual IEnumerator Attack()
+    public virtual IEnumerator Attack()
     {
         GameObject newProjectile = Instantiate(projectile, projectileSourceLocation.position, Quaternion.identity);
         newProjectile.GetComponent<NetworkObject>().Spawn();
@@ -80,6 +82,11 @@ public class Tower : NetworkBehaviour
 
         newProjectile.GetComponent<Projectile>().InitProjectile(this, damage, currentTarget);
         projectilePool.Add(newProjectile);
+
+        foreach (TowerAttribute TowerAttribute in TowerAttributes)
+        {
+            TowerAttribute.OnAttack();
+        }
 
         yield return new WaitForSeconds(attackSpeed);
     }

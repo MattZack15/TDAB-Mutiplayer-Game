@@ -112,6 +112,9 @@ public class PlayerBoardsGenerator : NetworkBehaviour
 
             i++;
         }
+
+
+
     }
 
 }

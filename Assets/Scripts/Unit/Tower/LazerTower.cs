@@ -115,7 +115,7 @@ public class LazerTower : Tower
 
     }
 
-    protected override IEnumerator Attack()
+    public override IEnumerator Attack()
     {
         int beamDamage = GetBeamDamage();
 

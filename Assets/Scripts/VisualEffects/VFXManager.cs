@@ -8,9 +8,10 @@ public class VFXManager : NetworkBehaviour
     [SerializeField] GameObject RebornVFX;
     [SerializeField] GameObject deathParticlesPrefab;
     [SerializeField] GameObject iceBallParticlesPrefab;
+    [SerializeField] GameObject arcaneProcParticlesPrefab;
 
     // Responsible for creating VFX locally
-    
+
     // FindObjectOfType<VFXManager>().Play()
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -57,6 +58,15 @@ public class VFXManager : NetworkBehaviour
     {
 
         GameObject particlesObj = Instantiate(iceBallParticlesPrefab, spawnPos, Quaternion.identity);
+        particlesObj.transform.rotation = Quaternion.LookRotation(Vector3.up);
+
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void PlayArcaneProcParticlesRPC(Vector3 spawnPos)
+    {
+
+        GameObject particlesObj = Instantiate(arcaneProcParticlesPrefab, spawnPos, Quaternion.identity);
         particlesObj.transform.rotation = Quaternion.LookRotation(Vector3.up);
 
     }

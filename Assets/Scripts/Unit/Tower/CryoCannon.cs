@@ -22,7 +22,7 @@ public class CryoCannon : Tower
         IceBall = Instantiate(IceBallPrefab, projectileSourceLocation);
     }
 
-    protected override IEnumerator Attack()
+    public override IEnumerator Attack()
     {
         StartCoroutine(base.Attack());
         

@@ -264,6 +264,7 @@ Transform:
   - {fileID: 1755129286}
   - {fileID: 291500710}
   - {fileID: 519420032}
+  - {fileID: 1293755519}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &93546209
@@ -4144,6 +4145,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1285236369}
   m_CullTransparentMesh: 1
+--- !u!1 &1293755517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1293755519}
+  - component: {fileID: 1293755518}
+  m_Layer: 0
+  m_Name: Skybox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1293755518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293755517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6954d43d702886645a645e6002a42a4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HexagonGridGenerator: {fileID: 2113605718}
+  color1: {r: 0.015686275, g: 0.5294118, b: 0.8862745, a: 1}
+  color2: {r: 0.011764706, g: 0.3882353, b: 0.7921569, a: 1}
+  color3: {r: 0.6862745, g: 0.8392157, b: 0.9607843, a: 1}
+--- !u!4 &1293755519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293755517}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 45955125}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1296880108
 GameObject:
   m_ObjectHideFlags: 0
@@ -5079,6 +5128,7 @@ MonoBehaviour:
   RebornVFX: {fileID: 8868432837945386294, guid: 35442b40dff0e8c4b9c5402da6570e8e, type: 3}
   deathParticlesPrefab: {fileID: 3750931857548841976, guid: 6571a694641d6584f9a84d8f503fa04b, type: 3}
   iceBallParticlesPrefab: {fileID: 2282518719883828391, guid: 3e228ad436e87fb42a3eda5cfff20e41, type: 3}
+  arcaneProcParticlesPrefab: {fileID: 8532968485980149667, guid: b33ccd7ee24f2814caa07fe3eea9e187, type: 3}
 --- !u!4 &1575153234
 Transform:
   m_ObjectHideFlags: 0
