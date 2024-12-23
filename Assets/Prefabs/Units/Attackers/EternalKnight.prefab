@@ -514,7 +514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 150
   speed: 2
-  deathParticleColor: {r: 0.78823537, g: 0.6039216, b: 0.5803922, a: 1}
+  deathParticleColor: {r: 0.7490196, g: 0.7725491, b: 0.80392164, a: 1}
   maxHp:
     m_InternalValue: 0
   hp:

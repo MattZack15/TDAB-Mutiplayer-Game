@@ -8,7 +8,7 @@ public class Shop : NetworkBehaviour
 {
     
     public static int ShopSize = 3;
-    public static int StartingCoins = 150;
+    public static int StartingCoins = 10;
     // How much money you get at the end of each round
     public static int RoundEarnings = 5;
     public static int RefreshCost = 1;

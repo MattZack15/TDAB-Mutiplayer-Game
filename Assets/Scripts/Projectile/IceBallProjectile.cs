@@ -17,6 +17,12 @@ public class IceBallProjectile : Projectile
 
     public void Init(Tower SourceTower, int damage, float slowPercent, float slowDuration, float explosionRadius, Transform target)
     {
+        if (target == null)
+        {
+            print("Created an IceBall with no Target");
+            return;
+        }
+
         base.InitProjectile(SourceTower, damage, target);
         this.explosionRadius = explosionRadius;
         this.slowPercent = slowPercent;
@@ -95,7 +101,7 @@ public class IceBallProjectile : Projectile
             GameObject Attacker = raycastHit.collider.gameObject;
             // Ignore if on a different Board
 
-            Attacker.GetComponent<Attacker>().TakeHit(damage);
+            Attacker.GetComponent<Attacker>().TakeHit(damage, SourceTower);
             Attacker.AddComponent<TempMoveSpeedBuff>().Init(slowPercent, slowDuration);
 
         }
@@ -108,7 +114,7 @@ public class IceBallProjectile : Projectile
         if (IsServer)
         {
             FindObjectOfType<VFXManager>().PlayIceBallParticlesRPC(transform.position);
-            SourceTower.DestoryProjectile(gameObject);
+            SourceTower.DestroyProjectile(gameObject);
         }
         else
         {

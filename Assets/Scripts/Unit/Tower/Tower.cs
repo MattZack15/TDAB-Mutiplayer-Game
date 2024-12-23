@@ -10,7 +10,8 @@ public class Tower : NetworkBehaviour
     public int damage;
     [SerializeField] private bool lookAtTarget = true;
 
-    [SerializeField] public List<TowerAttribute> TowerAttributes = new List<TowerAttribute>();
+    // Tower Attributes add themselves to this list
+    [HideInInspector] public List<TowerAttribute> TowerAttributes = new List<TowerAttribute>();
 
     [SerializeField] private GameObject projectile;
     [SerializeField] public Transform projectileSourceLocation;
@@ -83,18 +84,32 @@ public class Tower : NetworkBehaviour
         newProjectile.GetComponent<Projectile>().InitProjectile(this, damage, currentTarget);
         projectilePool.Add(newProjectile);
 
-        foreach (TowerAttribute TowerAttribute in TowerAttributes)
-        {
-            TowerAttribute.OnAttack();
-        }
+        TriggerOnAttackEffects();
 
         yield return new WaitForSeconds(attackSpeed);
     }
 
-    public void DestoryProjectile(GameObject projectile)
+    protected void TriggerOnAttackEffects()
+    {
+        foreach (TowerAttribute TowerAttribute in TowerAttributes)
+        {
+            TowerAttribute.OnAttack();
+        }
+    }
+
+    public void GiveKillCredit(GameObject KilledTarget)
+    {
+        // Called When an Attacker dies and this tower was the last to hit it
+        foreach (TowerAttribute TowerAttribute in TowerAttributes)
+        {
+            TowerAttribute.OnReciveKillCredit(KilledTarget);
+        }
+    }
+
+    public void DestroyProjectile(GameObject projectile)
     {
         if (!IsServer) { return; }
-        
+
         projectilePool.Remove(projectile);
 
         projectile.SetActive(false);
@@ -105,7 +120,10 @@ public class Tower : NetworkBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        go.GetComponent<NetworkObject>().Despawn();
+        if (go != null)
+        {
+            go.GetComponent<NetworkObject>().Despawn();
+        }
     }
 
 

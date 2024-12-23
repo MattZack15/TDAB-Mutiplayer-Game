@@ -39,7 +39,7 @@ public class Projectile : NetworkBehaviour
         if (collision.CompareTag("Attacker"))
         {
 
-            collision.gameObject.GetComponent<Attacker>().TakeHit(damage);
+            collision.gameObject.GetComponent<Attacker>().TakeHit(damage, SourceTower);
 
             Die();
 
@@ -64,7 +64,7 @@ public class Projectile : NetworkBehaviour
 
         if (SourceTower != null)
         {
-            SourceTower.DestoryProjectile(gameObject);
+            SourceTower.DestroyProjectile(gameObject);
         }
         else
         {

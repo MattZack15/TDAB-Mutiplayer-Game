@@ -172,6 +172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7914258285956036423}
   - component: {fileID: 5806325203948643061}
+  - component: {fileID: 4738532488121918089}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -217,6 +218,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4738532488121918089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2982970344099386922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5475da75bf9662b4bb96046d7b756552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4168729009705801706
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,6 +501,7 @@ MonoBehaviour:
   AttackerScript: {fileID: 0}
   HpBar: {fileID: 0}
   TowerScirpt: {fileID: 7248474588585844504}
+  Animator: {fileID: 5806325203948643061}
 --- !u!114 &7248474588585844504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,6 +518,7 @@ MonoBehaviour:
   attackSpeed: 1.5
   damage: 100
   lookAtTarget: 1
+  TowerAttributes: []
   projectile: {fileID: 1029526933593873950, guid: cea484cffd644fc44a61f06786a81280, type: 3}
   projectileSourceLocation: {fileID: 7131560373207861580}
   trackEndPoint: {fileID: 0}

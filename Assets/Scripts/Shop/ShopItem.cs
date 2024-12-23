@@ -17,6 +17,10 @@ public class ShopItem : MonoBehaviour
 
     [SerializeField] Transform TribeLayoutGroup;
     [SerializeField] GameObject TribeLabelPrefab;
+    [SerializeField] Image UnitTypeIcon;
+
+    [SerializeField] Sprite TowerIconSprite;
+    [SerializeField] Sprite AttackerIconSprite;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +46,15 @@ public class ShopItem : MonoBehaviour
         {
             TribeLabel tribeLabel = Instantiate(TribeLabelPrefab, TribeLayoutGroup).GetComponent<TribeLabel>();
             tribeLabel.SetDisplay(tribe);
+        }
+
+        if (unit.isTower())
+        {
+            UnitTypeIcon.sprite = TowerIconSprite;
+        }
+        else
+        {
+            UnitTypeIcon.sprite = AttackerIconSprite;
         }
 
     }

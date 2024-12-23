@@ -24,5 +24,10 @@ public class TowerAttribute : MonoBehaviour
 
     }
 
+    public virtual void OnReciveKillCredit(GameObject KillTarget) 
+    { 
+
+    }
+
 
 }

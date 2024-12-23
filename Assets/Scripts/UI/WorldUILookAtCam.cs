@@ -15,9 +15,8 @@ public class WorldUILookAtCam : MonoBehaviour
         cameraTransform = FindObjectOfType<Camera>().gameObject.transform;
 
     }
-
-    // Update is called once per frame
-    void Update()
+    // Use Late Update to always run after object turns
+    void LateUpdate()
     {
         targetTrasform.LookAt(cameraTransform);
 

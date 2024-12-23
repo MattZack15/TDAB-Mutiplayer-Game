@@ -32,7 +32,9 @@ public class Attacker : NetworkBehaviour
     public List<OnDeathEffect> OnDeathEffects = new List<OnDeathEffect>();
 
     [SerializeField] AttackerMovement AttackerMovement;
-    public Animator Animator;
+
+    // Stores The last tower that dealt damage to this attacker
+    private Tower lastTowerHitMe;
 
     public void Init(List<Vector3> pathPointPostions, bool callOnEntry = true)
     {
@@ -42,6 +44,7 @@ public class Attacker : NetworkBehaviour
 
         bool hasWalkAnim()
         {
+            Animator Animator = GetComponent<Unit>().Animator;
             if (Animator == null)
             {
                 print("Animator == null");
@@ -66,7 +69,7 @@ public class Attacker : NetworkBehaviour
 
         if (hasWalkAnim())
         {
-            FindObjectOfType<VFXManager>().PlayWalkAnimRPC(GetComponent<NetworkObject>().NetworkObjectId);
+            FindObjectOfType<VFXManager>().PlayUnitAnimRPC(GetComponent<NetworkObject>().NetworkObjectId, "walk");
         }
 
         AttackerMovement.SetPath(pathPointPostions);
@@ -118,25 +121,29 @@ public class Attacker : NetworkBehaviour
         FindObjectOfType<ServerUnitData>().RegisterDeath(gameObject);
 
         GetComponent<NetworkObject>().Despawn(true);
-
+        // Trigger Death Effects
         foreach (OnDeathEffect deathEffect in OnDeathEffects)
         {
             deathEffect.TriggerEffect();
         }
+
+        // Assign Kill Credit
+        lastTowerHitMe.GiveKillCredit(gameObject);
     }
 
-    public void TakeHit(int damage)
+    public void TakeHit(int damage, Tower damageSource)
     {
         if (!IsServer) return;
 
         if (!this.enabled) return;
 
         hp.Value -= damage;
+        lastTowerHitMe = damageSource;
     }
 
     public void RemoveHp(int amount)
     {
-        // Call take hit if this is taking damage
+        // Call TakeHit instead if this is taking damage
         hp.Value -= amount;
     }
 

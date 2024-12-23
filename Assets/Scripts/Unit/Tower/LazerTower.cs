@@ -119,7 +119,7 @@ public class LazerTower : Tower
     {
         int beamDamage = GetBeamDamage();
 
-        currentTarget.gameObject.GetComponent<Attacker>().TakeHit(beamDamage);
+        currentTarget.gameObject.GetComponent<Attacker>().TakeHit(beamDamage, this);
 
         yield return new WaitForSeconds(attackSpeed);
     }

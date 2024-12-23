@@ -9,10 +9,12 @@ public class VFXManager : NetworkBehaviour
     [SerializeField] GameObject deathParticlesPrefab;
     [SerializeField] GameObject iceBallParticlesPrefab;
     [SerializeField] GameObject arcaneProcParticlesPrefab;
+    [SerializeField] GameObject EyeOfSucePrefab;
 
     // Responsible for creating VFX locally
 
     // FindObjectOfType<VFXManager>().Play()
+    // GetComponent<NetworkObject>().NetworkObjectId
 
     [Rpc(SendTo.ClientsAndHost)]
     public void SpawnRebornVFXRPC(ulong networkObjectId)
@@ -27,8 +29,9 @@ public class VFXManager : NetworkBehaviour
 
         Instantiate(RebornVFX, networkObject.transform);
     }
+
     [Rpc(SendTo.ClientsAndHost)]
-    public void PlayWalkAnimRPC(ulong networkObjectId)
+    public void PlayUnitAnimRPC(ulong networkObjectId, string animName)
     {
         NetworkObject networkObject;
         NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
@@ -38,7 +41,14 @@ public class VFXManager : NetworkBehaviour
             print("Object Not Found");
         }
 
-        networkObject.gameObject.GetComponent<Attacker>().Animator.Play("walk");
+        Animator animator = networkObject.gameObject.GetComponent<Unit>().Animator;
+        
+        if (animator == null)
+        {
+            print("Unit has no animator");
+        }
+
+        animator.Play(animName);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -68,6 +78,15 @@ public class VFXManager : NetworkBehaviour
 
         GameObject particlesObj = Instantiate(arcaneProcParticlesPrefab, spawnPos, Quaternion.identity);
         particlesObj.transform.rotation = Quaternion.LookRotation(Vector3.up);
+
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SpawnEyeOfSuceRPC(Vector3 spawnPos, float despawnTime)
+    {
+
+        GameObject eyeOfSuce = Instantiate(EyeOfSucePrefab, spawnPos, Quaternion.identity);
+        eyeOfSuce.GetComponent<EyeOfSuceVFX>().InitVFX(despawnTime);
 
     }
 

@@ -14,6 +14,7 @@ public class HostControls : NetworkBehaviour
     [SerializeField] private PlayerHealthUI PlayerHealthUI;
     [SerializeField] private ServerPlayerDataManager ServerPlayerDataManager;
     [SerializeField] private Shop shop;
+    [SerializeField] private GamePhaseManager GamePhaseManager;
 
     List<ulong> playersReady = new List<ulong>();
 
@@ -73,11 +74,7 @@ public class HostControls : NetworkBehaviour
             pathManager.CreateDefaultPath();
         }
 
-        // Set Shops
-        foreach (ulong playerID in NetworkManager.Singleton.ConnectedClientsIds)
-        {
-            shop.ShopRefreshServerRPC(playerID);
-        }
-        
+        GamePhaseManager.StartGame();
+
     }
 }

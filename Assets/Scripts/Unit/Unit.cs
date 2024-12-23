@@ -27,6 +27,9 @@ public class Unit : MonoBehaviour
     [SerializeField] GameObject HpBar;
     [SerializeField] Tower TowerScirpt;
 
+    [Header("Serialize")]
+    [SerializeField] public Animator Animator;
+
 
     public void SetInactive()
     {
@@ -74,6 +77,16 @@ public class Unit : MonoBehaviour
             TowerScirpt.enabled = true;
         }
 
+    }
+
+    public bool isTower()
+    {
+        return TowerScirpt != null;
+    }
+
+    public bool isAttacker()
+    {
+        return AttackerScript != null;
     }
 
     public int GetBoard()

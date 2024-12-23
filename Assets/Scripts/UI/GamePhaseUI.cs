@@ -7,18 +7,30 @@ public class GamePhaseUI : MonoBehaviour
 {
     [SerializeField] GamePhaseManager GamePhaseManager;
     [SerializeField] TMP_Text GamePhaseText;
+    [SerializeField] TMP_Text TimerText;
     
     public List<string> phasesText = new List<string>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-        GamePhaseText.SetText(phasesText[((int)GamePhaseManager.GamePhase)]);
+        int phaseIndex = (int)GamePhaseManager.GamePhase;
+        GamePhaseText.SetText(phasesText[phaseIndex]);
+
+        // Shop Phase
+        if (phaseIndex == 0)
+        {
+            TimerText.gameObject.SetActive(true);
+            int turnTimeRemaining = (int)GamePhaseManager.turnTimer.Value;
+            TimerText.SetText(turnTimeRemaining.ToString());
+        }
+        else
+        {
+            // Battle Phase
+            TimerText.gameObject.SetActive(false);
+        }
+
+
     }
 }

@@ -11,6 +11,10 @@ public class GamePhaseManager : NetworkBehaviour
 
     public GamePhases GamePhase = GamePhases.ShopPhase;
 
+    [SerializeField] float ShopPhaseLength = 25f;
+    public NetworkVariable<float> turnTimer = new NetworkVariable<float>();
+    private bool forceStart = false;
+
     [SerializeField] PlayerWarband playerWarband;
     [SerializeField] PlayerBoardsManager playerBoardsManager;
     [SerializeField] UnitDex unitDex;
@@ -23,7 +27,10 @@ public class GamePhaseManager : NetworkBehaviour
     List<AttackerSpawner> AttackerSpawners = new List<AttackerSpawner>();
 
 
-
+    public void StartGame()
+    {
+        StartShopPhase();
+    }
 
     public void StartBattlePhase()
     {
@@ -176,6 +183,30 @@ public class GamePhaseManager : NetworkBehaviour
         StartShopPhase();
     }
 
+    public void ForceStart()
+    {
+        if (!IsServer) { return; }
+
+        forceStart = true;
+    }
+
+    IEnumerator WaitForShopEnd()
+    {
+        float timer = ShopPhaseLength;
+        
+        while (timer > 0 && !forceStart)
+        {
+            timer -= Time.deltaTime;
+            turnTimer.Value = timer;
+            yield return null;
+        }
+
+        turnTimer.Value = 0f;
+        forceStart = false;
+
+        StartBattlePhase();
+    }
+
     private void StartShopPhase()
     {
         if (!IsServer) { return; }
@@ -215,11 +246,14 @@ public class GamePhaseManager : NetworkBehaviour
         {
             shop.ShopRefreshServerRPC(clientID);
         }
+
+        StartCoroutine(WaitForShopEnd());
     }
 
     [Rpc(SendTo.ClientsAndHost)]
     private void BroadCastShopPhaseStartRPC(ulong[] towersIds)
     {
+        // Set Towers Inactive
         foreach (ulong towerId in towersIds)
         {
             NetworkObject Unit;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcaneTower : TowerAttribute
+public class ArcaneTowerAttribute : TowerAttribute
 {
     // Arcane Towers have a chance of double casting their attack
     // Base - 10%
