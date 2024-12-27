@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class ServerPlayerDataManager : MonoBehaviour
@@ -7,12 +8,17 @@ public class ServerPlayerDataManager : MonoBehaviour
     [SerializeField] GameObject PlayerDataPrefab;
     public Dictionary<ulong, ServerPlayerData> ServerPlayerDataTable = new Dictionary<ulong, ServerPlayerData>();
 
-
+    private ServerPlayerData myPlayerData;
     public void Init(List<ulong> clientIDs)
     {
+        // Create Data Container Object for all Players
         foreach (ulong clientID in clientIDs)
         {
+            
             GameObject newPlayerDataObj = Instantiate(PlayerDataPrefab, transform);
+            newPlayerDataObj.GetComponent<NetworkObject>().Spawn();
+            newPlayerDataObj.transform.parent = transform;
+
             ServerPlayerData newServerPlayerData = newPlayerDataObj.GetComponent<ServerPlayerData>();
             newServerPlayerData.Init(clientID);
             newPlayerDataObj.name = $"ServerPlayerData: {clientID}";
@@ -25,5 +31,25 @@ public class ServerPlayerDataManager : MonoBehaviour
     public ServerPlayerData GetPlayerData(ulong clientID)
     {
         return ServerPlayerDataTable[clientID];
+    }
+
+    public ServerPlayerData GetMyPlayerData()
+    {
+        // Client Side | Find a reference to its own Player Data
+        if (myPlayerData) return myPlayerData;
+        
+        ulong myClientID = NetworkManager.Singleton.LocalClientId;
+        // Search Cildren
+        foreach (Transform child in transform)
+        {
+            ServerPlayerData data = child.gameObject.GetComponent<ServerPlayerData>();
+            if (data.clientID.Value == myClientID)
+            {
+                myPlayerData = data;
+                return data;
+            }
+        }
+
+        return null;
     }
 }

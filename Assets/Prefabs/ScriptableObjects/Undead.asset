@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Undead
   m_EditorClassIdentifier: 
   tribeName: Undead
-  tribeIcon: {fileID: 21300000, guid: 7c26b5fbfded85d4eacc8216ef4ab473, type: 3}
+  tribeIcon: {fileID: 21300000, guid: 0d0bd00dfff619f48a5cc901f623d021, type: 3}
   tribeColor: {r: 0.18743323, g: 0.24528301, b: 0.23327121, a: 1}

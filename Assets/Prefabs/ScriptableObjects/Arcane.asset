@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Arcane
   m_EditorClassIdentifier: 
   tribeName: Arcane
-  tribeIcon: {fileID: 21300000, guid: 914674ea1e07b4842a99b05cff00bfbb, type: 3}
+  tribeIcon: {fileID: 21300000, guid: b97663efe7b958c45a6d032046b0960e, type: 3}
   tribeColor: {r: 0.82620645, g: 0.43613777, b: 0.9308176, a: 1}

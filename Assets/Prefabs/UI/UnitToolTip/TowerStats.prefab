@@ -236,9 +236,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 189e0802ec053e14083adef300661653, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b8076bbd9e427c3439b765c63a287bd6, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -277,7 +277,11 @@ PrefabInstance:
     - target: {fileID: 6123203173608165506, guid: a74d37704828f7f4caba67668952bab6, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ff7ac0d8719c97248a340f19a092f8a0, type: 3}
+      objectReference: {fileID: 21300000, guid: 8cd3976f3f0a3804182fd8f1189996ab, type: 3}
+    - target: {fileID: 6123203173608165506, guid: a74d37704828f7f4caba67668952bab6, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6137818017221025156, guid: a74d37704828f7f4caba67668952bab6, type: 3}
       propertyPath: m_text
       value: Tower
@@ -285,11 +289,19 @@ PrefabInstance:
     - target: {fileID: 7644971240362560601, guid: a74d37704828f7f4caba67668952bab6, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ca020744b0dc0874f8ac0420d70d769f, type: 3}
+      objectReference: {fileID: 21300000, guid: abc773c26ffce5e4da444a593b7d263a, type: 3}
+    - target: {fileID: 7644971240362560601, guid: a74d37704828f7f4caba67668952bab6, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7651110081092057848, guid: a74d37704828f7f4caba67668952bab6, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: bd736de5edb8ded40a02b3272f3f9afc, type: 3}
+      objectReference: {fileID: 21300000, guid: 7eb16544c163ba142a9c068365648864, type: 3}
+    - target: {fileID: 7651110081092057848, guid: a74d37704828f7f4caba67668952bab6, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7840537629965239152, guid: a74d37704828f7f4caba67668952bab6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

@@ -35,8 +35,17 @@ public class PlayerBoardsManager : NetworkBehaviour
     }
 
     public PlayerBoard GetMyBoard()
-    {        
-        return PlayerBoardTable[NetworkManager.Singleton.LocalClientId];
+    {
+        ulong clientID = NetworkManager.Singleton.LocalClientId;
+        if (PlayerBoardTable.ContainsKey(clientID))
+        {
+            return PlayerBoardTable[clientID];
+        }
+        else
+        {
+            return null;
+        }
+        
     }
 
     public GameObject GetTileById(Vector3 tileID)

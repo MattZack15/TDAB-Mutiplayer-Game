@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using static GamePhaseManager;
 
 public class ShopUI : MonoBehaviour
 {
-
-    //Hide Shop During Battle Not During Shop
     [SerializeField] GamePhaseManager gamePhaseManager;
 
     [SerializeField] GameObject shopUIObj;
@@ -16,9 +15,29 @@ public class ShopUI : MonoBehaviour
     
     [SerializeField] UnitPlacement unitPlacement;
 
+    [SerializeField] ServerPlayerDataManager ServerPlayerDataManager;
+    [SerializeField] TMP_Text coinsText;
+    [SerializeField] TMP_Text levelText;
+    
+
     // Update is called once per frame
     void Update()
     {
+        // Hide Shop During Battle Phase
+        HideShop();
+        // Update level and coins information
+        UpdateInformationAreaDisplay();
+
+    }
+
+    private void LateUpdate()
+    {
+        SetInteractionAreaDisplay();
+    }
+
+    private void HideShop()
+    {
+        //Hide Shop During Battle Phase
         bool hide = !(gamePhaseManager.GamePhase == GamePhases.ShopPhase);
 
         if (hide)
@@ -29,13 +48,6 @@ public class ShopUI : MonoBehaviour
         {
             shopUIObj.SetActive(true);
         }
-
-       
-    }
-
-    private void LateUpdate()
-    {
-        SetInteractionAreaDisplay();
     }
 
     private void SetInteractionAreaDisplay()
@@ -51,5 +63,18 @@ public class ShopUI : MonoBehaviour
             shopItemsUI.SetActive(true);
             sellUnitUI.SetActive(false);
         }
+    }
+
+    private void UpdateInformationAreaDisplay()
+    {
+        // Updates the Player Level and Coins Information
+        ServerPlayerData myPlayerData = ServerPlayerDataManager.GetMyPlayerData();
+        if (myPlayerData == null) return;
+
+        // Coins
+        coinsText.SetText(myPlayerData.coins.Value.ToString());
+
+        // Level
+        levelText.SetText(myPlayerData.level.Value.ToString());
     }
 }

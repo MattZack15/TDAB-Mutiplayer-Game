@@ -1,25 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class ServerPlayerData : MonoBehaviour
+public class ServerPlayerData : NetworkBehaviour
 {
     // Keeps Track of a Player and their Data
 
-    public ulong clientID;
-    public int coins;
-    // (ShopIndex, UnitID)
+    public NetworkVariable<ulong> clientID = new NetworkVariable<ulong>();
+    public NetworkVariable<int> coins = new NetworkVariable<int>();
+    public NetworkVariable<int> level = new NetworkVariable<int>();
+
+    // Stores information about whats in a players Shop (ShopIndex, UnitID), SERVER SIDE
     public Dictionary<int, int> shop = new Dictionary<int, int>();
-    public List<int> warband = new List<int>();
 
     public void Init(ulong clientID)
     {
-        this.clientID = clientID;
-        coins = Shop.StartingCoins;
+        if (!IsServer) return;
+        
+        this.clientID.Value = clientID;
+        coins.Value = Shop.StartingCoins;
+        level.Value = 1;
     }
 
     public void SetNewShop(int[] shopItems)
     {
+        if (!IsServer) return;
+
         int shopIndex = 0;
         foreach (int shopItem in shopItems)
         {

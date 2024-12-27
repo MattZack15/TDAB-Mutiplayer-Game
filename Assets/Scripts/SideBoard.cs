@@ -69,8 +69,6 @@ public class SideBoard : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void AddUnitToSideBoardClientRPC(ulong networkObjectId)
     {
-        // May Not need to do this but whatever
-
         NetworkObject networkObject;
         NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
 

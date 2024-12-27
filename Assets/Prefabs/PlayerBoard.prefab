@@ -366,7 +366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2642116530
+  GlobalObjectIdHash: 969461627
   InScenePlacedSourceGlobalObjectIdHash: 969461627
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 0
@@ -397,6 +397,7 @@ MonoBehaviour:
   PathManager: {fileID: 961074891559436924}
   SideBoard: {fileID: 3197213597383593972}
   camPos: {fileID: 8182135478699107217}
+  TowerLimits: 0200000003000000040000000500000006000000
 --- !u!114 &3197213597383593972
 MonoBehaviour:
   m_ObjectHideFlags: 0

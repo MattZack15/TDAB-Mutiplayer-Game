@@ -55,6 +55,7 @@ public class Tower : NetworkBehaviour
 
     public void Init(int boardID)
     {
+        // Called at the start of every round
         trackEndPoint = FindObjectOfType<PlayerBoardsManager>().GetBoardByBoardID(boardID).EndZone.transform;
         
         StartCoroutine(AttackCycle());

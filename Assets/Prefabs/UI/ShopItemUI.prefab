@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 13.1489, y: -13.2946}
-  m_SizeDelta: {x: 25, y: 25}
+  m_AnchoredPosition: {x: 20, y: -20}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &132504139728352696
 CanvasRenderer:
@@ -65,9 +65,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: b2cfa0d1911b3184c99d1eac62944b9b, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -354,8 +354,8 @@ MonoBehaviour:
   TribeLayoutGroup: {fileID: 9200665419722624567}
   TribeLabelPrefab: {fileID: 8806676419918111259, guid: 0bf8143871558c34197f3ded62c08067, type: 3}
   UnitTypeIcon: {fileID: 999121712360585274}
-  TowerIconSprite: {fileID: 21300000, guid: ca020744b0dc0874f8ac0420d70d769f, type: 3}
-  AttackerIconSprite: {fileID: 21300000, guid: 86d5f89bbbd482441b0e272d834cf57b, type: 3}
+  TowerIconSprite: {fileID: 21300000, guid: abc773c26ffce5e4da444a593b7d263a, type: 3}
+  AttackerIconSprite: {fileID: 21300000, guid: b2cfa0d1911b3184c99d1eac62944b9b, type: 3}
 --- !u!114 &2633566276342712062
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5829380362644897078}
+  - component: {fileID: -2799877573587685045}
   - component: {fileID: 1110836915852777647}
   m_Layer: 0
   m_Name: ServerPlayerData
@@ -32,6 +33,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2799877573587685045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5325168607024951135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1611568012
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &1110836915852777647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,6 +66,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a192a0cbced724097107dbde260fbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientID: 0
-  coins: 0
-  warband: 
+  clientID:
+    m_InternalValue: 0
+  coins:
+    m_InternalValue: 0
+  level:
+    m_InternalValue: 0

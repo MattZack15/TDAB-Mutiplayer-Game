@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Eldritch
   m_EditorClassIdentifier: 
   tribeName: Eldritch
-  tribeIcon: {fileID: 21300000, guid: bf183b9b24757a14895b5e7c691704ec, type: 3}
+  tribeIcon: {fileID: 21300000, guid: 5f1b649d7c2b44a4b8111344b2eaa126, type: 3}
   tribeColor: {r: 0.20125782, g: 0.09303426, b: 0.19343317, a: 1}

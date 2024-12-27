@@ -127,19 +127,14 @@ public class GamePhaseManager : NetworkBehaviour
         // Loop Through all Boards and Enable their Towers
 
         PlayerBoard DefenderBoard = playerBoardsManager.PlayerBoardTable[defenderID];
-        HexagonGrid hexagonGrid = DefenderBoard.HexagonGrid;
-        foreach (Vector2 TileId in hexagonGrid.Tiles.Keys)
+        List<GameObject> towers = DefenderBoard.GetTowers();
+
+        foreach (GameObject tower in towers)
         {
-            HexagonTile tile = hexagonGrid.GetTileById(TileId).GetComponent<HexagonTile>();
+            tower.GetComponent<Unit>().SetActive();
+            tower.GetComponent<Tower>().Init(DefenderBoard.BoardID);
 
-            if (tile.inhabitor != null && tile.inhabitor.GetComponent<Tower>() != null)
-            {
-                GameObject tower = tile.inhabitor;
-                tower.GetComponent<Unit>().SetActive();
-                tower.GetComponent<Tower>().Init(DefenderBoard.BoardID);
-
-                deactivateOnBattleEnd.Add(tower);
-            }
+            deactivateOnBattleEnd.Add(tower);
         }
     }
 
@@ -232,7 +227,7 @@ public class GamePhaseManager : NetworkBehaviour
         // Give Everyone Money
         foreach (ulong playerID in NetworkManager.ConnectedClientsIds)
         {
-            ServerPlayerDataManager.GetPlayerData(playerID).coins += Shop.RoundEarnings;
+            ServerPlayerDataManager.GetPlayerData(playerID).coins.Value += Shop.RoundEarnings;
         }
         // Set GamePhase
         GamePhase = GamePhases.ShopPhase;
@@ -265,8 +260,6 @@ public class GamePhaseManager : NetworkBehaviour
         // Set GamePhase
         GamePhase = GamePhases.ShopPhase;
 
-        // Get Money
-        shop.coins += Shop.RoundEarnings;
     }
 
 }

@@ -110,8 +110,9 @@ public class UnitPlacement : NetworkBehaviour
         }
 
         // Can only place attackers on side board
-        if (unit.GetComponent<Attacker>() != null)
+        if (unit.GetComponent<Unit>().isAttacker())
         {
+            // If on main board
             if (hexagonTile.tileId.z > 0)
             {
                 return false;
@@ -124,6 +125,24 @@ public class UnitPlacement : NetworkBehaviour
         {
             return false;
         }
+
+        // Cannot Exceed Tower Limit for main board
+        // If on we want to place on the main board and we are placing a tower
+        // AND the unit we are holding is not already on the main board - because we can freely move units already on board or swap with it
+        if (hexagonTile.tileId.z > 0 && unit.GetComponent<Unit>().isTower() && GetHeldUnitTileID().z <= 0)
+        {
+            // Ignore if we are swapping with a tower already on board
+            if (hexagonTile.inhabitor == null)
+            {
+                // Finally we check for tower limit
+                int towerLimit = targetBoard.GetTowerLimit();
+                if (targetBoard.GetTowers().Count + 1 > towerLimit)
+                {
+                    return false;
+                }
+            }
+        }
+
 
         return true;
     }
@@ -190,7 +209,7 @@ public class UnitPlacement : NetworkBehaviour
 
     private void DragUnit()
     {
-
+        // Stop Holding unit if Phase changes
         if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase)
         {
             grabbedUnit.position = originalTile.transform.position;
@@ -198,8 +217,10 @@ public class UnitPlacement : NetworkBehaviour
             return;
         }
 
+        // Default Hover point is above orignal tile
         Vector3 HoverPoint = originalTile.transform.position;
 
+        // Send Raycast to find point where to hover
         // Find World Pos;
         RaycastHit[] hits;
         hits = Physics.RaycastAll(gameCamera.ScreenPointToRay(Input.mousePosition));
@@ -211,8 +232,8 @@ public class UnitPlacement : NetworkBehaviour
             }
         }
 
+        // Make sure there is a tile below to hover over
         GameObject hoveredTile = PlayerTileInteraction.GetSelectedTile();
-
         if (hoveredTile != null)
         {
             grabbedUnit.position = HoverPoint + new Vector3(0f, hoverHeight, 0f);

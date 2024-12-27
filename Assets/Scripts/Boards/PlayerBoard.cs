@@ -19,10 +19,12 @@ public class PlayerBoard : NetworkBehaviour
     [SerializeField] private PathManager PathManager;
     [SerializeField] public SideBoard SideBoard;
     [SerializeField] public Transform camPos;
+    private ServerPlayerDataManager ServerPlayerDataManager;
 
     public static Vector2 startTile = new Vector2(5f, 17f);
     public static Vector2 endTile = new Vector2(6f, 0f);
 
+    [SerializeField] List<int> TowerLimits = new List<int>();
 
     public void Init(HexagonGrid mainGrid, HexagonGrid sideGrid, int id)
     {
@@ -48,6 +50,7 @@ public class PlayerBoard : NetworkBehaviour
         HexagonTile EndTile = HexagonGrid.GetTileById(endTile).GetComponent<HexagonTile>();
         EndTile.SetStartEndTile(Color.red);
 
+        ServerPlayerDataManager = FindObjectOfType<ServerPlayerDataManager>();
 
         if (owner.Value == NetworkManager.Singleton.LocalClientId)
         {
@@ -66,5 +69,30 @@ public class PlayerBoard : NetworkBehaviour
         }
     }
 
+    public List<GameObject> GetTowers()
+    {
+        // Returns All Towers Placed on this Board
+        List<GameObject> towers = new List<GameObject>();
+        foreach (Vector2 TileId in HexagonGrid.Tiles.Keys)
+        {
+            HexagonTile tile = HexagonGrid.GetTileById(TileId).GetComponent<HexagonTile>();
 
+            if (tile.inhabitor != null && tile.inhabitor.GetComponent<Tower>() != null)
+            {
+                GameObject tower = tile.inhabitor;
+                towers.Add(tower);
+            }
+        }
+
+        return towers;
+    }
+
+    public int GetTowerLimit()
+    {
+        // How many towers are allowed to be on this board
+        // Should be called client side
+        int level = ServerPlayerDataManager.GetMyPlayerData().level.Value;
+        return TowerLimits[level-1];
+
+    }
 }
