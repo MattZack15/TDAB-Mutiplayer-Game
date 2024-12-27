@@ -67,9 +67,12 @@ public class UnitPlacement : NetworkBehaviour
             hits = Physics.RaycastAll(grabbedUnit.transform.position + new Vector3(0f, .5f, 0f), Vector3.down * 5f);
             foreach (RaycastHit hit in hits)
             {
-                if (hit.collider.gameObject.GetComponent<HexagonTile>() != null)
+                HexagonTile tile = hit.collider.gameObject.GetComponent<HexagonTile>();
+                if (tile != null)
                 {
-                    originalTile = hit.collider.gameObject;
+                    if (tile.inhabitor != grabbedUnit.gameObject) { print("Bug has occured"); }
+                    
+                    originalTile = tile.gameObject;
                     break;
                 }
             }

@@ -7,19 +7,24 @@ using Unity.VisualScripting;
 
 public class UnitToolTip : MonoBehaviour
 {
+    [Header("Unit")]
     [SerializeField] TMP_Text unitname;
     [SerializeField] Image UnitArt;
     [SerializeField] TMP_Text unitdescription;
 
+    [Header("Tower")]
     [SerializeField] GameObject towerStats;
     [SerializeField] TMP_Text damageText;
     [SerializeField] TMP_Text attackSpeedText;
     [SerializeField] TMP_Text rangeText;
+    [SerializeField] TMP_Text killsText;
 
+    [Header("Attacker")]
     [SerializeField] GameObject attackerStats;
     [SerializeField] TMP_Text healthText;
     [SerializeField] TMP_Text moveSpeedText;
 
+    [Header("Other")]
     [SerializeField] Camera cam;
     [SerializeField] GameObject TribeLabelPrefab;
     [SerializeField] Transform TribeLayoutGroup;
@@ -57,6 +62,7 @@ public class UnitToolTip : MonoBehaviour
             damageText.SetText($"{tower.damage}");
             attackSpeedText.SetText($"{ tower.attackSpeed}");
             rangeText.SetText($"{tower.range}");
+            killsText.SetText($"{tower.kills.Value}");
 
         }
         else if (unit.unitType == Unit.UnitType.Attacker)

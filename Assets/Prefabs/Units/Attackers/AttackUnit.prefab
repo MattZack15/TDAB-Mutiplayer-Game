@@ -282,7 +282,7 @@ GameObject:
   m_Layer: 0
   m_Name: AttackUnit
   m_TagString: Attacker
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2800000, guid: b438a155945260542b992eeb75272f8c, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -645,7 +645,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4639668830293919028}
   - component: {fileID: 5708932566010241828}
-  - component: {fileID: 3484280608804123482}
+  - component: {fileID: 6847028552435121539}
   - component: {fileID: 5744033372291614522}
   - component: {fileID: 3295823078572414890}
   - component: {fileID: 9185925706723604522}
@@ -700,7 +700,7 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &3484280608804123482
+--- !u!114 &6847028552435121539
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

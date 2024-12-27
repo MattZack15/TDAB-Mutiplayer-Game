@@ -5,11 +5,14 @@ using UnityEngine;
 public class ShopPool : MonoBehaviour
 {
     // For managing what Units are avalible in the shop
+    [SerializeField] int NumberOfCopiesPerUnit = 6;
+
     [Header("Pools For each Tier")]
     [SerializeField] List<GameObject> Tier1 = new List<GameObject>();
     [SerializeField] List<GameObject> Tier2 = new List<GameObject>();
     [SerializeField] List<GameObject> Tier3 = new List<GameObject>();
 
+    List<List<GameObject>> PoolsTemplate = new List<List<GameObject>>();
     List<List<GameObject>> Pools = new List<List<GameObject>>();
 
     // What is the chance of rolling a unit from each tier at each level
@@ -23,31 +26,29 @@ public class ShopPool : MonoBehaviour
 
     [Header("Serialize")]
     [SerializeField] ServerPlayerDataManager ServerPlayerDataManager;
+    [SerializeField] UnitDex UnitDex;
 
 
     // Start is called before the first frame update
     void Awake()
     {
-        Pools.Add(Tier1);
-        Pools.Add(Tier2);
-        Pools.Add(Tier3);
+        PoolsTemplate.Add(Tier1);
+        PoolsTemplate.Add(Tier2);
+        PoolsTemplate.Add(Tier3);
 
         // Create limited number of each unit
-        int quantity = 6;
-        List<List<GameObject>> newPools = new List<List<GameObject>>();
-        foreach (List<GameObject> pool in Pools)
+        foreach (List<GameObject> pool in PoolsTemplate)
         {
             List<GameObject> newPool = new List<GameObject>();
             foreach (GameObject unit in pool)
             {
-                for (int i = 0; i < quantity; i++)
+                for (int i = 0; i < NumberOfCopiesPerUnit; i++)
                 {
                     newPool.Add(unit);
                 }
             }
-            newPools.Add(newPool);
+            Pools.Add(newPool);
         }
-        Pools = newPools;
 
 
         PoolProbabilities.Add(Level1Probabilities);
@@ -74,6 +75,14 @@ public class ShopPool : MonoBehaviour
         {
             // Pick a Pool
             List<GameObject> pool = RollTierPool(Probabilities);
+
+            // Check if pool is completely empty
+            if (pool.Count == 0)
+            {
+                // In this case ignore rules and pick from tier 1 template pool
+                pool = Tier1;
+            }
+
             // Pick a Unit from that Pool
             GameObject unit = pool[Random.Range(0, pool.Count)];
 
@@ -141,6 +150,47 @@ public class ShopPool : MonoBehaviour
 
         print("Unit not found in pools");
 
+    }
+
+    public void AddUnitBackToPool(GameObject Unit)
+    {
+        // Check if this is a upgraded unit
+        if (Unit.GetComponent<Unit>().level > 1)
+        {
+            // Find Level 1 version
+            string UnitID = Unit.GetComponent<Unit>().UnitID.ToString();
+            string Level1UnitID = UnitID.Substring(0, UnitID.Length - 3);
+            GameObject Level1Unit = UnitDex.Dex[int.Parse(Level1UnitID)];
+
+            // Add 3 copies to the pool
+            AddUnitBackToPool(Level1Unit);
+            AddUnitBackToPool(Level1Unit);
+            AddUnitBackToPool(Level1Unit);
+            return;
+        }
+
+        // Search Where this unit should go
+        int i = 0;
+        bool foundLocation = false;
+        foreach (List<GameObject> pool in PoolsTemplate)
+        {
+            if (pool.Contains(Unit)) 
+            { 
+                foundLocation = true; 
+                break; 
+            }
+            i++;
+        }
+        // If this is not a unit that can be bought in a shop then don't
+        if (!foundLocation)
+        {
+            print("Unit not found in pools");
+            return;
+        }
+
+        // Add it to pool
+        Pools[i].Add(Unit);
+        
     }
 
 }

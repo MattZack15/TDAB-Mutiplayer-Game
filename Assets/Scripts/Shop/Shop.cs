@@ -9,7 +9,7 @@ public class Shop : NetworkBehaviour
     // Interface for buying and selling units, levels, refreshing shop
 
     public static int ShopSize = 3;
-    public static int StartingCoins = 100;
+    public static int StartingCoins = 7;
     // How much money you get at the end of each round
     public static int RoundEarnings = 5;
     public static int RefreshCost = 1;
@@ -82,11 +82,11 @@ public class Shop : NetworkBehaviour
         // Called By Shop Refresh Button
         // Client Side Check For Coins
         if (!CheckCoinsClientSide(RefreshCost)) { return; }
-        ShopRefreshServerRPC(NetworkManager.Singleton.LocalClientId);
+        BuyShopRefreshServerRPC(NetworkManager.Singleton.LocalClientId);
     }
     
     [Rpc(SendTo.Server)]
-    public void ShopRefreshServerRPC(ulong playerID)
+    public void BuyShopRefreshServerRPC(ulong playerID)
     {
         // Must be in shop phase
         if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase) { return; }
@@ -94,13 +94,21 @@ public class Shop : NetworkBehaviour
         // Must Have the coins
         if (ServerPlayerDataManager.GetPlayerData(playerID).coins.Value < RefreshCost) { print("Not enough coins"); return; }
 
-        // Otherwise send give a new shop list
-        int[] newShopItems = ShopPool.GenerateShopSelection(playerID, ShopSize);
-        // Track On Server
-        ServerPlayerDataManager.GetPlayerData(playerID).SetNewShop(newShopItems);
+        // Remove Coins
         ServerPlayerDataManager.GetPlayerData(playerID).coins.Value -= RefreshCost;
 
-        ShopRefreshClientRPC(newShopItems, playerID);
+        ShopRefresh(playerID);
+    }
+
+    public void ShopRefresh(ulong targetPlayerID)
+    {
+        if (!IsServer) { return; }
+        // Otherwise send give a new shop list
+        int[] newShopItems = ShopPool.GenerateShopSelection(targetPlayerID, ShopSize);
+        // Track On Server
+        ServerPlayerDataManager.GetPlayerData(targetPlayerID).SetNewShop(newShopItems);
+        
+        ShopRefreshClientRPC(newShopItems, targetPlayerID);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -119,10 +127,14 @@ public class Shop : NetworkBehaviour
     [Rpc(SendTo.Server)]
     public void SellUnitServerRPC(ulong playerID, ulong unitNetworkID, Vector3 tileID)
     {
-        // Check to make sure that player owns that unit
+        // TODO Check to make sure that player owns that unit
 
-        // Remove Unit
         NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(unitNetworkID, out NetworkObject unit);
+
+        // Add back to shop pool
+        ShopPool.AddUnitBackToPool(unitDex.Dex[unit.gameObject.GetComponent<Unit>().UnitID]);
+        
+        // Remove Unit
         unit.Despawn();
         
         // Must Update Tile So we can still place units on it

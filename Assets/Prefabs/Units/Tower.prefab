@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6342726722231297644}
   - component: {fileID: 5611570369198066951}
-  - component: {fileID: 1150838443416769762}
+  - component: {fileID: 8055558424157554702}
   - component: {fileID: 5367065609803090241}
   - component: {fileID: 4431354875739576782}
   - component: {fileID: 7883011784140358879}
@@ -95,7 +95,7 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1150838443416769762
+--- !u!114 &8055558424157554702
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -403,7 +403,7 @@ GameObject:
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
-  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2800000, guid: bd366ba3c3d057b4088db3f23d7bec88, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -522,6 +522,8 @@ MonoBehaviour:
   projectile: {fileID: 1029526933593873950, guid: cea484cffd644fc44a61f06786a81280, type: 3}
   projectileSourceLocation: {fileID: 7131560373207861580}
   trackEndPoint: {fileID: 0}
+  kills:
+    m_InternalValue: 0
 --- !u!65 &5123700867483370982
 BoxCollider:
   m_ObjectHideFlags: 0

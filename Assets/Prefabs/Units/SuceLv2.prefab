@@ -61,6 +61,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5301736638888527955, guid: 843c486bf1b123847bf0fca65b139eac, type: 3}
+      propertyPath: UnitID
+      value: 666002
+      objectReference: {fileID: 0}
+    - target: {fileID: 5301736638888527955, guid: 843c486bf1b123847bf0fca65b139eac, type: 3}
       propertyPath: UpgradedVersion
       value: 
       objectReference: {fileID: 6047681432657114320}

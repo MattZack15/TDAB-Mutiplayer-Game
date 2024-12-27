@@ -239,7 +239,7 @@ public class GamePhaseManager : NetworkBehaviour
         // Refresh Everyones shop
         foreach (ulong clientID in NetworkManager.ConnectedClientsIds)
         {
-            shop.ShopRefreshServerRPC(clientID);
+            shop.ShopRefresh(clientID);
         }
 
         StartCoroutine(WaitForShopEnd());

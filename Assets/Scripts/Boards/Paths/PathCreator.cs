@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -33,6 +34,9 @@ public class PathCreator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Only Owner can interact
+        if (playerBoard.owner.Value != NetworkManager.Singleton.LocalClientId) { return;}
+
         if (Input.GetMouseButton(0))
         {
             // Add new tile

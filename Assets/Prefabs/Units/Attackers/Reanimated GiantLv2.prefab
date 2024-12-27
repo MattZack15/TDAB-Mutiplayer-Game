@@ -53,6 +53,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3620303501148709587, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620303501148709587, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
       propertyPath: UnitID
       value: 13002
       objectReference: {fileID: 0}
@@ -60,6 +64,10 @@ PrefabInstance:
       propertyPath: description
       value: Gains 200 health for every undead it sees die
       objectReference: {fileID: 0}
+    - target: {fileID: 3620303501148709587, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+      propertyPath: UpgradedVersion
+      value: 
+      objectReference: {fileID: 760759260481289003}
     - target: {fileID: 4582165504987033463, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
       propertyPath: m_Name
       value: Reanimated GiantLv2
@@ -89,3 +97,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+--- !u!1 &760759260481289003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4582165504987033463, guid: 568972660c223b64b87f46547d27a2f8, type: 3}
+  m_PrefabInstance: {fileID: 3826333156112307292}
+  m_PrefabAsset: {fileID: 0}

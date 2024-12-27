@@ -12,7 +12,7 @@ public class EldrichTowerAttribute : TowerAttribute
 
     [SerializeField] SuceBloodustEffect SuceBloodustEffect;
     
-    static List<float> effectChances = new List<float> { 100f, 40f, 60f, 100f };
+    static List<float> effectChances = new List<float> { 25f, 40f, 60f, 100f };
 
     public int level = 0;
 

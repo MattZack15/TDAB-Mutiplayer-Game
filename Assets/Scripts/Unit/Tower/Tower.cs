@@ -22,6 +22,7 @@ public class Tower : NetworkBehaviour
 
     protected List<GameObject> projectilePool = new List<GameObject>();
 
+    [HideInInspector] public NetworkVariable<int> kills = new NetworkVariable<int>();
 
     // Update is called once per frame
     protected virtual void Update()
@@ -101,6 +102,7 @@ public class Tower : NetworkBehaviour
     public void GiveKillCredit(GameObject KilledTarget)
     {
         // Called When an Attacker dies and this tower was the last to hit it
+        kills.Value += 1;
         foreach (TowerAttribute TowerAttribute in TowerAttributes)
         {
             TowerAttribute.OnReciveKillCredit(KilledTarget);
