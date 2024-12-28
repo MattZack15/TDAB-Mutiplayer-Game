@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ public class GamePhaseManager : NetworkBehaviour
     [SerializeField] UnitDex unitDex;
     [SerializeField] Shop shop;
     [SerializeField] ServerPlayerDataManager ServerPlayerDataManager;
-
+    [SerializeField] RoundMatchMaking RoundMatchMaking;
 
     List<GameObject> deactivateOnBattleEnd = new List<GameObject>();
     
@@ -43,21 +44,15 @@ public class GamePhaseManager : NetworkBehaviour
         deactivateOnBattleEnd = new List<GameObject>();
 
         // Match making
-        List<ulong> playerIDs = new List<ulong>();
-        foreach (ulong clientID in NetworkManager.ConnectedClientsIds)
+        List<(ulong, ulong)> matches = RoundMatchMaking.MakeMatches(NetworkManager.ConnectedClientsIds.ToList());
+
+
+        while (matches.Count > 0)
         {
-            playerIDs.Add(clientID);
+            MakeMatch(matches[0].Item1, matches[0].Item2);
+
+            matches.RemoveAt(0);
         }
-
-
-        while (playerIDs.Count > 0)
-        {
-            MakeMatch(playerIDs[0], playerIDs[1]);
-
-            playerIDs.RemoveAt(0);
-            playerIDs.RemoveAt(0);
-        }
-
 
         // Start Battle
         foreach (AttackerSpawner attackerSpawner in AttackerSpawners)

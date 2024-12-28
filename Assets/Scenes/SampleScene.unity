@@ -6580,6 +6580,7 @@ GameObject:
   - component: {fileID: 1600264152}
   - component: {fileID: 1600264150}
   - component: {fileID: 1600264151}
+  - component: {fileID: 1600264153}
   m_Layer: 0
   m_Name: GamePhaseManager
   m_TagString: Untagged
@@ -6629,6 +6630,7 @@ MonoBehaviour:
   unitDex: {fileID: 829110237}
   shop: {fileID: 791543735}
   ServerPlayerDataManager: {fileID: 1251393845}
+  RoundMatchMaking: {fileID: 1600264153}
 --- !u!4 &1600264152
 Transform:
   m_ObjectHideFlags: 0
@@ -6644,6 +6646,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1600264153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600264149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a86aba47413899488bb4c59977b7d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1618773746
 GameObject:
   m_ObjectHideFlags: 0
