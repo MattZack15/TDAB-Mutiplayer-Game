@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -9,13 +8,14 @@ public class Shop : NetworkBehaviour
     // Interface for buying and selling units, levels, refreshing shop
 
     public static int ShopSize = 3;
-    public static int StartingCoins = 7;
+    public static int StartingCoins = 70;
     // How much money you get at the end of each round
     public static int RoundEarnings = 5;
     public static int RefreshCost = 1;
     public static int UnitCost = 3;
     public static int SellValue = 1;
-    public static int LevelCost = 5;
+    // Base cost of leveling to each level
+    static List<int> levelCosts = new List<int> { 5, 7, 8, 9, 11};
 
     [SerializeField] private ShopPool ShopPool;
     [SerializeField] private PlayerWarband PlayerWarband;
@@ -148,7 +148,7 @@ public class Shop : NetworkBehaviour
     public void TryBuyLevel()
     {
         // Client Side Check For Coins
-        if (!CheckCoinsClientSide(LevelCost)) {  return; }
+        if (!CheckCoinsClientSide(ServerPlayerDataManager.GetMyPlayerData().levelCost.Value)) {  return; }
         // Buy From Server
         BuyLevelServerRPC(NetworkManager.Singleton.LocalClientId);
     }
@@ -160,13 +160,16 @@ public class Shop : NetworkBehaviour
         ServerPlayerData playerData = ServerPlayerDataManager.GetPlayerData(playerID);
 
         // Check to make sure they have enough coins
-        if (playerData.coins.Value < LevelCost) { print("Not Enough Coins"); return; }
+        if (playerData.coins.Value < playerData.levelCost.Value) { print("Not Enough Coins"); return; }
 
         // Remove Coins
-        playerData.coins.Value -= LevelCost;
+        playerData.coins.Value -= playerData.levelCost.Value;
 
         // Add Level
         playerData.level.Value += 1;
+
+        // Update Level Cost
+        playerData.levelCost.Value = levelCosts[Mathf.Min(playerData.level.Value-1, levelCosts.Count-1)];
     }
 
     private bool CheckCoinsClientSide(int itemCost)

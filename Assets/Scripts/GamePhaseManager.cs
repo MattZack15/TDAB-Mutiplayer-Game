@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GamePhaseManager : NetworkBehaviour
 {
@@ -12,7 +10,7 @@ public class GamePhaseManager : NetworkBehaviour
     public GamePhases GamePhase = GamePhases.ShopPhase;
 
     [SerializeField] float ShopPhaseLength = 25f;
-    public NetworkVariable<float> turnTimer = new NetworkVariable<float>();
+    [HideInInspector] public NetworkVariable<float> turnTimer = new NetworkVariable<float>();
     private bool forceStart = false;
 
     [SerializeField] PlayerWarband playerWarband;
@@ -224,23 +222,28 @@ public class GamePhaseManager : NetworkBehaviour
             }
         }
 
-        // Give Everyone Money
+        
         foreach (ulong playerID in NetworkManager.ConnectedClientsIds)
         {
-            ServerPlayerDataManager.GetPlayerData(playerID).coins.Value += Shop.RoundEarnings;
+            ServerPlayerData playerData = ServerPlayerDataManager.GetPlayerData(playerID);
+            // Give Everyone Money
+            playerData.coins.Value += Shop.RoundEarnings;
+
+            // Reduce Level Cost
+            playerData.levelCost.Value -= 1;
+            if (playerData.levelCost.Value < 0)
+            {
+                playerData.levelCost.Value = 0;
+            }
+
+            // Refresh Everyones shop
+            shop.ShopRefresh(playerID);
         }
+        
         // Set GamePhase
         GamePhase = GamePhases.ShopPhase;
-
         
         BroadCastShopPhaseStartRPC(towerIds);
-
-
-        // Refresh Everyones shop
-        foreach (ulong clientID in NetworkManager.ConnectedClientsIds)
-        {
-            shop.ShopRefresh(clientID);
-        }
 
         StartCoroutine(WaitForShopEnd());
     }

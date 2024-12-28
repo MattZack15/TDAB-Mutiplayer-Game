@@ -327,6 +327,7 @@ GameObject:
   - component: {fileID: 7712223667450254688}
   - component: {fileID: 6134556382195221508}
   - component: {fileID: 3197213597383593972}
+  - component: {fileID: 392024316075640577}
   m_Layer: 0
   m_Name: PlayerBoard
   m_TagString: Untagged
@@ -366,7 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 969461627
+  GlobalObjectIdHash: 2642116530
   InScenePlacedSourceGlobalObjectIdHash: 969461627
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 0
@@ -411,6 +412,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SideBoardGrid: {fileID: 0}
+--- !u!114 &392024316075640577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5738671967921433443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de800fab53a227f4088e4b38146940fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerBoard: {fileID: 6134556382195221508}
+  ArcaneCount:
+    m_InternalValue: 0
+  EldritchCount:
+    m_InternalValue: 0
 --- !u!1 &6561487300009331525
 GameObject:
   m_ObjectHideFlags: 0

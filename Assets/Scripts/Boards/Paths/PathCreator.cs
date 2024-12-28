@@ -125,7 +125,7 @@ public class PathCreator : MonoBehaviour
         }
 
         // Cannot Exceed Tile Limit
-        if ((tilesInPath.Count + 1) > pathManager.tilesUnlocked.Value)
+        if ((tilesInPath.Count + 1) > pathManager.GetMaxTiles())
         {
             return;
         }
@@ -145,7 +145,7 @@ public class PathCreator : MonoBehaviour
     private void UpdateDrawPathUI()
     {
         int tilesUsed = tilesInPath.Count;
-        int tilesLeft = pathManager.tilesUnlocked.Value - tilesUsed;
+        int tilesLeft = pathManager.GetMaxTiles() - tilesUsed;
 
 
         drawPathUI.UpdateDisplay(tilesLeft);

@@ -10,6 +10,7 @@ public class ServerPlayerData : NetworkBehaviour
     public NetworkVariable<ulong> clientID = new NetworkVariable<ulong>();
     public NetworkVariable<int> coins = new NetworkVariable<int>();
     public NetworkVariable<int> level = new NetworkVariable<int>();
+    public NetworkVariable<int> levelCost = new NetworkVariable<int>();
 
     // Stores information about whats in a players Shop (ShopIndex, UnitID), SERVER SIDE
     public Dictionary<int, int> shop = new Dictionary<int, int>();
@@ -21,6 +22,7 @@ public class ServerPlayerData : NetworkBehaviour
         this.clientID.Value = clientID;
         coins.Value = Shop.StartingCoins;
         level.Value = 1;
+        levelCost.Value = 5;
     }
 
     public void SetNewShop(int[] shopItems)

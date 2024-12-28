@@ -19,6 +19,24 @@ public class TowerAttribute : MonoBehaviour
         }
     }
 
+    protected int GetLevel(string tribe)
+    {
+        // Returns the level of the tribe based on the board its on
+        PlayerBoard board = FindObjectOfType<PlayerBoardsManager>().GetBoardByBoardID(GetComponent<Unit>().GetBoard());
+        TribeSynergy TribeSynergy = board.gameObject.GetComponent<TribeSynergy>();
+
+        if (tribe == "Arcane")
+        {
+            return TribeSynergy.ArcaneCount.Value;
+        }
+        else if (tribe == "Eldritch")
+        {
+            return TribeSynergy.EldritchCount.Value;
+        }
+        print(tribe + " Not found");
+        return 0;
+    }
+
     public virtual void OnAttack()
     {
 

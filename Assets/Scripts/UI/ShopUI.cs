@@ -18,7 +18,8 @@ public class ShopUI : MonoBehaviour
     [SerializeField] ServerPlayerDataManager ServerPlayerDataManager;
     [SerializeField] TMP_Text coinsText;
     [SerializeField] TMP_Text levelText;
-    
+
+    [SerializeField] TMP_Text levelCostText;
 
     // Update is called once per frame
     void Update()
@@ -76,5 +77,8 @@ public class ShopUI : MonoBehaviour
 
         // Level
         levelText.SetText(myPlayerData.level.Value.ToString());
+
+        // Level Cost
+        levelCostText.SetText($"Level\n(Cost {myPlayerData.levelCost.Value})");
     }
 }

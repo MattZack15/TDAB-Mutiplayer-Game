@@ -46,6 +46,8 @@ public class UnitPlacement : NetworkBehaviour
             return;
         }
 
+        if (grabbedUnit != null) { return; }
+
         Ray ray = gameCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
 
@@ -214,6 +216,13 @@ public class UnitPlacement : NetworkBehaviour
     {
         // Stop Holding unit if Phase changes
         if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase)
+        {
+            grabbedUnit.position = originalTile.transform.position;
+            ResetData();
+            return;
+        }
+        //  Stop if mouse is not being held (like if user tab'ed out of game)
+        if (!Input.GetMouseButton(0))
         {
             grabbedUnit.position = originalTile.transform.position;
             ResetData();

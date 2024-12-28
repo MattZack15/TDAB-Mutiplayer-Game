@@ -73,6 +73,7 @@ public class PlayerBoard : NetworkBehaviour
     {
         // Returns All Towers Placed on this Board
         List<GameObject> towers = new List<GameObject>();
+        if (HexagonGrid == null) { return towers; }
         foreach (Vector2 TileId in HexagonGrid.Tiles.Keys)
         {
             HexagonTile tile = HexagonGrid.GetTileById(TileId).GetComponent<HexagonTile>();

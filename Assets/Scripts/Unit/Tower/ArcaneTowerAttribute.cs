@@ -9,17 +9,16 @@ public class ArcaneTowerAttribute : TowerAttribute
     // 2 Arcane - 25%
     // 3 Arcane - 50%
 
-    static List<float> effectChances = new List<float> { 10f, 25f, 50f};
-
-    public int level = 0;
+    public static List<float> effectChances = new List<float> { 10f, 25f, 50f};
 
     public override void OnAttack()
     {
+        
         // On Attack Roll 
 
         float roll = Random.Range(1f, 100f);
 
-        float effectChance = effectChances[level];
+        float effectChance = effectChances[GetLevel("Arcane")-1];
 
         if (roll < effectChance)
         {

@@ -7,8 +7,7 @@ public class PathManager : NetworkBehaviour
 {
 
     // How many tiles am i allowed to use for my path
-    public NetworkVariable<int> tilesUnlocked = new NetworkVariable<int>();
-    static int baseTilesUnlocked = 15;
+    public List<int> tilesUnlockedTable = new List<int> { 15, 17, 20, 23, 27, 31};
 
     //public bool drawMode;
 
@@ -27,9 +26,6 @@ public class PathManager : NetworkBehaviour
     public void Init()
     {
         drawPathUI = FindObjectOfType<DrawPathUI>();
-        
-        if (!IsServer) { return; }
-        tilesUnlocked.Value = baseTilesUnlocked;
     }
 
     public void CreateDefaultPath()
@@ -138,6 +134,14 @@ public class PathManager : NetworkBehaviour
     {
         DrawPath(realPathColor);
         drawPathUI.gameObject.SetActive(false);
+    }
+
+    public int GetMaxTiles()
+    {
+        // Returns the number of tiles allowed for use in creating a path
+        int level = FindObjectOfType<ServerPlayerDataManager>().GetMyPlayerData().level.Value;
+        if (level > tilesUnlockedTable.Count) { level = tilesUnlockedTable.Count; }
+        return tilesUnlockedTable[level - 1];
     }
 
 }
