@@ -20,6 +20,7 @@ public class ShopUI : MonoBehaviour
     [SerializeField] TMP_Text levelText;
 
     [SerializeField] TMP_Text levelCostText;
+    [SerializeField] TMP_Text refreshCostText;
 
     // Update is called once per frame
     void Update()
@@ -80,5 +81,14 @@ public class ShopUI : MonoBehaviour
 
         // Level Cost
         levelCostText.SetText($"Level\n(Cost {myPlayerData.levelCost.Value})");
+
+        // Refresh Cost
+        int refreshCost = 1;
+        if (myPlayerData.freeRefreshes.Value > 0)
+        {
+            refreshCost = 0;
+        }
+        refreshCostText.SetText($"Refresh\n(Cost {refreshCost})");
+
     }
 }

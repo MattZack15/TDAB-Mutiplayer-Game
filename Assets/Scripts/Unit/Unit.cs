@@ -37,11 +37,11 @@ public class Unit : MonoBehaviour
         // They can sit on your board and do nothing
 
         // So client can pick it up
-        NetworkTransform NetworkTransform = GetComponent<NetworkTransform>();
-        if (NetworkTransform != null)
-        {
-            NetworkTransform.enabled = false;
-        }
+        //NetworkTransform NetworkTransform = GetComponent<NetworkTransform>();
+        //if (NetworkTransform != null)
+        //{
+        //    NetworkTransform.enabled = false;
+        //}
 
         if (AttackerScript != null)
         {
@@ -59,11 +59,11 @@ public class Unit : MonoBehaviour
 
     public void SetActive()
     {
-        NetworkTransform NetworkTransform = GetComponent<NetworkTransform>();
-        if (NetworkTransform != null)
-        {
-            NetworkTransform.enabled = true;
-        }
+        //NetworkTransform NetworkTransform = GetComponent<NetworkTransform>();
+        //if (NetworkTransform != null)
+        //{
+        //    NetworkTransform.enabled = true;
+        //}
 
         if (AttackerScript != null)
         {

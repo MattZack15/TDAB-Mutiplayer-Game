@@ -131,7 +131,7 @@ public class Attacker : NetworkBehaviour
         lastTowerHitMe.GiveKillCredit(gameObject);
     }
 
-    public void TakeHit(int damage, Tower damageSource)
+    public virtual void TakeHit(int damage, Tower damageSource)
     {
         if (!IsServer) return;
 

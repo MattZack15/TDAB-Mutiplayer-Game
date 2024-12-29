@@ -107,6 +107,10 @@ PrefabInstance:
       value: 2.316
       objectReference: {fileID: 0}
     - target: {fileID: 7248474588585844504, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: range
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7248474588585844504, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: damage
       value: 50
       objectReference: {fileID: 0}
@@ -195,7 +199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7485aabf6e439af4582816647e032dbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
 --- !u!4 &7462172095100328449 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4166287413829618662, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}

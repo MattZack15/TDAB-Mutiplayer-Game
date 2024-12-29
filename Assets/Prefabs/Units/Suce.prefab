@@ -238,12 +238,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 2
   attackSpeed: 1.5
-  damage: 100
+  damage: 125
   lookAtTarget: 1
   TowerAttributes: []
   projectile: {fileID: 0}
   projectileSourceLocation: {fileID: 0}
   trackEndPoint: {fileID: 0}
+  kills:
+    m_InternalValue: 0
   animator: {fileID: 1066055334704378642}
 --- !u!114 &6261369510222014875
 MonoBehaviour:
@@ -258,7 +260,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SuceBloodustEffect: {fileID: 7657396922484779721}
-  level: 0
 --- !u!114 &7657396922484779721
 MonoBehaviour:
   m_ObjectHideFlags: 0

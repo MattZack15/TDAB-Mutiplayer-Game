@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 6047681432657114320}
     - target: {fileID: 6743971459798362903, guid: 843c486bf1b123847bf0fca65b139eac, type: 3}
       propertyPath: damage
-      value: 200
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 7657396922484779721, guid: 843c486bf1b123847bf0fca65b139eac, type: 3}
       propertyPath: FreezeDuration

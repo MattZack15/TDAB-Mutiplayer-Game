@@ -153,7 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8936748527447044709, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2555940284
+      value: 2422668030
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7248474588585844504, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
@@ -190,13 +190,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1e926c539cea6f4f8edf0be33d5637f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 10
+  range: 7
   attackSpeed: 0.25
   damage: 10
   lookAtTarget: 1
+  TowerAttributes: []
   projectile: {fileID: 0}
   projectileSourceLocation: {fileID: 511502369761347669}
   trackEndPoint: {fileID: 0}
+  kills:
+    m_InternalValue: 0
   chargedDamage: 30
   ParticleSystemPrefab: {fileID: 2841141252179466865, guid: 7d82974842dc5df40be99412af0b7779, type: 3}
   chargeTime: 3

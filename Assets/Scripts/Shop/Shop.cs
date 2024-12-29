@@ -81,7 +81,8 @@ public class Shop : NetworkBehaviour
     {
         // Called By Shop Refresh Button
         // Client Side Check For Coins
-        if (!CheckCoinsClientSide(RefreshCost)) { return; }
+        if (!CheckCoinsClientSide(RefreshCost) && ServerPlayerDataManager.GetMyPlayerData().freeRefreshes.Value == 0) { return; }
+        
         BuyShopRefreshServerRPC(NetworkManager.Singleton.LocalClientId);
     }
     
@@ -90,12 +91,25 @@ public class Shop : NetworkBehaviour
     {
         // Must be in shop phase
         if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase) { return; }
+        ServerPlayerData playerData = ServerPlayerDataManager.GetPlayerData(playerID);
 
-        // Must Have the coins
-        if (ServerPlayerDataManager.GetPlayerData(playerID).coins.Value < RefreshCost) { print("Not enough coins"); return; }
 
-        // Remove Coins
-        ServerPlayerDataManager.GetPlayerData(playerID).coins.Value -= RefreshCost;
+        // Check for free refreshes
+        if (playerData.freeRefreshes.Value > 0)
+        {
+            // If they have them use them
+            playerData.freeRefreshes.Value -= 1;
+        }
+        else
+        {
+            // Otherwise
+            // Must Have the coins
+            if (playerData.coins.Value < RefreshCost) { print("Not enough coins"); return; }
+
+            // Remove Coins
+            playerData.coins.Value -= RefreshCost;
+        }
+
 
         ShopRefresh(playerID);
     }
