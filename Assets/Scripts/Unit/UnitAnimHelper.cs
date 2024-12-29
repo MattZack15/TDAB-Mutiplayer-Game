@@ -6,6 +6,8 @@ public class UnitAnimHelper : MonoBehaviour
 {
 
     private MeleeTower MeleeTowerScript;
+    private TowerWithAnim TowerWithAnimScript;
+
     // Melee Animation Callback
     public void MeleeAnimationCallback()
     {
@@ -15,6 +17,16 @@ public class UnitAnimHelper : MonoBehaviour
         }
 
         MeleeTowerScript.AttackAnimationCallback();
+    }
+
+    public void AttackAnimationCallback()
+    {
+        if (TowerWithAnimScript == null)
+        {
+            TowerWithAnimScript = transform.parent.GetComponent<TowerWithAnim>();
+        }
+
+        TowerWithAnimScript.AttackAnimationCallback();
     }
 
 }

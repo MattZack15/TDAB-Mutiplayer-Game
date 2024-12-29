@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2428761130442369095, guid: 16a245537f6ce6646bae3354cda03116, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 3419391016
+      value: 3871040817
       objectReference: {fileID: 0}
     - target: {fileID: 2877229346678881506, guid: 16a245537f6ce6646bae3354cda03116, type: 3}
       propertyPath: m_Name
@@ -66,12 +66,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3046405034540609862, guid: 16a245537f6ce6646bae3354cda03116, type: 3}
       propertyPath: description
-      value: 'On purchase: Gain 2 free shop refreshes'
+      value: 'On Purchase: Gain 2 free shop refreshes'
       objectReference: {fileID: 0}
     - target: {fileID: 3046405034540609862, guid: 16a245537f6ce6646bae3354cda03116, type: 3}
       propertyPath: UpgradedVersion
       value: 
       objectReference: {fileID: 5640289264677157296}
+    - target: {fileID: 5131262881771674380, guid: 16a245537f6ce6646bae3354cda03116, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131262881771674380, guid: 16a245537f6ce6646bae3354cda03116, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8366467139867341089, guid: 16a245537f6ce6646bae3354cda03116, type: 3}
       propertyPath: numOfFreeRefreshes
       value: 2

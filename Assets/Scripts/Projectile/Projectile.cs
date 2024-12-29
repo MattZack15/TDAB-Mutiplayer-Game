@@ -23,6 +23,7 @@ public class Projectile : NetworkBehaviour
 
     public virtual void Update()
     {
+        // Not Server only on purpose
         Movement();
     }
 

@@ -34,7 +34,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6217839198748555390, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
       propertyPath: description
-      value: 'Entry: The next 2 Attackers with be resurrected with 1 hp'
+      value: 'Entry: The next 2 Attackers with be resurrected with 1 health'
       objectReference: {fileID: 0}
     - target: {fileID: 6217839198748555390, guid: 12e6234c56f24a14d9c7e91c8433f2d2, type: 3}
       propertyPath: UpgradedVersion

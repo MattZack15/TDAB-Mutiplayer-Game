@@ -9,7 +9,7 @@ public class ArcaneTowerAttribute : TowerAttribute
     // 2 Arcane - 25%
     // 3 Arcane - 50%
 
-    public static List<float> effectChances = new List<float> { 10f, 25f, 50f};
+    public static List<float> effectChances = new List<float> { 10f, 25f, 40f};
 
     public override void OnAttack()
     {

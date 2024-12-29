@@ -88,7 +88,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: description
-      value: 'Entry: The next Attacker with be resurrected with 1 hp'
+      value: 'Entry: The next Attacker with be resurrected with 1 health'
       objectReference: {fileID: 0}
     - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: AttackerScript
@@ -224,7 +224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5910300563084492780, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2800451079
+      value: 2000274461
       objectReference: {fileID: 0}
     - target: {fileID: 7313268784309158610, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: m_Sprite
@@ -263,11 +263,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2346437626535949651, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
   m_PrefabInstance: {fileID: 8481415859314190264}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &6570919737407576603 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 3351964990612536739, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
-  m_PrefabInstance: {fileID: 8481415859314190264}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6620513740283885018 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3338505304559047266, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
@@ -294,5 +289,4 @@ MonoBehaviour:
     m_InternalValue: 0
   OnDeathEffects: []
   AttackerMovement: {fileID: 2993135642126001069}
-  Animator: {fileID: 6570919737407576603}
   level: 1
