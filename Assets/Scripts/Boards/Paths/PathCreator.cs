@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -133,6 +134,20 @@ public class PathCreator : MonoBehaviour
 
         // Must Be Connected to the last tile we placed        
         if (!TilesAreAdjacent(tileId, tilesInPath[tilesInPath.Count - 1].GetComponent<HexagonTile>().tileId))
+        {
+            return;
+        }
+
+        // Cannot Place next to any other tiles from the path except the last tile
+        List<Vector3> AdjacentTilesInPath = new List<Vector3>();
+        foreach (Vector3 adjacentTile in HexagonTile.GetAdjacentTiles(tileId))
+        {
+            if (tilesInPath.Contains(playerBoard.HexagonGrid.GetTileById(adjacentTile)))
+            {
+                AdjacentTilesInPath.Add(adjacentTile);
+            }
+        }
+        if (AdjacentTilesInPath.Count > 1)
         {
             return;
         }

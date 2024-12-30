@@ -39,9 +39,9 @@ public class SideBoard : NetworkBehaviour
         }
     }
 
-    public void AddUnitToSideBoard(GameObject Unit)
+    public GameObject AddUnitToSideBoard(GameObject Unit)
     {
-        if (!IsServer) { return; }
+        if (!IsServer) { return null; }
         
         foreach (Vector2 TileID in SideBoardGrid.Tiles.Keys)
         {
@@ -60,11 +60,12 @@ public class SideBoard : NetworkBehaviour
                 UnitPlacement.PlaceUnitOnSideBoardClientRPC(tile.tileId, newUnitNetworkObject.NetworkObjectId, tile.transform.position);
 
                 AddUnitToSideBoardClientRPC(newUnitNetworkObject.NetworkObjectId);
-                return;
+                return newUnit;
             }
         }
 
         print("No Open Tiles to display unit");
+        return null;
     }
     [Rpc(SendTo.ClientsAndHost)]
     private void AddUnitToSideBoardClientRPC(ulong networkObjectId)

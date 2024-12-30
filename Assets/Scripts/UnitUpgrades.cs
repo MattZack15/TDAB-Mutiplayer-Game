@@ -75,24 +75,33 @@ public class UnitUpgrades : NetworkBehaviour
     {
 
         // Spawn Upgraded Unit
-        GameObject UpgradedUnit = UnitsAndTiles[0].Item1.GetComponent<Unit>().UpgradedVersion;
+        GameObject UpgradedUnitPrefab = UnitsAndTiles[0].Item1.GetComponent<Unit>().UpgradedVersion;
 
-        if (UpgradedUnit == null)
+        if (UpgradedUnitPrefab == null)
         {
             print($"This Unit Has no Upgrade {UnitsAndTiles[0].Item1.GetComponent<Unit>().UnitName}");
             return;
         }
 
-        sideBoard.AddUnitToSideBoard(UpgradedUnit);
+        GameObject spawnedUnit = sideBoard.AddUnitToSideBoard(UpgradedUnitPrefab);
 
-
+        // New tower will have the combined kill count of level 1 towers
+        int totalKillCount = 0;
+        
         // Destory previous Units
         int i = 0;
         foreach ((GameObject, GameObject) UnitAndTile in UnitsAndTiles)
         {
             unitPlacement.ClearTileClientRPC(UnitAndTile.Item2.GetComponent<HexagonTile>().tileId);
 
-            UnitAndTile.Item1.GetComponent<NetworkObject>().Despawn();
+            // Track kills
+            GameObject unit = UnitAndTile.Item1;
+            if (unit.GetComponent<Unit>().isTower())
+            {
+                totalKillCount += unit.GetComponent<Tower>().kills.Value;
+            }
+
+            unit.GetComponent<NetworkObject>().Despawn();
 
             // Only Destory 3 for an upgrade
             i++;
@@ -101,6 +110,25 @@ public class UnitUpgrades : NetworkBehaviour
                 break;
             }
         }
+
+        // Track kills
+        if (spawnedUnit.GetComponent<Unit>().isTower()) 
+        {
+            spawnedUnit.GetComponent<Tower>().kills.Value = totalKillCount;
+        }
     }
+
+    IEnumerator WriteKillsToUpgradedTower(GameObject UpgradedUnit, int totalKillCount)
+    {
+        while (!UpgradedUnit.GetComponent<NetworkObject>().IsSpawned)
+        {
+            print("Waiting");
+            yield return null;
+        }
+
+        
+    }
+
+
 
 }

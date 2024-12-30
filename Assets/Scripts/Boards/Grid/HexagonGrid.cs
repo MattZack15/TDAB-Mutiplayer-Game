@@ -10,7 +10,9 @@ public class HexagonGrid : MonoBehaviour
 
     public GameObject GetTileById(Vector2 tileId)
     {
-        return Tiles[tileId];
+        if (Tiles.ContainsKey(tileId)) return Tiles[tileId];
+        
+        return null;
     }
 
 

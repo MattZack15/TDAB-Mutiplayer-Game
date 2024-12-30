@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
 #pragma warning disable 4014 // Disables Warning For Calling async task in non awaited function
 
-public class RelayServerUI : MonoBehaviour
+public class RelayServerUI : NetworkBehaviour
 {
     [SerializeField] TMP_InputField joinCodeInputField;
     [SerializeField] RelayServer RelayServer;
 
     [SerializeField] List<GameObject> DisableOnConnection = new List<GameObject>();
+    [SerializeField] GameObject StartGameButtonObj;
+    [SerializeField] GameObject WaitForHostTextObj;
 
     public void StartHostButton()
     {
@@ -32,6 +36,12 @@ public class RelayServerUI : MonoBehaviour
                 go.SetActive(false);
             }
 
+            print(joinCode);
+            StartGameButtonObj.SetActive(true);
+        }
+        else
+        {
+            print("Fail To Start Host");
         }
 
         return;
@@ -55,6 +65,16 @@ public class RelayServerUI : MonoBehaviour
             {
                 go.SetActive(false);
             }
+
+            print("Client Connected");
+            WaitForHostTextObj.SetActive(true);
         }
+    }
+
+    public void StartGameButton()
+    {
+
+        if (!IsServer) { return; }
+        NetworkManager.SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     }
 }
