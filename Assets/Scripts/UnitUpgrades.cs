@@ -74,17 +74,6 @@ public class UnitUpgrades : NetworkBehaviour
     private void UpgradeUnit(List<(GameObject, GameObject)> UnitsAndTiles, SideBoard sideBoard)
     {
 
-        // Spawn Upgraded Unit
-        GameObject UpgradedUnitPrefab = UnitsAndTiles[0].Item1.GetComponent<Unit>().UpgradedVersion;
-
-        if (UpgradedUnitPrefab == null)
-        {
-            print($"This Unit Has no Upgrade {UnitsAndTiles[0].Item1.GetComponent<Unit>().UnitName}");
-            return;
-        }
-
-        GameObject spawnedUnit = sideBoard.AddUnitToSideBoard(UpgradedUnitPrefab);
-
         // New tower will have the combined kill count of level 1 towers
         int totalKillCount = 0;
         
@@ -111,22 +100,22 @@ public class UnitUpgrades : NetworkBehaviour
             }
         }
 
+        // Spawn Upgraded Unit
+        GameObject UpgradedUnitPrefab = UnitsAndTiles[0].Item1.GetComponent<Unit>().UpgradedVersion;
+
+        if (UpgradedUnitPrefab == null)
+        {
+            print($"This Unit Has no Upgrade {UnitsAndTiles[0].Item1.GetComponent<Unit>().UnitName}");
+            return;
+        }
+
+        GameObject spawnedUnit = sideBoard.AddUnitToSideBoard(UpgradedUnitPrefab);
+
         // Track kills
-        if (spawnedUnit.GetComponent<Unit>().isTower()) 
+        if (spawnedUnit != null && spawnedUnit.GetComponent<Unit>().isTower()) 
         {
             spawnedUnit.GetComponent<Tower>().kills.Value = totalKillCount;
         }
-    }
-
-    IEnumerator WriteKillsToUpgradedTower(GameObject UpgradedUnit, int totalKillCount)
-    {
-        while (!UpgradedUnit.GetComponent<NetworkObject>().IsSpawned)
-        {
-            print("Waiting");
-            yield return null;
-        }
-
-        
     }
 
 

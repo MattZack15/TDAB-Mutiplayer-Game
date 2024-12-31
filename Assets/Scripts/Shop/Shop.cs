@@ -10,12 +10,11 @@ public class Shop : NetworkBehaviour
     public static int ShopSize = 3;
     public static int StartingCoins = 70;
     // How much money you get at the end of each round
-    public static int RoundEarnings = 5;
     public static int RefreshCost = 1;
     public static int UnitCost = 3;
     public static int SellValue = 1;
     // Base cost of leveling to each level
-    static List<int> levelCosts = new List<int> { 5, 7, 8, 9, 11};
+    static List<int> levelCosts = new List<int> { 8, 10, 13, 15, 18};
 
     [SerializeField] private ShopPool ShopPool;
     [SerializeField] private PlayerWarband PlayerWarband;
@@ -25,7 +24,7 @@ public class Shop : NetworkBehaviour
     [SerializeField] private ServerPlayerDataManager ServerPlayerDataManager;
     [SerializeField] private PlayerBoardsManager PlayerBoardsManager;
     [SerializeField] private UnitPlacement unitPlacement;
-    [SerializeField] private UnitUpgrades UnitUpgrades;
+    //[SerializeField] private UnitUpgrades UnitUpgrades;
     
 
     public void TryBuyUnit(int UnitID, int shopIndex)
@@ -56,9 +55,15 @@ public class Shop : NetworkBehaviour
 
         // Spawn unit
         PlayerBoard Playersboard = PlayerBoardsManager.PlayerBoardTable[playerID];
-        Playersboard.SideBoard.AddUnitToSideBoard(unitDex.Dex[UnitID]);
+        GameObject SpawnedUnit = Playersboard.SideBoard.AddUnitToSideBoard(unitDex.Dex[UnitID]);
+        if (SpawnedUnit != null) 
+        {
+            if (SpawnedUnit.GetComponent<OnPurchaseEffect>())
+            {
+                SpawnedUnit.GetComponent<OnPurchaseEffect>().OnPurchase();
+            }
+        }
 
-        UnitUpgrades.CheckForUnitUpgrade(Playersboard.BoardID);
 
         // Send Info To Client
         BoughtUnitRPC(UnitID, shopIndex, playerID);

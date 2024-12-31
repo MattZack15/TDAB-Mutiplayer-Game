@@ -6,12 +6,13 @@ using UnityEngine;
 
 public class GamePhaseManager : NetworkBehaviour
 {
+    // Define Game Phase Enum
     public enum GamePhases { ShopPhase, BattlePhase }
-
     public GamePhases GamePhase = GamePhases.ShopPhase;
 
     [SerializeField] float ShopPhaseLength = 25f;
     [HideInInspector] public NetworkVariable<float> turnTimer = new NetworkVariable<float>();
+    [HideInInspector] public NetworkVariable<int> roundNumber = new NetworkVariable<int>();
     private bool forceStart = false;
 
     [SerializeField] PlayerWarband playerWarband;
@@ -28,6 +29,7 @@ public class GamePhaseManager : NetworkBehaviour
 
     public void StartGame()
     {
+        roundNumber.Value = 0;
         StartShopPhase();
     }
 
@@ -199,8 +201,10 @@ public class GamePhaseManager : NetworkBehaviour
     {
         if (!IsServer) { return; }
 
-        // Clean up Objects
+        // increment round counter
+        roundNumber.Value += 1;
 
+        // Clean up Objects
         ulong[] towerIds = new ulong[deactivateOnBattleEnd.Count];
         int i = 0;
         foreach (GameObject tower in deactivateOnBattleEnd)
@@ -217,12 +221,15 @@ public class GamePhaseManager : NetworkBehaviour
             }
         }
 
+        // Define how much money a player is given this round
+        int RoundEarnings = 3 + (roundNumber.Value - 1);
+        if (roundNumber.Value == 1) { RoundEarnings = Shop.StartingCoins; }
         
         foreach (ulong playerID in NetworkManager.ConnectedClientsIds)
         {
             ServerPlayerData playerData = ServerPlayerDataManager.GetPlayerData(playerID);
-            // Give Everyone Money
-            playerData.coins.Value += Shop.RoundEarnings;
+            // Set Everyones Money
+            playerData.coins.Value = RoundEarnings;
 
             // Reduce Level Cost
             playerData.levelCost.Value -= 1;

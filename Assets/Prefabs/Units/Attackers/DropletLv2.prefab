@@ -65,10 +65,6 @@ PrefabInstance:
       value: 15002
       objectReference: {fileID: 0}
     - target: {fileID: 3046405034540609862, guid: 16a245537f6ce6646bae3354cda03116, type: 3}
-      propertyPath: description
-      value: 'On Purchase: Gain 2 free shop refreshes'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3046405034540609862, guid: 16a245537f6ce6646bae3354cda03116, type: 3}
       propertyPath: UpgradedVersion
       value: 
       objectReference: {fileID: 5640289264677157296}

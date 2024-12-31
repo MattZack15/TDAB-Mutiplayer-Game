@@ -6,6 +6,7 @@ using UnityEngine;
 public class SideBoard : NetworkBehaviour
 {
     UnitPlacement UnitPlacement;
+    UnitUpgrades UnitUpgrades;
     [HideInInspector] public HexagonGrid SideBoardGrid;
     
     // Start is called before the first frame update
@@ -14,6 +15,7 @@ public class SideBoard : NetworkBehaviour
         this.SideBoardGrid = SideBoardGrid;
         UnitPlacement = FindObjectOfType<UnitPlacement>();
         SetSideBoardColor(SideBoardGrid);
+        UnitUpgrades = FindObjectOfType<UnitUpgrades>();
     }
 
     private void SetSideBoardColor(HexagonGrid sideGrid)
@@ -42,7 +44,8 @@ public class SideBoard : NetworkBehaviour
     public GameObject AddUnitToSideBoard(GameObject Unit)
     {
         if (!IsServer) { return null; }
-        
+        // Soley Responsible for Spawning unit into the players board
+
         foreach (Vector2 TileID in SideBoardGrid.Tiles.Keys)
         {
             HexagonTile tile = SideBoardGrid.GetTileById(TileID).GetComponent<HexagonTile>();
@@ -60,6 +63,9 @@ public class SideBoard : NetworkBehaviour
                 UnitPlacement.PlaceUnitOnSideBoardClientRPC(tile.tileId, newUnitNetworkObject.NetworkObjectId, tile.transform.position);
 
                 AddUnitToSideBoardClientRPC(newUnitNetworkObject.NetworkObjectId);
+
+                UnitUpgrades.CheckForUnitUpgrade((int)tile.tileId.z);
+
                 return newUnit;
             }
         }
