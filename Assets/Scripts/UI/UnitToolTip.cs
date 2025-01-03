@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using Unity.Netcode;
 
 public class UnitToolTip : MonoBehaviour
 {
@@ -73,8 +74,17 @@ public class UnitToolTip : MonoBehaviour
             Attacker attacker = unit.gameObject.GetComponent<Attacker>();
             AttackerStats stats = attacker.GetAttackerStats();
 
-            healthText.SetText($"{stats.baseMaxHp}");
-            moveSpeedText.SetText($"{stats.baseMoveSpeed}");
+            if (unit.gameObject.GetComponent<NetworkObject>().IsSpawned)
+            {
+                healthText.SetText($"{attacker.hp.Value}");
+                // Correct on Server Side Only
+                moveSpeedText.SetText($"{stats.moveSpeed}");
+            }
+            else
+            {
+                healthText.SetText($"{stats.baseMaxHp}");
+                moveSpeedText.SetText($"{stats.baseMoveSpeed}");
+            }
         }
     }
 

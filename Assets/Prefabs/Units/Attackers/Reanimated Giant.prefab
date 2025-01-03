@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthPerUndead: 100
-  minScale: 0.5
+  minScale: 0.75
   scaleIncrement: 0.05
 --- !u!1001 &5806004856992449193
 PrefabInstance:

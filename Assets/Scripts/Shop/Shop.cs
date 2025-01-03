@@ -24,8 +24,9 @@ public class Shop : NetworkBehaviour
     [SerializeField] private ServerPlayerDataManager ServerPlayerDataManager;
     [SerializeField] private PlayerBoardsManager PlayerBoardsManager;
     [SerializeField] private UnitPlacement unitPlacement;
+    [SerializeField] private GreedyTempestHandler GreedyTempestHandler;
     //[SerializeField] private UnitUpgrades UnitUpgrades;
-    
+
 
     public void TryBuyUnit(int UnitID, int shopIndex)
     {
@@ -56,14 +57,15 @@ public class Shop : NetworkBehaviour
         // Spawn unit
         PlayerBoard Playersboard = PlayerBoardsManager.PlayerBoardTable[playerID];
         GameObject SpawnedUnit = Playersboard.SideBoard.AddUnitToSideBoard(unitDex.Dex[UnitID]);
-        if (SpawnedUnit != null) 
+        if (SpawnedUnit != null)
         {
+            GreedyTempestHandler.HandleBuyUnit(SpawnedUnit, playerID);
+
             if (SpawnedUnit.GetComponent<OnPurchaseEffect>())
             {
                 SpawnedUnit.GetComponent<OnPurchaseEffect>().OnPurchase();
             }
         }
-
 
         // Send Info To Client
         BoughtUnitRPC(UnitID, shopIndex, playerID);
@@ -161,6 +163,9 @@ public class Shop : NetworkBehaviour
 
         // Give Coins
         ServerPlayerDataManager.GetPlayerData(playerID).coins.Value += SellValue;
+
+        // Handle Greedy Tempest
+        GreedyTempestHandler.HandleSellUnit(unit.gameObject, (int)tileID.z, playerID);
     }
 
 

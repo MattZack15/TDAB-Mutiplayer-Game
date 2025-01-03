@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -149,14 +151,26 @@ public class Attacker : NetworkBehaviour
 
     public void AddMaxHp(int amount)
     {
+        print(maxHp.Value);
         maxHpAugments.Add(amount);
         hp.Value += amount;
         maxHp.Value += amount;
+        print(maxHp.Value);
     }
 
     public void AddFlatMoveSpeed(float moveSpeedBuff)
     {
         flatMoveSpeedAugments.Add(moveSpeedBuff);
+    }
+
+    public Tuple<List<int>, List<float>> GetBonusStats()
+    {
+        // Returns twos lists of bonus max hp and bonus flat ms
+        // Used for copy bonus stats of an attacker on the side board to the copy of it on the main board
+        List<int> bonusMaxHp = new List<int>(maxHpAugments);
+        List<float> bonusFlatMS = new List<float>(flatMoveSpeedAugments);
+
+        return new Tuple<List<int>, List<float>>(bonusMaxHp, bonusFlatMS);
     }
 
     public void RemoveFlatMoveSpeed(float moveSpeedBuff)
@@ -215,6 +229,21 @@ public class Attacker : NetworkBehaviour
         }
 
         return CalcedStats;
+    }
+
+    public static void CopyOverBonusStats(Attacker attacker1, Attacker attacker2)
+    {
+        
+        // Takes Attacker 1's Bonus Stats and Copys them onto Attacker 2
+        Tuple<List<int>, List<float>> bonusStats = attacker1.GetBonusStats();
+        foreach (int bonusHp in bonusStats.Item1)
+        {
+            attacker2.AddMaxHp(bonusHp);
+        }
+        foreach (float bonusMS in bonusStats.Item2)
+        {
+            attacker2.AddFlatMoveSpeed(bonusMS);
+        }
     }
 
 

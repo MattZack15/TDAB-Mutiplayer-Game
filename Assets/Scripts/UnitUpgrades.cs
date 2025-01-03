@@ -10,12 +10,18 @@ public class UnitUpgrades : NetworkBehaviour
 
 
     // When we get three of a unit, we destory them and spawn in the upgraded unit
-
     public void CheckForUnitUpgrade(int boardID)
     {
         if (!IsServer) { return; }
+        StartCoroutine(CheckingForUnitUpgrades(boardID));
+    }
 
-        
+    private IEnumerator CheckingForUnitUpgrades(int boardID)
+    {
+        // Wait 1 frame before checking for upgrades
+        yield return null;
+
+
         // <UnitName, List<(Unit, Tile)>>
         Dictionary<string, List<(GameObject, GameObject)>> UnitsCount = new Dictionary<string, List<(GameObject, GameObject)>>();
 
@@ -39,9 +45,9 @@ public class UnitUpgrades : NetworkBehaviour
 
                 if (tile.inhabitor != null && tile.inhabitor.GetComponent<Unit>() != null)
                 {
-                    
+
                     GameObject Unit = tile.inhabitor;
-                    
+
                     Unit UnitComp = Unit.GetComponent<Unit>();
                     // Check if Unit is unupgraded
                     if (UnitComp.level == 1)
@@ -52,7 +58,7 @@ public class UnitUpgrades : NetworkBehaviour
                 }
             }
         }
-        
+
         PlayerBoard Board = playerBoardsManager.GetBoardByBoardID(boardID);
         LoopThroughGird(Board.HexagonGrid);
         LoopThroughGird(Board.SideBoard.SideBoardGrid);
@@ -68,11 +74,21 @@ public class UnitUpgrades : NetworkBehaviour
             //print($"{key}: {UnitsCount[key].Count}");
         }
 
-
     }
 
     private void UpgradeUnit(List<(GameObject, GameObject)> UnitsAndTiles, SideBoard sideBoard)
     {
+
+        GameObject UpgradedUnitPrefab = UnitsAndTiles[0].Item1.GetComponent<Unit>().UpgradedVersion;
+
+        if (UpgradedUnitPrefab == null)
+        {
+            print($"This Unit Has no Upgrade {UnitsAndTiles[0].Item1.GetComponent<Unit>().UnitName}");
+            return;
+        }
+
+        // Spawn Upgraded Unit
+        GameObject spawnedUnit = sideBoard.AddUnitToSideBoard(UpgradedUnitPrefab);
 
         // New tower will have the combined kill count of level 1 towers
         int totalKillCount = 0;
@@ -89,6 +105,12 @@ public class UnitUpgrades : NetworkBehaviour
             {
                 totalKillCount += unit.GetComponent<Tower>().kills.Value;
             }
+            
+            // Copy Over Stats
+            if (unit.GetComponent<Unit>().isAttacker())
+            {
+                Attacker.CopyOverBonusStats(unit.GetComponent<Attacker>(), spawnedUnit.GetComponent<Attacker>());
+            }
 
             unit.GetComponent<NetworkObject>().Despawn();
 
@@ -100,16 +122,6 @@ public class UnitUpgrades : NetworkBehaviour
             }
         }
 
-        // Spawn Upgraded Unit
-        GameObject UpgradedUnitPrefab = UnitsAndTiles[0].Item1.GetComponent<Unit>().UpgradedVersion;
-
-        if (UpgradedUnitPrefab == null)
-        {
-            print($"This Unit Has no Upgrade {UnitsAndTiles[0].Item1.GetComponent<Unit>().UnitName}");
-            return;
-        }
-
-        GameObject spawnedUnit = sideBoard.AddUnitToSideBoard(UpgradedUnitPrefab);
 
         // Track kills
         if (spawnedUnit != null && spawnedUnit.GetComponent<Unit>().isTower()) 
@@ -117,7 +129,5 @@ public class UnitUpgrades : NetworkBehaviour
             spawnedUnit.GetComponent<Tower>().kills.Value = totalKillCount;
         }
     }
-
-
 
 }

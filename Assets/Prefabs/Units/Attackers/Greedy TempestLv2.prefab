@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6228124326504504293
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1482036836348941818, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482036836348941818, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482036836348941818, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482036836348941818, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482036836348941818, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482036836348941818, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482036836348941818, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482036836348941818, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482036836348941818, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482036836348941818, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720604867239086425, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720604867239086425, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: UnitID
+      value: 19002
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720604867239086425, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: description
+      value: 'Whenever you sell an Elemental: for the rest of the game, Purchased
+        Elementals gain 20 Health and .05 Movement Speed (Twice!)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470042050292516093, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: m_Name
+      value: Greedy TempestLv2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4781024420228524403, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 692726857
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832197238119523091, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832197238119523091, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6988479413195939498, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: speed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6988479413195939498, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: health
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 7627344997318010535, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}
+      propertyPath: stacksPerEleSold
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 794e2dfab07fa2544bc904fd2dd8115b, type: 3}

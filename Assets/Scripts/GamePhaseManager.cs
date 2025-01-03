@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,7 +104,7 @@ public class GamePhaseManager : NetworkBehaviour
         // Get List of attackers from sideboard
         List<GameObject> attackers = playerBoardsManager.PlayerBoardTable[attackerID].GetComponent<SideBoard>().GetAttackers();
 
-        List<GameObject> attackersInstances = new List<GameObject>();
+        List<(GameObject, GameObject)> attackersInstancesAndTemplates = new List<(GameObject, GameObject)>();
 
         // Spawn them all disabled
         foreach (GameObject attacker in attackers) 
@@ -111,10 +112,10 @@ public class GamePhaseManager : NetworkBehaviour
             GameObject newAttacker = Instantiate(attacker, attackerSpawner.transform.position, Quaternion.identity);
 
             newAttacker.SetActive(false);
-            attackersInstances.Add(newAttacker);
+            attackersInstancesAndTemplates.Add((newAttacker, attacker));
         }
 
-        attackerSpawner.UpdateAttackerQueue(attackersInstances);
+        attackerSpawner.UpdateAttackerQueue(attackersInstancesAndTemplates);
     }
 
     private void PrepareTowers(ulong defenderID)

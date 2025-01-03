@@ -12,6 +12,7 @@ public class ServerPlayerData : NetworkBehaviour
     public NetworkVariable<int> level = new NetworkVariable<int>();
     public NetworkVariable<int> levelCost = new NetworkVariable<int>();
     public NetworkVariable<int> freeRefreshes = new NetworkVariable<int>();
+    public NetworkVariable<int> greedyTempestStacks = new NetworkVariable<int>();
 
     // Stores information about whats in a players Shop (ShopIndex, UnitID), SERVER SIDE
     public Dictionary<int, int> shop = new Dictionary<int, int>();
@@ -25,6 +26,7 @@ public class ServerPlayerData : NetworkBehaviour
         level.Value = 1;
         levelCost.Value = 5;
         freeRefreshes.Value = 0;
+        greedyTempestStacks.Value = 0;
     }
 
     public void SetNewShop(int[] shopItems)

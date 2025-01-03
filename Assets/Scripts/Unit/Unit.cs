@@ -89,6 +89,21 @@ public class Unit : MonoBehaviour
         return AttackerScript != null;
     }
 
+    public bool isElemental()
+    {
+        List<string> tribeNames = new List<string>();
+        foreach (Tribe tribe in tribes)
+        {
+            tribeNames.Add(tribe.tribeName);
+        }
+        if (tribeNames.Contains("Elemental"))
+        { 
+            return true; 
+        }
+
+        return false;
+    }
+
     public int GetBoard()
     {
         // Finds Board number where this unit is

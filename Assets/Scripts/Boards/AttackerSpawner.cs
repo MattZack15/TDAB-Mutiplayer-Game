@@ -10,8 +10,9 @@ public class AttackerSpawner: NetworkBehaviour
 
     [SerializeField] PlayerBoard board;
 
+    // This list hold an instandce of the attacker and a reference to the original copy
     [HideInInspector]
-    private List<GameObject> attackerQueue = new List<GameObject>();
+    private List<(GameObject, GameObject)> attackerQueue = new List<(GameObject, GameObject)>();
 
     Vector2 startTileId;
     Transform SpawnPos;
@@ -35,15 +36,14 @@ public class AttackerSpawner: NetworkBehaviour
 
 
 
-    public void UpdateAttackerQueue(List<GameObject> attackers)
+    public void UpdateAttackerQueue(List<(GameObject, GameObject)> attackers)
     {
         if (!IsServer) { return; }
 
-        foreach (GameObject attacker in attackers)
+        foreach ((GameObject, GameObject) attacker in attackers)
         {
             attackerQueue.Add(attacker);
         }
-
     }
 
 
@@ -61,7 +61,7 @@ public class AttackerSpawner: NetworkBehaviour
 
         while (attackerQueue.Count > 0)
         {
-            GameObject nextAttacker = attackerQueue[0];
+            (GameObject, GameObject) nextAttacker = attackerQueue[0];
             attackerQueue.RemoveAt(0);
 
             ReleaseAttacker(nextAttacker);
@@ -115,19 +115,31 @@ public class AttackerSpawner: NetworkBehaviour
 
     }
 
-    private void ReleaseAttacker(GameObject attacker)
+    private void ReleaseAttacker((GameObject, GameObject) attacker)
     {
         if (!IsServer) { return; }
 
-        attacker.transform.position = SpawnPos.position;
-        attacker.SetActive(true);
-        attacker.GetComponent<Unit>().SetActive();
-        attacker.GetComponent<NetworkObject>().Spawn();
-        attacker.GetComponent<Attacker>().Init(pathManager.GetBoardPathPoints());
+        GameObject instanceAttacker = attacker.Item1;
+        GameObject staticAttacker = attacker.Item2;
 
+        instanceAttacker.transform.position = SpawnPos.position;
+        instanceAttacker.SetActive(true);
+        instanceAttacker.GetComponent<Unit>().SetActive();
+        instanceAttacker.GetComponent<NetworkObject>().Spawn();
+        instanceAttacker.GetComponent<Attacker>().Init(pathManager.GetBoardPathPoints());
 
+        // Copy Stats
+        if (staticAttacker != null)
+        {
+            Attacker.CopyOverBonusStats(staticAttacker.GetComponent<Attacker>(), instanceAttacker.GetComponent<Attacker>());
+        }
+        else
+        {
+            print($"Orignal Attacker was null {instanceAttacker.name}");
+        }
+        
         // Track it
-        AttackersAlive.Add(attacker);
+        AttackersAlive.Add(instanceAttacker);
     }
 
     public void SendAttackerToStart(GameObject attacker)
@@ -140,9 +152,10 @@ public class AttackerSpawner: NetworkBehaviour
 
     public GameObject PeekNextAttacker(int position)
     {
+        // Returns the battle instance of the next attacker
         if (attackerQueue.Count > position)
         {
-            return attackerQueue[position];
+            return attackerQueue[position].Item1;
         }
         else
         {

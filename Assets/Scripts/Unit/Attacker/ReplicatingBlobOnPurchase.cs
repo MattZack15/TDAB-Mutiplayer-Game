@@ -13,7 +13,9 @@ public class ReplicatingBlobOnPurchase : OnPurchaseEffect
         PlayerBoard board = FindObjectOfType<PlayerBoardsManager>().GetBoardByBoardID(boardID);
         // Summon a copy
         GameObject copyPrefab = FindObjectOfType<UnitDex>().Dex[unitScript.UnitID];
-        board.SideBoard.AddUnitToSideBoard(copyPrefab);
+        GameObject copy = board.SideBoard.AddUnitToSideBoard(copyPrefab);
+        // Copy Over Stats
+        Attacker.CopyOverBonusStats(GetComponent<Attacker>(), copy.GetComponent<Attacker>());
         
     }
 }
