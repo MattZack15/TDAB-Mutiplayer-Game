@@ -5603,6 +5603,7 @@ GameObject:
   - component: {fileID: 1600264150}
   - component: {fileID: 1600264151}
   - component: {fileID: 1600264153}
+  - component: {fileID: 1600264154}
   m_Layer: 0
   m_Name: GamePhaseManager
   m_TagString: Untagged
@@ -5655,6 +5656,8 @@ MonoBehaviour:
   shop: {fileID: 791543735}
   ServerPlayerDataManager: {fileID: 1251393845}
   RoundMatchMaking: {fileID: 1600264153}
+  BattleManager: {fileID: 1600264154}
+  CameraMovement: {fileID: 519420033}
 --- !u!4 &1600264152
 Transform:
   m_ObjectHideFlags: 0
@@ -5682,6 +5685,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a86aba47413899488bb4c59977b7d98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1600264154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600264149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 965c080a2bcf40c468edadb08651b4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerBoardsManager: {fileID: 836407095}
+  CameraMovement: {fileID: 519420033}
 --- !u!1 &1618773746
 GameObject:
   m_ObjectHideFlags: 0

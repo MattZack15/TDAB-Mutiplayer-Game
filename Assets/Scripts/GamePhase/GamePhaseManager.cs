@@ -22,11 +22,11 @@ public class GamePhaseManager : NetworkBehaviour
     [SerializeField] Shop shop;
     [SerializeField] ServerPlayerDataManager ServerPlayerDataManager;
     [SerializeField] RoundMatchMaking RoundMatchMaking;
+    [SerializeField] BattleManager BattleManager;
+    [SerializeField] CameraMovement CameraMovement;
 
     List<GameObject> deactivateOnBattleEnd = new List<GameObject>();
     
-    List<AttackerSpawner> AttackerSpawners = new List<AttackerSpawner>();
-
 
     public void StartGame()
     {
@@ -38,10 +38,10 @@ public class GamePhaseManager : NetworkBehaviour
     {
         if (!IsServer) { return; }
 
-        EnterBattlePhase();
+        StartCoroutine(EnterBattlePhase());
     }
 
-    private void EnterBattlePhase()
+    private IEnumerator EnterBattlePhase()
     {
         // Reset Previous Data
         deactivateOnBattleEnd = new List<GameObject>();
@@ -49,18 +49,10 @@ public class GamePhaseManager : NetworkBehaviour
         // Match making
         List<(ulong, ulong)> matches = RoundMatchMaking.MakeMatches(NetworkManager.ConnectedClientsIds.ToList());
 
-
-        while (matches.Count > 0)
+        // Prepare all matches
+        foreach ((ulong, ulong) match in matches) 
         {
             MakeMatch(matches[0].Item1, matches[0].Item2);
-
-            matches.RemoveAt(0);
-        }
-
-        // Start Battle
-        foreach (AttackerSpawner attackerSpawner in AttackerSpawners)
-        {
-            attackerSpawner.StartSpawner();
         }
 
         ulong[] towerIds = new ulong[deactivateOnBattleEnd.Count];
@@ -73,7 +65,10 @@ public class GamePhaseManager : NetworkBehaviour
         
         BroadCastBattlePhaseStartRPC(towerIds);
 
-        StartCoroutine(WaitForBattleEnd());
+        yield return BattleManager.StartBattles(matches);
+
+        // Battles are over
+        StartShopPhase();
     }
 
     private void MakeMatch(ulong player1, ulong player2)
@@ -94,12 +89,6 @@ public class GamePhaseManager : NetworkBehaviour
     private void PrepareAttackers(ulong attackerID, ulong defenderID)
     {
         AttackerSpawner attackerSpawner = playerBoardsManager.PlayerBoardTable[defenderID].AttackerSpawner;
-
-        // Used for being able to check when battle is over
-        if (!AttackerSpawners.Contains(attackerSpawner)) 
-        {
-            AttackerSpawners.Add(attackerSpawner);
-        }
 
         // Get List of attackers from sideboard
         List<GameObject> attackers = playerBoardsManager.PlayerBoardTable[attackerID].GetComponent<SideBoard>().GetAttackers();
@@ -151,32 +140,10 @@ public class GamePhaseManager : NetworkBehaviour
 
     }
 
-
-    IEnumerator WaitForBattleEnd()
-    {
-        bool battleIsOver = false;
-        while (!battleIsOver)
-        {
-            battleIsOver = true;
-            // Check every board
-            foreach (AttackerSpawner spawner in AttackerSpawners)
-            {
-                if (spawner.activeAtttack)
-                {
-                    battleIsOver = false;
-                    break;
-                }
-            }
-            
-            yield return null;
-        }
-
-        StartShopPhase();
-    }
-
     public void ForceStart()
     {
         if (!IsServer) { return; }
+        if (GamePhase != GamePhases.ShopPhase) { return; }
 
         forceStart = true;
     }
@@ -266,6 +233,8 @@ public class GamePhaseManager : NetworkBehaviour
         // Set GamePhase
         GamePhase = GamePhases.ShopPhase;
 
+        // Move Camera back to own board
+        CameraMovement.LookAtPlayersBoard(NetworkManager.Singleton.LocalClientId);
     }
 
 }

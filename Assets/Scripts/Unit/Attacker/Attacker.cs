@@ -151,11 +151,9 @@ public class Attacker : NetworkBehaviour
 
     public void AddMaxHp(int amount)
     {
-        print(maxHp.Value);
         maxHpAugments.Add(amount);
         hp.Value += amount;
         maxHp.Value += amount;
-        print(maxHp.Value);
     }
 
     public void AddFlatMoveSpeed(float moveSpeedBuff)

@@ -13,6 +13,10 @@ public class PathCreator : MonoBehaviour
     private int boardIndex = 0;
     [SerializeField] PathManager pathManager;
     [SerializeField] PlayerBoard playerBoard;
+    GamePhaseManager GamePhaseManager;
+    UnitPlacement UnitPlacement;
+
+    private bool isInit = false;
 
     List<GameObject> tilesInPath = new List<GameObject>();
     
@@ -29,17 +33,37 @@ public class PathCreator : MonoBehaviour
         PlayerTileInteraction = FindObjectOfType<PlayerTileInteraction>();
         startTile = PlayerBoard.startTile; endTile = PlayerBoard.endTile;
         drawPathUI = FindObjectOfType<DrawPathUI>();
+        GamePhaseManager = FindObjectOfType<GamePhaseManager>();
+        UnitPlacement = FindObjectOfType<UnitPlacement>();
+
+        isInit = true;
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        if (!isInit) return;
         // Only Owner can interact
         if (playerBoard.owner.Value != NetworkManager.Singleton.LocalClientId) { return;}
+        // Only let player draw in shop phase
+        if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase)
+        {
+            if (tilesInPath.Count > 0)
+            {
+                ResetPath();
+            }
+
+            return;
+        }
+
 
         if (Input.GetMouseButton(0))
         {
+            // Dont let them make path if they are holding a unit
+            if (UnitPlacement.GetHeldUnit() != null) { return; }
+
+
             // Add new tile
             GameObject selectedTile = PlayerTileInteraction.GetSelectedTile();
             if (selectedTile)
