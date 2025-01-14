@@ -209,7 +209,7 @@ PrefabInstance:
       addedObject: {fileID: 6743971459798362903}
     - targetCorrespondingSourceObject: {fileID: 8587929601506611587, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       insertIndex: 5
-      addedObject: {fileID: 6261369510222014875}
+      addedObject: {fileID: 4738840912794760034}
     - targetCorrespondingSourceObject: {fileID: 8587929601506611587, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       insertIndex: 6
       addedObject: {fileID: 7657396922484779721}
@@ -247,7 +247,7 @@ MonoBehaviour:
   kills:
     m_InternalValue: 0
   animator: {fileID: 1066055334704378642}
---- !u!114 &6261369510222014875
+--- !u!114 &4738840912794760034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2986205235324272740}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 032552682aa7e16428e3e535f51a2598, type: 3}
+  m_Script: {fileID: 11500000, guid: 16a64f293acce7e46a0b14e96bd16f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SuceBloodustEffect: {fileID: 7657396922484779721}

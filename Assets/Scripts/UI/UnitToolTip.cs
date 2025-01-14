@@ -18,7 +18,9 @@ public class UnitToolTip : MonoBehaviour
     [SerializeField] TMP_Text damageText;
     [SerializeField] TMP_Text attackSpeedText;
     [SerializeField] TMP_Text rangeText;
+    [SerializeField] GameObject trackedStatsObj;
     [SerializeField] TMP_Text killsText;
+    [SerializeField] TMP_Text damageDealtText;
 
     [Header("Attacker")]
     [SerializeField] GameObject attackerStats;
@@ -63,7 +65,17 @@ public class UnitToolTip : MonoBehaviour
             damageText.SetText($"{tower.damage}");
             attackSpeedText.SetText($"{ tower.attackSpeed}");
             rangeText.SetText($"{tower.range}");
-            killsText.SetText($"{tower.kills.Value}");
+
+            if (unit.gameObject.GetComponent<NetworkObject>().IsSpawned)
+            {
+                trackedStatsObj.SetActive(true);
+                killsText.SetText($"{tower.kills.Value}");
+                damageDealtText.SetText($"{tower.damageDealt.Value}");
+            }
+            else 
+            {
+                trackedStatsObj.SetActive(false);
+            }
 
         }
         else if (unit.unitType == Unit.UnitType.Attacker)
@@ -107,4 +119,6 @@ public class UnitToolTip : MonoBehaviour
             }
         }
     }
+
+
 }

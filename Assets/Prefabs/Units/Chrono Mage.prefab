@@ -238,6 +238,22 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5123700867483370982, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: m_Size.x
+      value: 1.1709168
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123700867483370982, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: m_Size.y
+      value: 1.4605225
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123700867483370982, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: m_Size.z
+      value: 0.8021027
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123700867483370982, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: m_Center.y
+      value: 0.740408
+      objectReference: {fileID: 0}
     - target: {fileID: 5806325203948643061, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: m_Controller
       value: 
@@ -308,7 +324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8936748527447044709, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1325322568
+      value: 1575417823
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6706990088639824661, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
@@ -362,7 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd192a14b7b1a9c4aabd8c334b478b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
+  range: 4.5
   attackSpeed: 4
   damage: 50
   lookAtTarget: 1
@@ -371,6 +387,8 @@ MonoBehaviour:
   projectileSourceLocation: {fileID: 8419694377835565092}
   trackEndPoint: {fileID: 0}
   kills:
+    m_InternalValue: 0
+  damageDealt:
     m_InternalValue: 0
   animator: {fileID: 5094856717308607389}
   maxWaitTime: 0.26

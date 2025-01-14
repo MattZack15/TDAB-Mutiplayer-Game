@@ -78,7 +78,7 @@ public class BattleManager : NetworkBehaviour
 
     IEnumerator WaitForBattlesToEnd(List<AttackerSpawner> attackerSpawners)
     {
-        
+        float battleTimer = 0f;
         bool battleIsOver = false;
         while (!battleIsOver)
         {
@@ -95,10 +95,40 @@ public class BattleManager : NetworkBehaviour
                 }
             }
 
+            // Check for speed up / fast forward
+            HandleBattleSpeedUp(battleTimer);
+
+            battleTimer += Time.deltaTime;
             yield return null;
         }
 
+        ChangeTimeScaleRPC(1f);
         yield return new WaitForSeconds(.5f);
+    }
+
+    private void HandleBattleSpeedUp(float battleTimer)
+    {
+        // Check for speed up / fast forward
+        float nextTimeScale = 1f;
+        if (battleTimer > 60f)
+        {
+            nextTimeScale = 5f;
+        }
+        else if (battleTimer > 20f)
+        {
+            nextTimeScale = 2f;
+        }
+
+        if (nextTimeScale != Time.timeScale)
+        {
+            ChangeTimeScaleRPC(nextTimeScale);
+        }
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void ChangeTimeScaleRPC(float newTimeScale)
+    {
+        Time.timeScale = newTimeScale;
     }
 
     [Rpc(SendTo.ClientsAndHost)]

@@ -13,7 +13,7 @@ public class Tower : NetworkBehaviour
     // Tower Attributes add themselves to this list
     [HideInInspector] public List<TowerAttribute> TowerAttributes = new List<TowerAttribute>();
 
-    [SerializeField] private GameObject projectile;
+    [SerializeField] protected GameObject projectile;
     [SerializeField] public Transform projectileSourceLocation;
 
     [HideInInspector] public Transform trackEndPoint;
@@ -23,6 +23,7 @@ public class Tower : NetworkBehaviour
     protected List<GameObject> projectilePool = new List<GameObject>();
 
     [HideInInspector] public NetworkVariable<int> kills = new NetworkVariable<int>();
+    [HideInInspector] public NetworkVariable<int> damageDealt = new NetworkVariable<int>();
 
     // Update is called once per frame
     protected virtual void Update()
@@ -99,7 +100,7 @@ public class Tower : NetworkBehaviour
         }
     }
 
-    public void GiveKillCredit(GameObject KilledTarget)
+    public void ReciveKillCredit(GameObject KilledTarget)
     {
         // Called When an Attacker dies and this tower was the last to hit it
         kills.Value += 1;
@@ -107,6 +108,15 @@ public class Tower : NetworkBehaviour
         {
             TowerAttribute.OnReciveKillCredit(KilledTarget);
         }
+    }
+    public void ReciveDamageCredit(int damage)
+    {
+        damageDealt.Value += damage;
+    }
+
+    public virtual void OnRoundEnd()
+    {
+        // Called at the end of each round
     }
 
     public void DestroyProjectile(GameObject projectile)

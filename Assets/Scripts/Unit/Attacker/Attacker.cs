@@ -130,7 +130,14 @@ public class Attacker : NetworkBehaviour
         }
 
         // Assign Kill Credit
-        lastTowerHitMe.GiveKillCredit(gameObject);
+        if (lastTowerHitMe != null)
+        {
+            lastTowerHitMe.ReciveKillCredit(gameObject);
+        }
+        else
+        {
+            print("Tower is gone? (Kill)");
+        }
     }
 
     public virtual void TakeHit(int damage, Tower damageSource)
@@ -139,6 +146,16 @@ public class Attacker : NetworkBehaviour
 
         if (!this.enabled) return;
 
+        // Track tower damage (We take min because we don't count overkill damage)
+        if (damageSource != null)
+        {
+            damageSource.ReciveDamageCredit(Mathf.Min(hp.Value, damage));
+        }
+        else
+        {
+            print("Tower is gone? (Damage)");
+        }
+        
         hp.Value -= damage;
         lastTowerHitMe = damageSource;
     }

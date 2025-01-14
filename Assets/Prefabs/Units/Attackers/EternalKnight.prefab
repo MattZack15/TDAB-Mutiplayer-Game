@@ -443,6 +443,22 @@ PrefabInstance:
       propertyPath: attacker
       value: 
       objectReference: {fileID: 524473782159846610}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Size.y
+      value: 2.090562
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Size.z
+      value: 0.40996152
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Center.y
+      value: 1.046929
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Center.z
+      value: 0.03413543
+      objectReference: {fileID: 0}
     - target: {fileID: 5660127933202019724, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -490,11 +506,6 @@ PrefabInstance:
       insertIndex: 5
       addedObject: {fileID: 524473782159846610}
   m_SourcePrefab: {fileID: 100100000, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
---- !u!95 &3477272672501989050 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 3351964990612536739, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
-  m_PrefabInstance: {fileID: 2217270150215107353}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3499740661594837371 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3338505304559047266, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
@@ -521,7 +532,6 @@ MonoBehaviour:
     m_InternalValue: 0
   OnDeathEffects: []
   AttackerMovement: {fileID: 4825774950005884684}
-  Animator: {fileID: 3477272672501989050}
   hpBuff: 50
   moveSpeedBuff: 0.05
 --- !u!4 &4491614825468606026 stripped

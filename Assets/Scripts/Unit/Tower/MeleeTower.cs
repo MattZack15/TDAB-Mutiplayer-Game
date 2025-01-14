@@ -7,7 +7,7 @@ public class MeleeTower : Tower
 {
     [SerializeField] private Animator animator;
 
-    private bool attackAnimCallback = false;
+    protected bool attackAnimCallback = false;
     
     public override IEnumerator Attack()
     {

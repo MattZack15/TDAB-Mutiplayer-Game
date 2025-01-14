@@ -16,13 +16,17 @@ PrefabInstance:
       propertyPath: UnitID
       value: 17002
       objectReference: {fileID: 0}
+    - target: {fileID: 138626423661789404, guid: a1261d35eafb2e841b2b3cf85abdf800, type: 3}
+      propertyPath: UpgradedVersion
+      value: 
+      objectReference: {fileID: 6062566423428376060}
     - target: {fileID: 6993759587923757291, guid: a1261d35eafb2e841b2b3cf85abdf800, type: 3}
       propertyPath: m_Name
       value: Chrono MageLv2
       objectReference: {fileID: 0}
     - target: {fileID: 7266156671398929734, guid: a1261d35eafb2e841b2b3cf85abdf800, type: 3}
       propertyPath: range
-      value: 5.5
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7266156671398929734, guid: a1261d35eafb2e841b2b3cf85abdf800, type: 3}
       propertyPath: damage
@@ -81,3 +85,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1261d35eafb2e841b2b3cf85abdf800, type: 3}
+--- !u!1 &6062566423428376060 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6993759587923757291, guid: a1261d35eafb2e841b2b3cf85abdf800, type: 3}
+  m_PrefabInstance: {fileID: 3831511328984739095}
+  m_PrefabAsset: {fileID: 0}

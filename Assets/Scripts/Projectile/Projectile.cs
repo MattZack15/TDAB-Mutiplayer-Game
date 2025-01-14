@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Projectile : NetworkBehaviour
 {

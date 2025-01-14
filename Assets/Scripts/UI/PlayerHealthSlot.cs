@@ -17,7 +17,7 @@ public class PlayerHealthSlot : MonoBehaviour
         this.PlayerHealthManager = PlayerHealthManager;
         this.playerID = playerID;
 
-        playerIDText.text = "Player ID: " + playerID.ToString();
+        playerIDText.text = "Player: " + playerID.ToString();
         healthText.text = playerHealth.ToString() + "/" + PlayerHealthManager.baseMaxHealth.ToString();
 
         this.index = index;

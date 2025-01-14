@@ -177,16 +177,16 @@ public class GamePhaseManager : NetworkBehaviour
         int i = 0;
         foreach (GameObject tower in deactivateOnBattleEnd)
         {
+            if (tower == null) {  continue; }
+            // Store Network id
             towerIds[i] = tower.GetComponent<NetworkObject>().NetworkObjectId;
             i++;
-        }
 
-        foreach (GameObject Tower in deactivateOnBattleEnd)
-        {
-            if (Tower != null)
-            {
-                Tower.GetComponent<Unit>().SetInactive();
-            }
+            // Call on round end effects
+            tower.GetComponent<Tower>().OnRoundEnd();
+
+            // Set tower inactive
+            tower.GetComponent<Unit>().SetInactive();
         }
 
         // Define how much money a player is given this round

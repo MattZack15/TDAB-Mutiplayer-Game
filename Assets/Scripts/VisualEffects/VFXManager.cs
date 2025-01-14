@@ -11,6 +11,7 @@ public class VFXManager : NetworkBehaviour
     [SerializeField] GameObject arcaneProcParticlesPrefab;
     [SerializeField] GameObject greedyTempestProcParticlesPrefab;
     [SerializeField] GameObject EyeOfSucePrefab;
+    [SerializeField] GameObject bleedParticles;
 
     // Responsible for creating VFX locally
 
@@ -89,6 +90,13 @@ public class VFXManager : NetworkBehaviour
         GameObject particlesObj = Instantiate(greedyTempestProcParticlesPrefab, spawnPos, Quaternion.identity);
         particlesObj.transform.rotation = Quaternion.LookRotation(Vector3.up);
 
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void PlayBleedParticlesRPC(Vector3 spawnPos)
+    {
+        GameObject particlesObj = Instantiate(bleedParticles, spawnPos, Quaternion.identity);
+        particlesObj.transform.rotation = Quaternion.LookRotation(Vector3.up);
     }
 
     [Rpc(SendTo.ClientsAndHost)]

@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 03b2c4e06cbf5404c9839e9461faada2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 03b2c4e06cbf5404c9839e9461faada2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -93,11 +93,15 @@ PrefabInstance:
     - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: UnitIcon
       value: 
-      objectReference: {fileID: 21300000, guid: a72d9e1d2dfeb2e4f9c622564b6344b3, type: 3}
+      objectReference: {fileID: 21300000, guid: 99cd586c14f03e349805fdcb335a3696, type: 3}
     - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: UnitName
       value: Balloon
       objectReference: {fileID: 0}
+    - target: {fileID: -6629798897719877690, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: UpgradedVersion
+      value: 
+      objectReference: {fileID: 2772976231842880583, guid: 88fe9670258f32b43a08649a8cb4fede, type: 3}
     - target: {fileID: 346011687253312357, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -142,6 +146,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Balloon
       objectReference: {fileID: 0}
+    - target: {fileID: 3351964990612536739, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 4efe13829dfaa6f4c95624618e74ca28, type: 2}
+    - target: {fileID: 4639668830293919028, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.36
+      objectReference: {fileID: 0}
     - target: {fileID: 5657706734441799814, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: m_Size.x
       value: 0.624842
@@ -176,7 +188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5910300563084492780, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 3949380403
+      value: 1224944782
       objectReference: {fileID: 0}
     - target: {fileID: 6646692700084126741, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: moveSpeed
@@ -188,7 +200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8115512447373002805, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: speed
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8115512447373002805, guid: 087d016a43b8a6547b695cd90249e182, type: 3}
       propertyPath: health

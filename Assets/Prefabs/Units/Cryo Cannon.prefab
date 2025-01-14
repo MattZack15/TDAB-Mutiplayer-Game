@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2598e2622abe3b248b63ebc3d54ddaf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 6
+  range: 5
   attackSpeed: 3
   damage: 100
   lookAtTarget: 0
@@ -300,6 +300,10 @@ MonoBehaviour:
   projectile: {fileID: 3066287162791173235, guid: ca968278882d59d44a01f555b8ce90c0, type: 3}
   projectileSourceLocation: {fileID: 3613727413482251244}
   trackEndPoint: {fileID: 0}
+  kills:
+    m_InternalValue: 0
+  damageDealt:
+    m_InternalValue: 0
   explosionRadius: 1.5
   slowPercent: 0.7
   slowDuration: 3
@@ -317,7 +321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7485aabf6e439af4582816647e032dbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
 --- !u!4 &3613727413482251244 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7131560373207861580, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}

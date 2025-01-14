@@ -9,7 +9,7 @@ public class HomingProjectile : Projectile
 
     protected Transform target;
 
-    private Vector3 currentDir;
+    protected Vector3 currentDir;
 
     public override void InitProjectile(Tower SourceTower, int damage, Transform target)
     {
@@ -46,20 +46,15 @@ public class HomingProjectile : Projectile
     {
         Vector3 dir = ((target.position + heightOffset) - transform.position).normalized;
         Travel(dir);
+        dir.y = 0f;
         RotateToDirection(dir);
     }
 
-    private void Travel(Vector3 dir)
+    protected virtual void Travel(Vector3 dir)
     {
-        
-        dir.y = 0f;
         currentDir = dir;
         transform.position += (Vector3)dir * speed * Time.deltaTime;
     }
-
-
-
-
 
 
 

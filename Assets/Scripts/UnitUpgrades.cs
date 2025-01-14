@@ -92,6 +92,7 @@ public class UnitUpgrades : NetworkBehaviour
 
         // New tower will have the combined kill count of level 1 towers
         int totalKillCount = 0;
+        int totalDamageDealt = 0;
         
         // Destory previous Units
         int i = 0;
@@ -104,6 +105,7 @@ public class UnitUpgrades : NetworkBehaviour
             if (unit.GetComponent<Unit>().isTower())
             {
                 totalKillCount += unit.GetComponent<Tower>().kills.Value;
+                totalDamageDealt += unit.GetComponent<Tower>().damageDealt.Value;
             }
             
             // Copy Over Stats
@@ -127,6 +129,7 @@ public class UnitUpgrades : NetworkBehaviour
         if (spawnedUnit != null && spawnedUnit.GetComponent<Unit>().isTower()) 
         {
             spawnedUnit.GetComponent<Tower>().kills.Value = totalKillCount;
+            spawnedUnit.GetComponent<Tower>().damageDealt.Value = totalDamageDealt;
         }
     }
 

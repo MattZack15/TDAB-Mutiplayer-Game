@@ -10,8 +10,6 @@ public class EldritchTowerAttribute : TowerAttribute
     // 3 Eldrich Towers - 60%
     // 4 Eldrich Towers - 100%
 
-    [SerializeField] SuceBloodustEffect SuceBloodustEffect;
-    
     public static List<float> effectChances = new List<float> { 25f, 40f, 60f, 100f };
 
     public override void OnReciveKillCredit(GameObject KillTarget)
@@ -26,11 +24,14 @@ public class EldritchTowerAttribute : TowerAttribute
         }
     }
 
-    private void TriggerBloodlust(GameObject KillTarget)
+    protected virtual void TriggerBloodlust(GameObject KillTarget)
     {
-        if (SuceBloodustEffect != null)
-        {
-            SuceBloodustEffect.TriggerEffect(KillTarget);
-        }
+
+    }
+
+    public void GetFreeBloodlust()
+    {
+        // Called by Wisp
+        TriggerBloodlust(null);
     }
 }

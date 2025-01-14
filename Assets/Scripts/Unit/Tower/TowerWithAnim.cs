@@ -9,11 +9,12 @@ public class TowerWithAnim : Tower
 
     [SerializeField] private Animator animator;
 
-    private bool attackAnimCallback = false;
-    [SerializeField] float maxWaitTime = 1f;
+    protected bool attackAnimCallback = false;
+    [SerializeField] protected float maxWaitTime = 1f;
 
     public override IEnumerator Attack()
     {
+        print("TowerWithAnim Attack");
 
         // Start Animation
         FindObjectOfType<VFXManager>().PlayUnitAnimRPC(GetComponent<NetworkObject>().NetworkObjectId, "attack");
@@ -35,6 +36,12 @@ public class TowerWithAnim : Tower
         
         // Wait Cooldown
         yield return new WaitForSeconds(attackSpeed);
+    }
+
+    protected void BaseAttackMethod()
+    {
+        // Because IDK how to do base.base.Attack()
+        StartCoroutine(base.Attack());
     }
 
     public void AttackAnimationCallback()
