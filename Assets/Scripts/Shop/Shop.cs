@@ -79,6 +79,9 @@ public class Shop : NetworkBehaviour
         {
             PlayerWarband.AddUnit(unitDex.Dex[UnitID]);
 
+            // Play Sound Effect
+            AudioManager.Instance.Play("buyunit");
+
             ShopItemsUI.RemoveItem(shopIndex);
         }
     }
@@ -138,6 +141,9 @@ public class Shop : NetworkBehaviour
         if (playerID != NetworkManager.Singleton.LocalClientId) return;
 
         ShopItemsUI.ReciveNewShopItems(ShopItems);
+
+        // Play Sound
+        AudioManager.Instance.Play("shoprefresh");
     }
 
     public void TrySellUnit(GameObject unit, Vector3 tileID)
@@ -163,6 +169,9 @@ public class Shop : NetworkBehaviour
 
         // Give Coins
         ServerPlayerDataManager.GetPlayerData(playerID).coins.Value += SellValue;
+
+        // Play Sound
+        AudioManager.Instance.PlayOnClient("sellunit", playerID);
 
         // Handle Greedy Tempest
         GreedyTempestHandler.HandleSellUnit(unit.gameObject, (int)tileID.z, playerID);
@@ -194,6 +203,9 @@ public class Shop : NetworkBehaviour
 
         // Update Level Cost
         playerData.levelCost.Value = levelCosts[Mathf.Min(playerData.level.Value-1, levelCosts.Count-1)];
+
+        // Play Sound Effect
+        AudioManager.Instance.PlayOnClient("levelup", playerID);
     }
 
     private bool CheckCoinsClientSide(int itemCost)

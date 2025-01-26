@@ -16,6 +16,7 @@ public class BattleManager : NetworkBehaviour
 
     [SerializeField] PlayerBoardsManager PlayerBoardsManager;
     [SerializeField] CameraMovement CameraMovement;
+    [SerializeField] BattleIndicatorUI BattleIndicatorUI;
 
     public IEnumerator StartBattles(List<(ulong, ulong)> matches)
     {
@@ -143,23 +144,28 @@ public class BattleManager : NetworkBehaviour
             if (clientID == localPlayerID)
             {
                 CameraMovement.LookAtPlayersBoard(defenders[i]);
+                BattleIndicatorUI.DisplayBattle(localPlayerID, defenders[i]);
                 return;
             }
+            i++;
         }
 
         // We are not in the attackers list so now look through defenders list to make sure we are there
         // In this case we just look at our own board because we are defending
+        i = 0;
         foreach (ulong clientID in defenders)
         {
             if (clientID == localPlayerID)
             {
                 CameraMovement.LookAtPlayersBoard(localPlayerID);
+                BattleIndicatorUI.DisplayBattle(attackers[i], localPlayerID);
                 return;
             }
+            i++;
         }
 
         // If we are here then we must not be in battle so we just look at the first defender board
-        print("Picking Default Cam Pos");
         CameraMovement.LookAtPlayersBoard(defenders[0]);
+        BattleIndicatorUI.DisplayBattle(attackers[0], defenders[0]);
     }
 }

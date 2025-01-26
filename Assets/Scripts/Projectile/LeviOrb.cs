@@ -9,7 +9,15 @@ public class LeviOrb : HomingProjectile
     float arcTime = 1f;
     float timer;
     float acceleration = 1f;
-    
+
+    float timeAlive = 0f;
+
+    public override void Update()
+    {
+        base.Update();
+        timeAlive += Time.deltaTime;
+    }
+
     public override void InitProjectile(Tower SourceTower, int damage, Transform target)
     {
         base.InitProjectile(SourceTower, damage, target);
@@ -43,5 +51,20 @@ public class LeviOrb : HomingProjectile
     private float easeSin(float x)
     {
         return Mathf.Sin(x * Mathf.PI);
+    }
+
+    public override void OnTriggerEnter(Collider collision)
+    {
+        if (!IsServer) { return; }
+        if (timeAlive < .25f) { return; }
+
+        if (collision.CompareTag("Attacker"))
+        {
+
+            collision.gameObject.GetComponent<Attacker>().TakeHit(damage, SourceTower);
+
+            Die();
+
+        }
     }
 }

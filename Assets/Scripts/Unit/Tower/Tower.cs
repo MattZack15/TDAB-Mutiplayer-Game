@@ -90,6 +90,7 @@ public class Tower : NetworkBehaviour
         TriggerOnAttackEffects();
 
         yield return new WaitForSeconds(attackSpeed);
+
     }
 
     protected void TriggerOnAttackEffects()

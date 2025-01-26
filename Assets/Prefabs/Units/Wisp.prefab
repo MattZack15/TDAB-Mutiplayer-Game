@@ -618,6 +618,10 @@ PrefabInstance:
         in range for 100 damage, and causes all other towers to Bloodlust'
       objectReference: {fileID: 0}
     - target: {fileID: -7508388100034750028, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: UpgradedVersion
+      value: 
+      objectReference: {fileID: 4469495896925429353, guid: 7bc2239e43a5e4045ba66be1050b19d8, type: 3}
+    - target: {fileID: -7508388100034750028, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: tribes.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -707,7 +711,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8936748527447044709, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 98417102
+      value: 1606054479
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6706990088639824661, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}

@@ -64,6 +64,9 @@ public class UnitPlacement : NetworkBehaviour
             // Check if we hit a Moveable Unit
             grabbedUnit = hitUnit.gameObject.transform;
 
+            // Play Sound Effect
+            AudioManager.Instance.Play("pickupunit");
+
             // Find Original Tile;
             RaycastHit[] hits;
             hits = Physics.RaycastAll(grabbedUnit.transform.position + new Vector3(0f, .5f, 0f), Vector3.down * 5f);
@@ -197,7 +200,10 @@ public class UnitPlacement : NetworkBehaviour
             }
 
             RequestUnitSwapServerRPC(targetTileId, prevTileId, grabbedUnit.GetComponent<NetworkObject>().NetworkObjectId, OtherObj.GetComponent<NetworkObject>().NetworkObjectId);
-
+            
+            // Play Sound Effect
+            AudioManager.Instance.Play("placeunit");
+            
             ResetData();
             return;
         }
@@ -206,6 +212,8 @@ public class UnitPlacement : NetworkBehaviour
         if (hoveredHexTile.occupied == false)
         {
             RequestUnitPlacmentServerRPC(targetTileId, prevTileId, grabbedUnit.GetComponent<NetworkObject>().NetworkObjectId);
+            // Play Sound Effect
+            AudioManager.Instance.Play("placeunit");
         }
 
 
