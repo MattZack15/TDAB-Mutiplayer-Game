@@ -10,7 +10,6 @@ public class HostControls : NetworkBehaviour
 
     [SerializeField] PlayerBoardsGenerator PlayerBoardsGenerator;
 
-    [SerializeField] private PlayerHealthManager PlayerHealthManager;
     [SerializeField] private PlayerHealthUI PlayerHealthUI;
     [SerializeField] private ServerPlayerDataManager ServerPlayerDataManager;
     [SerializeField] private Shop shop;
@@ -34,8 +33,6 @@ public class HostControls : NetworkBehaviour
 
         // Spawn in the boards
         PlayerBoardsGenerator.SpawnPlayerBoards();
-        // Init Player Health
-        PlayerHealthManager.InitPlayerHealth();
         // Show Health UI
         //PlayerHealthUI.GeneratePlayerHealthUI();
         // Server Side Player Data

@@ -9,22 +9,11 @@ public class EndZone : NetworkBehaviour
     // When attacking units come into it
     // Remove them
     // Send them back to start
-    // Remove HP
+    
     [SerializeField] private AttackerSpawner AttackerSpawner;
     [SerializeField] private PlayerBoard PlayerBoard;
 
-
-    private PlayerHealthManager PlayerHealthManager;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (!IsServer) { return; }
-
-        PlayerHealthManager = FindObjectOfType<PlayerHealthManager>();
-    }
-
+    [HideInInspector] public int unitsPassedThroughThisRound = 0;
 
 
     private void OnTriggerEnter(Collider other)
@@ -37,8 +26,7 @@ public class EndZone : NetworkBehaviour
 
             AttackerSpawner.SendAttackerToStart(AttackerUnit);
 
-            PlayerHealthManager.OnAttackerReachEnd(PlayerBoard);
-
+            unitsPassedThroughThisRound += 1;
         }
     }
 }

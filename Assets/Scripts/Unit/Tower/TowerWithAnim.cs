@@ -14,7 +14,7 @@ public class TowerWithAnim : Tower
 
     public override IEnumerator Attack()
     {
-        print("TowerWithAnim Attack");
+        //print("TowerWithAnim Attack");
 
         // Start Animation
         FindObjectOfType<VFXManager>().PlayUnitAnimRPC(GetComponent<NetworkObject>().NetworkObjectId, "attack");

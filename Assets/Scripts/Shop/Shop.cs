@@ -130,8 +130,12 @@ public class Shop : NetworkBehaviour
         // Otherwise send give a new shop list
         int[] newShopItems = ShopPool.GenerateShopSelection(targetPlayerID, ShopSize);
         // Track On Server
-        ServerPlayerDataManager.GetPlayerData(targetPlayerID).SetNewShop(newShopItems);
-        
+        ServerPlayerData playerData = ServerPlayerDataManager.GetPlayerData(targetPlayerID);
+        playerData.SetNewShop(newShopItems);
+
+        // Unfreeze shop
+        playerData.shopIsFrozen.Value = false;
+
         ShopRefreshClientRPC(newShopItems, targetPlayerID);
     }
 
@@ -206,6 +210,26 @@ public class Shop : NetworkBehaviour
 
         // Play Sound Effect
         AudioManager.Instance.PlayOnClient("levelup", playerID);
+    }
+
+    public void TryFreezeShop()
+    {
+        FreezeShopServerRPC(NetworkManager.Singleton.LocalClientId);
+    }
+
+    [Rpc(SendTo.Server)]
+    public void FreezeShopServerRPC(ulong playerID)
+    {
+        ServerPlayerData playerData = ServerPlayerDataManager.GetPlayerData(playerID);
+        
+        // Invert if shop is frozen
+        playerData.shopIsFrozen.Value = !playerData.shopIsFrozen.Value;
+        
+        // Play Sound Effect
+        if (playerData.shopIsFrozen.Value)
+        {
+            AudioManager.Instance.PlayOnClient("freezeshop", playerID);
+        }
     }
 
     private bool CheckCoinsClientSide(int itemCost)

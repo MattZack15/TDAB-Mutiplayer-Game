@@ -8,25 +8,28 @@ public class PlayerHealthSlot : MonoBehaviour
     [SerializeField] private TMP_Text playerIDText;
     [SerializeField] private TMP_Text healthText;
 
-    private int index;
     private ulong playerID;
-    PlayerHealthManager PlayerHealthManager;
+    private ServerPlayerData playerData;
 
-    public void PopulateSlot(ulong playerID, int playerHealth, int index, PlayerHealthManager PlayerHealthManager)
+    public void PopulateSlot(ServerPlayerData playerData)
     {
-        this.PlayerHealthManager = PlayerHealthManager;
-        this.playerID = playerID;
+        this.playerData = playerData;
+        this.playerID = playerData.clientID.Value;
 
         playerIDText.text = "Player: " + playerID.ToString();
-        healthText.text = playerHealth.ToString() + "/" + PlayerHealthManager.baseMaxHealth.ToString();
-
-        this.index = index;
+        healthText.text = playerData.health.Value.ToString();
     }
 
     private void Update()
     {
-        int playerHealth = PlayerHealthManager.playerHps[index];
-        healthText.text = playerHealth.ToString() + "/" + PlayerHealthManager.baseMaxHealth.ToString();
+        int playerHealth = playerData.health.Value;
+        healthText.text = playerHealth.ToString();
+
+        if (playerData.clientID.Value != playerID)
+        {
+            playerID = playerData.clientID.Value;
+            playerIDText.text = "Player: " + playerID.ToString();
+        }
     }
 
     public void OnClick()

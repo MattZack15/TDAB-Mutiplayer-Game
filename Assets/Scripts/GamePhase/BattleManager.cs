@@ -17,9 +17,18 @@ public class BattleManager : NetworkBehaviour
     [SerializeField] PlayerBoardsManager PlayerBoardsManager;
     [SerializeField] CameraMovement CameraMovement;
     [SerializeField] BattleIndicatorUI BattleIndicatorUI;
+    [SerializeField] ServerPlayerDataManager ServerPlayerDataManager;
+    [SerializeField] BattleDamageSummary BattleDamageSummary;
+
+    [SerializeField] int minHealthDamage = 5;
+    [SerializeField] int damageCap = 35;
 
     public IEnumerator StartBattles(List<(ulong, ulong)> matches)
     {
+        if (matches.Count == 0) { yield break; }
+        // Track Total Battle Damage (Number of units that made it thorugh for each player)
+        // player, EndZone, player EndZone
+
         // Start Phase 1
         List<AttackerSpawner> attackerSpawners = new List<AttackerSpawner>();
         ulong[] attackersIDs = new ulong[matches.Count];
@@ -75,6 +84,52 @@ public class BattleManager : NetworkBehaviour
 
         // Wait for battles to end
         yield return WaitForBattlesToEnd(attackerSpawners);
+
+        // Deal Damage to Players
+        foreach ((ulong, ulong) match in matches)
+        {
+            ulong p1ID = match.Item1;
+            ulong p2ID = match.Item2;
+
+            EndZone p1EndZone = PlayerBoardsManager.PlayerBoardTable[p1ID].EndZone.GetComponent<EndZone>();
+            EndZone p2EndZone = PlayerBoardsManager.PlayerBoardTable[p2ID].EndZone.GetComponent<EndZone>();
+
+            // We look at the opposite players endzone to see how well we did
+            int p1Score = p2EndZone.unitsPassedThroughThisRound;
+            int p2Score = p1EndZone.unitsPassedThroughThisRound;
+
+            // Reset for next round
+            p1EndZone.unitsPassedThroughThisRound = 0;
+            p2EndZone.unitsPassedThroughThisRound = 0;
+
+            // p1 Win
+            if (p1Score >= p2Score)
+            {
+                DealDamage(p1ID, p2ID, p1Score, p2Score);                
+            }
+            // p2 Win
+            else if (p2Score > p1Score)
+            {
+                DealDamage(p2ID, p1ID, p2Score, p1Score);
+            }
+        }
+
+        yield return new WaitForSeconds(3f);
+    }
+
+    private void DealDamage(ulong winnerID, ulong loserID, int winnerScore, int loserScore)
+    {
+        int scoreDifference = winnerScore - loserScore;
+        int totalDamage = minHealthDamage + scoreDifference;
+        totalDamage = Mathf.Min(totalDamage, damageCap);
+        ServerPlayerData loserData = ServerPlayerDataManager.GetPlayerData(loserID);
+        loserData.health.Value -= totalDamage;
+
+        //print($"{loserID} takes {totalDamage} damage");
+        // Show Summary on both clients
+        BattleDamageSummary.PlayOnClient(winnerID, loserID, winnerScore, loserScore, minHealthDamage, loserData.health.Value + totalDamage, loserData.health.Value, winnerID);
+        BattleDamageSummary.PlayOnClient(winnerID, loserID, winnerScore, loserScore, minHealthDamage, loserData.health.Value + totalDamage, loserData.health.Value, loserID);
+
     }
 
     IEnumerator WaitForBattlesToEnd(List<AttackerSpawner> attackerSpawners)

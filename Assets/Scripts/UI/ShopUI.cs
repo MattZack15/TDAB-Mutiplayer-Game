@@ -22,6 +22,8 @@ public class ShopUI : MonoBehaviour
     [SerializeField] TMP_Text levelCostText;
     [SerializeField] TMP_Text refreshCostText;
 
+    [SerializeField] GameObject ShopIsFrozenIndicator;
+
     // Update is called once per frame
     void Update()
     {
@@ -89,6 +91,9 @@ public class ShopUI : MonoBehaviour
             refreshCost = 0;
         }
         refreshCostText.SetText($"Refresh\n(Cost {refreshCost})");
+
+        // Shop is Frozen
+        ShopIsFrozenIndicator.SetActive(myPlayerData.shopIsFrozen.Value);
 
     }
 }

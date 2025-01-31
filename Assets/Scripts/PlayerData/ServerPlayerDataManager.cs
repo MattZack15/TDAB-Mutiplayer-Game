@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class ServerPlayerDataManager : MonoBehaviour
+public class ServerPlayerDataManager : NetworkBehaviour
 {
     [SerializeField] GameObject PlayerDataPrefab;
     public Dictionary<ulong, ServerPlayerData> ServerPlayerDataTable = new Dictionary<ulong, ServerPlayerData>();
@@ -30,6 +30,7 @@ public class ServerPlayerDataManager : MonoBehaviour
 
     public ServerPlayerData GetPlayerData(ulong clientID)
     {
+        if (!IsServer) return null;
         return ServerPlayerDataTable[clientID];
     }
 
@@ -51,5 +52,17 @@ public class ServerPlayerDataManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public List<ServerPlayerData> GetAllPlayerData()
+    {
+        List<ServerPlayerData> datas = new List<ServerPlayerData>();
+        foreach (Transform child in transform)
+        {
+            ServerPlayerData data = child.gameObject.GetComponent<ServerPlayerData>();
+            datas.Add(data);
+        }
+        
+        return datas;
     }
 }

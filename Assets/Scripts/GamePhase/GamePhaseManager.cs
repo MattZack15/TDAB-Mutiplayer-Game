@@ -31,6 +31,7 @@ public class GamePhaseManager : NetworkBehaviour
     public void StartGame()
     {
         roundNumber.Value = 0;
+        turnTimer.Value = 0;
         StartShopPhase();
     }
 
@@ -206,8 +207,16 @@ public class GamePhaseManager : NetworkBehaviour
                 playerData.levelCost.Value = 0;
             }
 
-            // Refresh Everyones shop
-            shop.ShopRefresh(playerID);
+            // Refresh Everyones shop (unless its frozen)
+            if (playerData.shopIsFrozen.Value)
+            {
+                // Skip and unfreeze
+                playerData.shopIsFrozen.Value = false;
+            }
+            else
+            {
+                shop.ShopRefresh(playerID);
+            }
         }
         
         // Set GamePhase

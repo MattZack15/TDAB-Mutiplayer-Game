@@ -8,7 +8,7 @@ public class PlayerHealthUI : MonoBehaviour
 {
     [SerializeField] private GameObject PlayerSlot;
 
-    [SerializeField] private PlayerHealthManager PlayerHealthManager;
+    [SerializeField] ServerPlayerDataManager ServerPlayerDataManager;
     [SerializeField] private Transform layoutGroup;
 
     List<GameObject> playerHealthSlots = new List<GameObject>();
@@ -21,7 +21,7 @@ public class PlayerHealthUI : MonoBehaviour
 
     private void Update()
     {
-        if (playerHealthSlots.Count != PlayerHealthManager.playerIds.Count)
+        if (playerHealthSlots.Count != ServerPlayerDataManager.GetAllPlayerData().Count)
         {
             ResetPlayerHealthUI();
             GeneratePlayerHealthUI();
@@ -38,14 +38,13 @@ public class PlayerHealthUI : MonoBehaviour
 
     public void GeneratePlayerHealthUI()
     {
-        int i = 0;
-        while (i < PlayerHealthManager.playerIds.Count)
+        List<ServerPlayerData> playerDatas = ServerPlayerDataManager.GetAllPlayerData();
+        foreach (ServerPlayerData playerData in playerDatas)
         {
             GameObject newPlayerSlot = Instantiate(PlayerSlot, layoutGroup);
-            newPlayerSlot.GetComponent<PlayerHealthSlot>().PopulateSlot(PlayerHealthManager.playerIds[i], PlayerHealthManager.playerHps[i], i, PlayerHealthManager);
+            newPlayerSlot.GetComponent<PlayerHealthSlot>().PopulateSlot(playerData);
 
             playerHealthSlots.Add(newPlayerSlot);
-            i++;
         }
     }
 }

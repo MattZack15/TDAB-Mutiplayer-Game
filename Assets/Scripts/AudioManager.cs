@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : NetworkBehaviour
 {
 
     public List<Sound> Sounds;
