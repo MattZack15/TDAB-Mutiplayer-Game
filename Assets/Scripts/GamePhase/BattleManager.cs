@@ -120,7 +120,11 @@ public class BattleManager : NetworkBehaviour
     private void DealDamage(ulong winnerID, ulong loserID, int winnerScore, int loserScore)
     {
         int scoreDifference = winnerScore - loserScore;
-        int totalDamage = minHealthDamage + scoreDifference;
+        int totalDamage = scoreDifference;
+        if (scoreDifference > 0)
+        {
+            totalDamage += minHealthDamage;
+        }
         totalDamage = Mathf.Min(totalDamage, damageCap);
         ServerPlayerData loserData = ServerPlayerDataManager.GetPlayerData(loserID);
         loserData.health.Value -= totalDamage;
@@ -166,7 +170,7 @@ public class BattleManager : NetworkBehaviour
     {
         // Check for speed up / fast forward
         float nextTimeScale = 1f;
-        if (battleTimer > 60f)
+        if (battleTimer > 40f)
         {
             nextTimeScale = 5f;
         }

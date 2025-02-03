@@ -16,7 +16,7 @@ public class HexagonGridGenerator : MonoBehaviour
     const float root3 = 1.7320508f;
 
     public static Vector2 playerBoardSize = new Vector2(7, 18);
-    public static Vector2 sideBoardSize = new Vector2(1, 18);
+    public static Vector2 sideBoardSize = new Vector2(1, 16);
 
     public Color color1;
     public Color color2;

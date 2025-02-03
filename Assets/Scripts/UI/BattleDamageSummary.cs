@@ -66,6 +66,9 @@ public class BattleDamageSummary : NetworkBehaviour
         p1NameText.SetText(p1.ToString());
         p2NameText.SetText(p2.ToString());
 
+        // Play Popup Sound
+        AudioManager.Instance.Play("bdsrecappopup");
+
         yield return new WaitForSeconds(.5f);
 
         // Load Scores
@@ -85,6 +88,7 @@ public class BattleDamageSummary : NetworkBehaviour
         p1ScoreText.SetText(p1ScoreString);
         p2ScoreText.SetText(p2ScoreString);
 
+        AudioManager.Instance.Play("impact");
         yield return new WaitForSeconds(1f);
 
         // Tie
@@ -140,6 +144,8 @@ public class BattleDamageSummary : NetworkBehaviour
         totalDamageText.SetText(totalDamage.ToString());
         p2ScoreText.SetText("0");
 
+        AudioManager.Instance.Play("impact");
+
         yield return new WaitForSeconds(.5f);
         // Decrement Loser's Health
         loserhealthSection.SetActive(true);
@@ -165,6 +171,8 @@ public class BattleDamageSummary : NetworkBehaviour
 
         loserHealthString = loserHealthEnd.ToString();
         loserHealthText.SetText(loserHealthString);
+
+        AudioManager.Instance.Play("impact");
 
         yield return new WaitForSeconds(1.5f);
         BattleDamageSummaryContainer.SetActive(false);

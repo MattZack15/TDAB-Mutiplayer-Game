@@ -61,8 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8a6098ad3162f4589e011c7e94cfc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilesUnlocked:
-    m_InternalValue: 0
+  tilesUnlockedTable: 0f0000001100000014000000170000001b0000001f000000
   board: {fileID: 6134556382195221508}
   DefaultPath:
   - {x: 5, y: 17}
@@ -353,6 +352,7 @@ Transform:
   - {fileID: 8819918280912842524}
   - {fileID: 626570944193191881}
   - {fileID: 8182135478699107217}
+  - {fileID: 6498144156962715092}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7712223667450254688
@@ -412,6 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SideBoardGrid: {fileID: 0}
+  AttackerLimits: 0300000004000000050000000600000006000000
 --- !u!114 &392024316075640577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,6 +430,52 @@ MonoBehaviour:
     m_InternalValue: 0
   EldritchCount:
     m_InternalValue: 0
+--- !u!1 &6363322747692143260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6498144156962715092}
+  - component: {fileID: 603850636005918770}
+  m_Layer: 0
+  m_Name: AttackerLimitUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6498144156962715092
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6363322747692143260}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6725034459188159438}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &603850636005918770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6363322747692143260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ced20c3f969b0ea43b01569583752cf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sideboard: {fileID: 3197213597383593972}
+  attackerLimitLabelPrefab: {fileID: 5394054835385298413, guid: 19d9b760dd2431640a48b8d94614b89a, type: 3}
 --- !u!1 &6561487300009331525
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,6 +682,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackerSpawner: {fileID: 2179409369394625063}
   PlayerBoard: {fileID: 6134556382195221508}
+  unitsPassedThroughThisRound: 0
 --- !u!1 &8490715982078026584
 GameObject:
   m_ObjectHideFlags: 0
