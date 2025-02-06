@@ -380,7 +380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 4.5
   attackSpeed: 4
-  damage: 50
+  damage: 55
   lookAtTarget: 1
   TowerAttributes: []
   projectile: {fileID: 467277209035355284, guid: 91018d159505f23409f8bb59a54c1534, type: 3}

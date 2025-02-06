@@ -15,7 +15,7 @@ public class TribeSynergy : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        // Make be ineffcient
+        // May be ineffcient
         CountTribeNumber();
     }
     

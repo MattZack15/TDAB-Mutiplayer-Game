@@ -6,7 +6,7 @@ using UnityEngine;
 public class RoundMatchMaking : MonoBehaviour
 {
     private Dictionary<ulong, ulong> MatchHistory = new Dictionary<ulong, ulong>();
-
+    [SerializeField] ServerPlayerDataManager PlayerDataManager;
 
     public List<(ulong, ulong)> MakeMatches(List<ulong> clientIDs)
     {
@@ -17,6 +17,9 @@ public class RoundMatchMaking : MonoBehaviour
         List<ulong> playerIDs = new List<ulong>();
         foreach (ulong clientID in clientIDs)
         {
+            // Ignore Dead People
+            if (PlayerDataManager.GetPlayerData(clientID).health.Value <= 0) { continue; }
+            
             playerIDs.Add(clientID);
         }
 

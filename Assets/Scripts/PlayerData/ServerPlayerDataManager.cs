@@ -30,8 +30,34 @@ public class ServerPlayerDataManager : NetworkBehaviour
 
     public ServerPlayerData GetPlayerData(ulong clientID)
     {
-        if (!IsServer) return null;
-        return ServerPlayerDataTable[clientID];
+        if (IsServer)
+        {
+            return ServerPlayerDataTable[clientID];
+        }
+        // Client Side
+        if (ServerPlayerDataTable.Count != NetworkManager.ConnectedClientsIds.Count)
+        {
+            // Populate Table
+            foreach (Transform child in transform)
+            {
+                ServerPlayerData data = child.gameObject.GetComponent<ServerPlayerData>();
+                ServerPlayerDataTable[data.clientID.Value] = data;
+            }
+
+            if (!ServerPlayerDataTable.ContainsKey(clientID))
+            {
+                return null;
+            }
+            else
+            {
+                return ServerPlayerDataTable[clientID];
+            }
+        }
+        else
+        {
+            return ServerPlayerDataTable[clientID];
+        }
+
     }
 
     public ServerPlayerData GetMyPlayerData()

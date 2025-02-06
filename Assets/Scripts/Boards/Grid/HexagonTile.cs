@@ -172,4 +172,9 @@ public class HexagonTile : MonoBehaviour
         inhabitor = null;
         occupied = false;
     }
+
+    public bool isOccupied()
+    {
+        return inhabitor != null;
+    }
 }

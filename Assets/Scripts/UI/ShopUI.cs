@@ -42,7 +42,7 @@ public class ShopUI : MonoBehaviour
     private void HideShop()
     {
         //Hide Shop During Battle Phase
-        bool hide = !(gamePhaseManager.GamePhase == GamePhases.ShopPhase);
+        bool hide = !(gamePhaseManager.GamePhase.Value == (int)GamePhases.ShopPhase);
 
         if (hide)
         {
@@ -57,7 +57,7 @@ public class ShopUI : MonoBehaviour
     private void SetInteractionAreaDisplay()
     {
         // Displays either the Shop items or the sell area
-        if (unitPlacement.GetHeldUnit())
+        if (unitPlacement.GetMyHeldUnit())
         {
             shopItemsUI.SetActive(false);
             sellUnitUI.SetActive(true);

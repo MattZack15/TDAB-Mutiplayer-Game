@@ -28,6 +28,7 @@ public class UnitToolTip : MonoBehaviour
     [SerializeField] TMP_Text moveSpeedText;
 
     [Header("Other")]
+    [SerializeField] GameObject container;
     [SerializeField] Camera cam;
     [SerializeField] GameObject TribeLabelPrefab;
     [SerializeField] Transform TribeLayoutGroup;
@@ -35,11 +36,18 @@ public class UnitToolTip : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Close Tool Tip
+            HidePanel();
+        }
         ToolTipOnUnitCheck();
     }
 
     public void SetDisplay(Unit unit)
     {
+        container.SetActive(true);
+        
         unitname.SetText(unit.UnitName);
         UnitArt.sprite = unit.UnitIcon;
         unitdescription.SetText(unit.description);
@@ -118,6 +126,11 @@ public class UnitToolTip : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void HidePanel()
+    {
+        container.SetActive(false);
     }
 
 

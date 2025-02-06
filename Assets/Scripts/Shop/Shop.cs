@@ -47,6 +47,8 @@ public class Shop : NetworkBehaviour
         // Must Have the coins
         if (ServerPlayerDataManager.GetPlayerData(playerID).coins.Value < UnitCost) { print("Not enough coins"); return; }
 
+        // Must Have Space On Board
+
         // Write Info To Server Player Data
         playerData.shop.Remove(shopIndex);
         playerData.coins.Value -= UnitCost;
@@ -100,7 +102,7 @@ public class Shop : NetworkBehaviour
     public void BuyShopRefreshServerRPC(ulong playerID)
     {
         // Must be in shop phase
-        if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase) { return; }
+        if (GamePhaseManager.GamePhase.Value != (int)GamePhaseManager.GamePhases.ShopPhase) { return; }
         ServerPlayerData playerData = ServerPlayerDataManager.GetPlayerData(playerID);
 
 
@@ -150,26 +152,33 @@ public class Shop : NetworkBehaviour
         AudioManager.Instance.Play("shoprefresh");
     }
 
-    public void TrySellUnit(GameObject unit, Vector3 tileID)
+    public void TrySellUnit(GameObject targetUnit)
     {
-        SellUnitServerRPC(NetworkManager.Singleton.LocalClientId, unit.GetComponent<NetworkObject>().NetworkObjectId, tileID);
+        SellUnitServerRPC(NetworkManager.Singleton.LocalClientId, targetUnit.GetComponent<NetworkObject>().NetworkObjectId);
     }
 
     [Rpc(SendTo.Server)]
-    public void SellUnitServerRPC(ulong playerID, ulong unitNetworkID, Vector3 tileID)
+    public void SellUnitServerRPC(ulong playerID, ulong networkObjectId)
     {
         // TODO Check to make sure that player owns that unit
 
-        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(unitNetworkID, out NetworkObject unit);
+        // Find Unit Held By Player
+        NetworkObject networkObject;
+        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
+        
+        if (networkObject == null) return;
+        
+        GameObject HeldUnitObj = networkObject.gameObject;
+        Unit unit = HeldUnitObj.GetComponent<Unit>();
+
+        // Clear Tile
+        unit.homeTile.SetUnoccupied();
 
         // Add back to shop pool
-        ShopPool.AddUnitBackToPool(unitDex.Dex[unit.gameObject.GetComponent<Unit>().UnitID]);
-        
+        ShopPool.AddUnitBackToPool(unitDex.Dex[unit.UnitID], unit.quantityToShopPool);
+
         // Remove Unit
-        unit.Despawn();
-        
-        // Must Update Tile So we can still place units on it
-        unitPlacement.ClearTileClientRPC(tileID);
+        networkObject.Despawn();
 
         // Give Coins
         ServerPlayerDataManager.GetPlayerData(playerID).coins.Value += SellValue;
@@ -178,7 +187,7 @@ public class Shop : NetworkBehaviour
         AudioManager.Instance.PlayOnClient("sellunit", playerID);
 
         // Handle Greedy Tempest
-        GreedyTempestHandler.HandleSellUnit(unit.gameObject, (int)tileID.z, playerID);
+        GreedyTempestHandler.HandleSellUnit(HeldUnitObj, (int)unit.homeTile.tileId.z, playerID);
     }
 
 
@@ -238,7 +247,7 @@ public class Shop : NetworkBehaviour
         ServerPlayerData myPlayerData = ServerPlayerDataManager.GetMyPlayerData();
         if (myPlayerData.coins.Value < itemCost) 
         { 
-            print("Not Enough Coins"); 
+            AudioManager.Instance.Play("deny");
             return false; 
         }
 

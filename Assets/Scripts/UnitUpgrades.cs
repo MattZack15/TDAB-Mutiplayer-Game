@@ -93,12 +93,14 @@ public class UnitUpgrades : NetworkBehaviour
         // New tower will have the combined kill count of level 1 towers
         int totalKillCount = 0;
         int totalDamageDealt = 0;
-        
+        int quanityToShopPool = 0;
+
         // Destory previous Units
         int i = 0;
         foreach ((GameObject, GameObject) UnitAndTile in UnitsAndTiles)
         {
-            unitPlacement.ClearTileClientRPC(UnitAndTile.Item2.GetComponent<HexagonTile>().tileId);
+            // Clear Tiles
+            UnitAndTile.Item2.GetComponent<HexagonTile>().SetUnoccupied();
 
             // Track kills
             GameObject unit = UnitAndTile.Item1;
@@ -113,6 +115,8 @@ public class UnitUpgrades : NetworkBehaviour
             {
                 Attacker.CopyOverBonusStats(unit.GetComponent<Attacker>(), spawnedUnit.GetComponent<Attacker>());
             }
+
+            quanityToShopPool += unit.GetComponent<Unit>().quantityToShopPool;
 
             unit.GetComponent<NetworkObject>().Despawn();
 
@@ -131,6 +135,8 @@ public class UnitUpgrades : NetworkBehaviour
             spawnedUnit.GetComponent<Tower>().kills.Value = totalKillCount;
             spawnedUnit.GetComponent<Tower>().damageDealt.Value = totalDamageDealt;
         }
+
+        spawnedUnit.GetComponent<Unit>().quantityToShopPool = quanityToShopPool;
     }
 
 }

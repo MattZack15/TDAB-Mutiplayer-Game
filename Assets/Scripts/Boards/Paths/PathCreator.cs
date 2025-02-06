@@ -47,7 +47,7 @@ public class PathCreator : MonoBehaviour
         // Only Owner can interact
         if (playerBoard.owner.Value != NetworkManager.Singleton.LocalClientId) { return;}
         // Only let player draw in shop phase
-        if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase)
+        if (GamePhaseManager.GamePhase.Value != (int)GamePhaseManager.GamePhases.ShopPhase)
         {
             if (tilesInPath.Count > 0)
             {
@@ -61,7 +61,7 @@ public class PathCreator : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             // Dont let them make path if they are holding a unit
-            if (UnitPlacement.GetHeldUnit() != null) { return; }
+            if (UnitPlacement.grabbedUnit) { return; }
 
 
             // Add new tile

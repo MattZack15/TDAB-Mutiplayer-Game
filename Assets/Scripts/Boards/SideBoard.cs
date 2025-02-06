@@ -10,13 +10,15 @@ public class SideBoard : NetworkBehaviour
     UnitUpgrades UnitUpgrades;
     [HideInInspector] public HexagonGrid SideBoardGrid;
     private ServerPlayerDataManager ServerPlayerDataManager;
+    PlayerBoard parentBoard;
 
     [SerializeField] List<int> AttackerLimits = new List<int>();
 
     // Start is called before the first frame update
-    public void Init(HexagonGrid SideBoardGrid)
+    public void Init(HexagonGrid SideBoardGrid, PlayerBoard parentBoard)
     {
         this.SideBoardGrid = SideBoardGrid;
+        this.parentBoard = parentBoard;
         UnitPlacement = FindObjectOfType<UnitPlacement>();
         UnitUpgrades = FindObjectOfType<UnitUpgrades>();
 
@@ -100,7 +102,10 @@ public class SideBoard : NetworkBehaviour
 
                 newUnit.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
 
-                UnitPlacement.PlaceUnitOnSideBoardClientRPC(tile.tileId, newUnitNetworkObject.NetworkObjectId, tile.transform.position);
+                // unit placement
+                newUnit.transform.position = tile.transform.position;
+                newUnit.GetComponent<Unit>().homeTile = tile;
+                tile.SetOccupied(newUnit.gameObject);
 
                 AddUnitToSideBoardClientRPC(newUnitNetworkObject.NetworkObjectId);
 
@@ -124,8 +129,30 @@ public class SideBoard : NetworkBehaviour
         newUnit.GetComponent<Unit>().SetInactive();
     }
 
-    public List<GameObject> GetAttackers()
+    public List<GameObject> GetAllAttackersOnSideBoard()
     {
+        // Searches though all of the side board and returns all of the attacker there
+
+        List<GameObject> attackers = new List<GameObject>();
+
+        // Loop Through every tile on the side board and get the units in Order
+        foreach (Vector2 TileId in SideBoardGrid.Tiles.Keys)
+        {
+            HexagonTile tile = SideBoardGrid.GetTileById(TileId).GetComponent<HexagonTile>();
+
+            if (tile.inhabitor != null && tile.inhabitor.GetComponent<Attacker>() != null)
+            {
+                attackers.Add(tile.inhabitor);
+            }
+        }
+
+        return attackers;
+    }
+
+    public List<GameObject> GetAttackersForBattle()
+    {
+        // Returns A list of all attackers on this sideboard that are leaglly able to be sent into battle
+
         List<GameObject> attackers = new List<GameObject>();
         int AttackerLimit = GetAttackerLimit();
 
@@ -135,9 +162,8 @@ public class SideBoard : NetworkBehaviour
             // Ignore Tower Sideboard
             if (TileId.x != 1) { continue; }
             // Only count upto attacker limit
-            if (TileId.y % 2 == 0) { continue; }
             if ((TileId.y+1)/2 > AttackerLimit) { continue; }
-            
+
             HexagonTile tile = SideBoardGrid.GetTileById(TileId).GetComponent<HexagonTile>();
 
             if (tile.inhabitor != null && tile.inhabitor.GetComponent<Attacker>() != null)
@@ -152,9 +178,10 @@ public class SideBoard : NetworkBehaviour
     public int GetAttackerLimit()
     {
         // How many attackers will be sent into battle
-        // Should be called client side
+        // Will be called client side
+
         if (!ServerPlayerDataManager) return 0;
-        int level = ServerPlayerDataManager.GetMyPlayerData().level.Value;
+        int level = ServerPlayerDataManager.GetPlayerData(parentBoard.owner.Value).level.Value;
         return AttackerLimits[level - 1];
     }
 }

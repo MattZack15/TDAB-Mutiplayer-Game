@@ -152,7 +152,7 @@ public class ShopPool : MonoBehaviour
 
     }
 
-    public void AddUnitBackToPool(GameObject Unit)
+    public void AddUnitBackToPool(GameObject Unit, int quanity)
     {
         // Check if this is a upgraded unit
         if (Unit.GetComponent<Unit>().level > 1)
@@ -163,9 +163,10 @@ public class ShopPool : MonoBehaviour
             GameObject Level1Unit = UnitDex.Dex[int.Parse(Level1UnitID)];
 
             // Add 3 copies to the pool
-            AddUnitBackToPool(Level1Unit);
-            AddUnitBackToPool(Level1Unit);
-            AddUnitBackToPool(Level1Unit);
+            for(int j = 0; j < quanity; j++)
+            {
+                AddUnitBackToPool(Level1Unit, 1);
+            }
             return;
         }
 
@@ -189,8 +190,11 @@ public class ShopPool : MonoBehaviour
         }
 
         // Add it to pool
-        Pools[i].Add(Unit);
-        
+        for (int j = 0; j < quanity; j++)
+        {
+            Pools[i].Add(Unit);
+        }
+
     }
 
 }

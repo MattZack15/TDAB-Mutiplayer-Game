@@ -41,7 +41,7 @@ public class GreedyTempestHandler : MonoBehaviour
         if (!unit.GetComponent<Unit>().isElemental()) { return; }
 
         // If Greedy Tempest is on board
-        List<GameObject> attackers = PlayerBoardsManager.GetBoardByBoardID(boardID).SideBoard.GetAttackers();
+        List<GameObject> attackers = PlayerBoardsManager.GetBoardByBoardID(boardID).SideBoard.GetAllAttackersOnSideBoard();
         string tempestName = GreedyTempestPrefab.GetComponent<Unit>().UnitName;
         foreach (GameObject attacker in attackers) 
         {

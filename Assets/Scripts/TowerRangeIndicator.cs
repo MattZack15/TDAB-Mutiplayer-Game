@@ -36,9 +36,10 @@ public class TowerRangeIndicator : MonoBehaviour
                 circle.SetActive(true);
             }
             // when the player is dragging it
-            else if (UnitPlacement.GetHeldUnit())
+            else if (UnitPlacement.GetMyHeldUnit())
             {
-                if (UnitPlacement.GetHeldUnit().GetComponent<Unit>() == unit)
+                // If the unit im holding is this unit
+                if (UnitPlacement.GetMyHeldUnit().GetComponent<Unit>() == unit)
                 {
                     circle.SetActive(true);
                 }

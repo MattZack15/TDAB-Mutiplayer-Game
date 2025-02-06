@@ -63,4 +63,9 @@ public class ShopItem : MonoBehaviour
     {
         unitToolTip.SetDisplay(unit);
     }
+
+    public void OnItemHoverStop()
+    {
+        unitToolTip.HidePanel();
+    }
 }

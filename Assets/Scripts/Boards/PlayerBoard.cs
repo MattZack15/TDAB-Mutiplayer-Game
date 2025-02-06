@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerBoard : NetworkBehaviour
 {
     public NetworkVariable<ulong> owner = new NetworkVariable<ulong>();
+    public NetworkVariable<int> towersOnBoard = new NetworkVariable<int>();
     public int BoardID;
 
     // Set During board generation
@@ -43,7 +44,7 @@ public class PlayerBoard : NetworkBehaviour
 
         PathCreator.Init();
         PathManager.Init();
-        SideBoard.Init(sideGrid);
+        SideBoard.Init(sideGrid, this);
 
         // Highlight Start and End Tiles
         HexagonGrid.GetTileById(startTile).GetComponent<HexagonTile>().SetStartEndTile(Color.red);
@@ -71,6 +72,13 @@ public class PlayerBoard : NetworkBehaviour
 
     public List<GameObject> GetTowers()
     {
+        // Called Every Frame On Server By TribeSynergy So tower counts should be accurate
+        if (!IsServer)
+        {
+            print("Server Only Command");
+            return null;
+        }
+        
         // Returns All Towers Placed on this Board
         List<GameObject> towers = new List<GameObject>();
         if (HexagonGrid == null) { return towers; }
@@ -85,6 +93,8 @@ public class PlayerBoard : NetworkBehaviour
             }
         }
 
+
+        towersOnBoard.Value = towers.Count;
         return towers;
     }
 
@@ -92,7 +102,7 @@ public class PlayerBoard : NetworkBehaviour
     {
         // How many towers are allowed to be on this board
         // Should be called client side
-        int level = ServerPlayerDataManager.GetMyPlayerData().level.Value;
+        int level = ServerPlayerDataManager.GetPlayerData(owner.Value).level.Value;
         return TowerLimits[level-1];
 
     }

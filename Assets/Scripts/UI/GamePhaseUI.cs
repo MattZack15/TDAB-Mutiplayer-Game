@@ -15,7 +15,7 @@ public class GamePhaseUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int phaseIndex = (int)GamePhaseManager.GamePhase;
+        int phaseIndex = GamePhaseManager.GamePhase.Value;
         GamePhaseText.SetText(phasesText[phaseIndex]);
 
         // Shop Phase

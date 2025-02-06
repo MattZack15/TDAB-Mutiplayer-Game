@@ -17,7 +17,7 @@ public class TowersLimitUI : MonoBehaviour
         if (!SetPlayerBoard()) { return; }
         
         // Only Show UI When dragging/holding a Tower
-        GameObject heldUnit = UnitPlacement.GetHeldUnit();
+        GameObject heldUnit = UnitPlacement.GetMyHeldUnit();
         if (heldUnit != null && heldUnit.GetComponent<Unit>().isTower())
         {
             if (!TowersLimitUIObject.activeSelf)
@@ -34,7 +34,7 @@ public class TowersLimitUI : MonoBehaviour
     private void PopulateDisplay()
     {
         TowersLimitUIObject.SetActive(true);
-        text.SetText(MyPlayerBoard.GetTowers().Count.ToString() + "/" + MyPlayerBoard.GetTowerLimit().ToString());
+        text.SetText(MyPlayerBoard.towersOnBoard.Value.ToString() + "/" + MyPlayerBoard.GetTowerLimit().ToString());
     }
 
     private bool SetPlayerBoard()

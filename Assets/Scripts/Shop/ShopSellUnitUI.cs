@@ -6,8 +6,7 @@ using UnityEngine;
 public class ShopSellUnitUI : MonoBehaviour
 {
     private bool hoveringWithUnit;
-    private GameObject unit;
-    private Vector3 unitTileID;
+    private GameObject heldUnit;
     
     [SerializeField] UnitPlacement unitPlacement;
     [SerializeField] Shop shop;
@@ -19,32 +18,29 @@ public class ShopSellUnitUI : MonoBehaviour
         {
             if (Input.GetMouseButtonUp(0))
             {
-                shop.TrySellUnit(unit, unitTileID);
+                shop.TrySellUnit(heldUnit);
             }
         }
     }
 
     public void PointerEnter()
     {
-        if (unitPlacement.GetHeldUnit())
+        if (unitPlacement.GetMyHeldUnit())
         {
             hoveringWithUnit = true;
-            unit = unitPlacement.GetHeldUnit();
-            unitTileID = unitPlacement.GetHeldUnitTileID();
-
+            heldUnit = unitPlacement.GetMyHeldUnit();
         }
         else
         {
             hoveringWithUnit = false;
-            unit = null;
-
+            heldUnit = null;
         }
     }
 
     public void PointerExit()
     {
         hoveringWithUnit = false;
-        unit = null;
+        heldUnit = null;
     }
 
     public void OnDisable()

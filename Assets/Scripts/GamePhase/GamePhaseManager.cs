@@ -9,9 +9,9 @@ public class GamePhaseManager : NetworkBehaviour
 {
     // Define Game Phase Enum
     public enum GamePhases { ShopPhase, BattlePhase }
-    public GamePhases GamePhase = GamePhases.ShopPhase;
 
     [SerializeField] float ShopPhaseLength = 25f;
+    [HideInInspector] public NetworkVariable<int> GamePhase = new NetworkVariable<int>();
     [HideInInspector] public NetworkVariable<float> turnTimer = new NetworkVariable<float>();
     [HideInInspector] public NetworkVariable<int> roundNumber = new NetworkVariable<int>();
     private bool forceStart = false;
@@ -63,7 +63,8 @@ public class GamePhaseManager : NetworkBehaviour
             towerIds[i] = tower.GetComponent<NetworkObject>().NetworkObjectId;
             i++;
         }
-        
+
+        GamePhase.Value = (int)GamePhases.BattlePhase;
         BroadCastBattlePhaseStartRPC(towerIds);
 
         yield return BattleManager.StartBattles(matches);
@@ -92,7 +93,7 @@ public class GamePhaseManager : NetworkBehaviour
         AttackerSpawner attackerSpawner = playerBoardsManager.PlayerBoardTable[defenderID].AttackerSpawner;
 
         // Get List of attackers from sideboard
-        List<GameObject> attackers = playerBoardsManager.PlayerBoardTable[attackerID].GetComponent<SideBoard>().GetAttackers();
+        List<GameObject> attackers = playerBoardsManager.PlayerBoardTable[attackerID].GetComponent<SideBoard>().GetAttackersForBattle();
 
         List<(GameObject, GameObject)> attackersInstancesAndTemplates = new List<(GameObject, GameObject)>();
 
@@ -129,22 +130,19 @@ public class GamePhaseManager : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void BroadCastBattlePhaseStartRPC(ulong[] towersIds)
     {
+        // IDK why this is
         foreach (ulong towerId in towersIds)
         {
             NetworkObject Unit;
             NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(towerId, out Unit);
             Unit.gameObject.GetComponent<Unit>().SetActive();
         }
-
-        
-        GamePhase = GamePhases.BattlePhase;
-
     }
 
     public void ForceStart()
     {
         if (!IsServer) { return; }
-        if (GamePhase != GamePhases.ShopPhase) { return; }
+        if (GamePhase.Value != (int)GamePhases.ShopPhase) { return; }
 
         forceStart = true;
     }
@@ -220,7 +218,7 @@ public class GamePhaseManager : NetworkBehaviour
         }
         
         // Set GamePhase
-        GamePhase = GamePhases.ShopPhase;
+        GamePhase.Value = (int)GamePhases.ShopPhase;
         
         BroadCastShopPhaseStartRPC(towerIds);
 
@@ -238,9 +236,6 @@ public class GamePhaseManager : NetworkBehaviour
 
             Unit.gameObject.GetComponent<Unit>().SetInactive();
         }
-
-        // Set GamePhase
-        GamePhase = GamePhases.ShopPhase;
 
         // Move Camera back to own board
         CameraMovement.LookAtPlayersBoard(NetworkManager.Singleton.LocalClientId);

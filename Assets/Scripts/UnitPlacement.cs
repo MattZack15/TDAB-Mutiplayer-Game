@@ -1,27 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
-using Unity.Netcode.Components;
 using UnityEngine;
-
 
 public class UnitPlacement : NetworkBehaviour
 {
+    [SerializeField] GamePhaseManager GamePhaseManager;
     [SerializeField] Camera gameCamera;
     [SerializeField] PlayerTileInteraction PlayerTileInteraction;
     [SerializeField] PlayerBoardsManager PlayerBoardsManager;
-    [SerializeField] GamePhaseManager GamePhaseManager;
+    [SerializeField] float hoverHeight = .5f;
 
-    [SerializeField] float hoverHeight;
+    // Server Track of What Players are holding what units
+    Dictionary<ulong, GameObject> playerHeldUnits = new Dictionary<ulong, GameObject>();
 
-    private Transform grabbedUnit;
+    // Client Side Keep Track of Grabbed Unit
+    public GameObject grabbedUnit;
 
-    private GameObject originalTile;
-
-
-    // Update is called once per frame
+    
     void Update()
-    {
+    {        
         if (Input.GetMouseButtonDown(0))
         {
             TryGrab();
@@ -32,213 +31,141 @@ public class UnitPlacement : NetworkBehaviour
             Release();
         }
 
-        if (grabbedUnit != null)
+        // Client Side Drag
+        if (grabbedUnit)
         {
             DragUnit();
         }
+
     }
 
     private void TryGrab()
     {
+        // Requests to Grab a unit
 
-        if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase)
+        // ClientSide Check: Can Only Grab During Shop Phase
+        if (GamePhaseManager.GamePhase.Value != (int)GamePhaseManager.GamePhases.ShopPhase)
         {
             return;
         }
 
-        if (grabbedUnit != null) { return; }
-
+        // Find Unit Under Mouse
         Ray ray = gameCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
-
+        Unit hitUnit = null;
         if (Physics.Raycast(ray, out hitInfo))
         {
-            Unit hitUnit = hitInfo.collider.gameObject.GetComponent<Unit>();
-
-            if (hitUnit == null) 
-            {
-                return;
-            }
-
-
-            // Check if we hit a Moveable Unit
-            grabbedUnit = hitUnit.gameObject.transform;
-
-            // Play Sound Effect
-            AudioManager.Instance.Play("pickupunit");
-
-            // Find Original Tile;
-            RaycastHit[] hits;
-            hits = Physics.RaycastAll(grabbedUnit.transform.position + new Vector3(0f, .5f, 0f), Vector3.down * 5f);
-            foreach (RaycastHit hit in hits)
-            {
-                HexagonTile tile = hit.collider.gameObject.GetComponent<HexagonTile>();
-                if (tile != null)
-                {
-                    if (tile.inhabitor != grabbedUnit.gameObject) { print("Bug has occured"); }
-                    
-                    originalTile = tile.gameObject;
-                    break;
-                }
-            }
-
-            if (originalTile == null)
-            {
-                print("Can't Find Original Tile");
-                ResetData();
-            }
-
-            // Only Grab Units on our board
-            if (PlayerBoardsManager.GetMyBoard().BoardID != Mathf.Abs(originalTile.gameObject.GetComponent<HexagonTile>().tileId.z))
-            {
-                ResetData();
-            }
-
-
-
+            hitUnit = hitInfo.collider.gameObject.GetComponent<Unit>();
         }
-    }
-
-    private bool isLeagalTile(GameObject unit, GameObject tile)
-    {
-        // Tile must be not null
-        if (tile == null)
+        if (hitUnit == null)
         {
-            // Fail placement (Must place on a tile)
-            return false;
-        }
-
-        HexagonTile hexagonTile = tile.GetComponent<HexagonTile>();
-
-        // Cant swap with something that is null
-        if (hexagonTile.occupied && hexagonTile.inhabitor == null)
-        {
-            // Fail placement (Tile cannot have things placed on it)
-            return false;
-        }
-
-        // Can only place attackers on side board
-        if (unit.GetComponent<Unit>().isAttacker())
-        {
-            // If on main board
-            if (hexagonTile.tileId.z > 0)
-            {
-                return false;
-            }
-        }
-
-        // Can only place on YOUR board
-        PlayerBoard targetBoard = PlayerBoardsManager.GetBoardByBoardID((int)tile.GetComponent<HexagonTile>().tileId.z);
-        if (targetBoard.BoardID != PlayerBoardsManager.GetMyBoard().BoardID)
-        {
-            return false;
-        }
-
-        // Cannot Exceed Tower Limit for main board
-        // If on we want to place on the main board and we are placing a tower
-        // AND the unit we are holding is not already on the main board - because we can freely move units already on board or swap with it
-        if (hexagonTile.tileId.z > 0 && unit.GetComponent<Unit>().isTower() && GetHeldUnitTileID().z <= 0)
-        {
-            // Ignore if we are swapping with a tower already on board
-            if (hexagonTile.inhabitor == null)
-            {
-                // Finally we check for tower limit
-                int towerLimit = targetBoard.GetTowerLimit();
-                if (targetBoard.GetTowers().Count + 1 > towerLimit)
-                {
-                    return false;
-                }
-            }
-        }
-
-
-        return true;
-    }
-
-    private void ResetData()
-    {
-        grabbedUnit = null;
-        originalTile = null;
-    }
-
-    private void Release()
-    {
-        if (grabbedUnit == null) { return; }
-
-        if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase)
-        {
-            grabbedUnit.position = originalTile.transform.position;
-            ResetData();
             return;
         }
 
-        GameObject hoveredTile = PlayerTileInteraction.GetSelectedTile();
-
-
-        if (!isLeagalTile(grabbedUnit.gameObject, hoveredTile))
-        {
-            grabbedUnit.position = originalTile.transform.position;
-            ResetData();
-            return;
-        }
-
-        HexagonTile hoveredHexTile = hoveredTile.GetComponent<HexagonTile>();
-        Vector3 targetTileId = hoveredHexTile.tileId;
-        Vector3 prevTileId = originalTile.GetComponent<HexagonTile>().tileId;
-
-        if (hoveredHexTile.occupied && hoveredHexTile.inhabitor != null)
-        {
-            // Swap Two Objects
-            GameObject OtherObj = hoveredHexTile.inhabitor;
-
-            // Must Check to make sure moving other object is also legal
-            if (!isLeagalTile(OtherObj, originalTile))
-            {
-                grabbedUnit.position = originalTile.transform.position;
-                ResetData();
-                return;
-            }
-
-            RequestUnitSwapServerRPC(targetTileId, prevTileId, grabbedUnit.GetComponent<NetworkObject>().NetworkObjectId, OtherObj.GetComponent<NetworkObject>().NetworkObjectId);
-            
-            // Play Sound Effect
-            AudioManager.Instance.Play("placeunit");
-            
-            ResetData();
-            return;
-        }
-
-        // On Succsess
-        if (hoveredHexTile.occupied == false)
-        {
-            RequestUnitPlacmentServerRPC(targetTileId, prevTileId, grabbedUnit.GetComponent<NetworkObject>().NetworkObjectId);
-            // Play Sound Effect
-            AudioManager.Instance.Play("placeunit");
-        }
-
-
-        ResetData();
+        ulong unitNetworkID = hitUnit.GetComponent<NetworkObject>().NetworkObjectId;
+        GrabUnitServerRPC(NetworkManager.Singleton.LocalClientId, unitNetworkID);
     }
 
+    [Rpc(SendTo.Server)]
+    private void GrabUnitServerRPC(ulong playerID, ulong networkObjectId)
+    {
+        // Can Only Grab During Shop Phase
+        if (GamePhaseManager.GamePhase.Value != (int)GamePhaseManager.GamePhases.ShopPhase)
+        {
+            return;
+        }
+
+        // Find Unit
+        NetworkObject networkObject;
+        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
+        if (networkObject == null) { return; }
+
+        Unit unit = networkObject.GetComponent<Unit>();
+
+        // Can only Grab units on your own board
+        int playersBoardID = PlayerBoardsManager.PlayerBoardTable[playerID].BoardID;
+        if (playersBoardID != Mathf.Abs(unit.homeTile.tileId.z)) { return; }
+
+        // Accept
+        playerHeldUnits[playerID] = unit.gameObject;
+        unit.transform.position = unit.homeTile.transform.position + new Vector3(0f, hoverHeight, 0f);
+        NotifyOfGrabbedUnitClientRPC(playerID, networkObjectId);
+
+        // Play Sound Effect
+        AudioManager.Instance.PlayOnClient("pickupunit", playerID);
+    }
+
+    [Rpc(SendTo.Server)]
+    private void UpdateGrabbedUnitServerRPC(ulong playerID, Vector3 mouseWorldPos)
+    {
+        // If update was sent in error
+        if (playerHeldUnits[playerID] == null)
+        {
+            NotifyOfResetClientRPC(new ulong[] { playerID });
+            return;
+        }
+
+        // Ignore if not in shop phase
+        if (GamePhaseManager.GamePhase.Value != (int)GamePhaseManager.GamePhases.ShopPhase)
+        {
+            ResetGrabbedUnitServerRPC(playerID);
+            return;
+        }
+
+        GameObject unit = playerHeldUnits[playerID];
+        // Update Pos
+        unit.transform.position = mouseWorldPos + new Vector3(0f, hoverHeight, 0f);
+    }
+
+    [Rpc(SendTo.Server)]
+    private void ResetGrabbedUnitServerRPC(ulong playerID)
+    {
+        GameObject unit = playerHeldUnits[playerID];
+        if (unit != null)
+        {
+            // Move back to home tile
+            unit.transform.position = unit.GetComponent<Unit>().homeTile.transform.position;
+        }
+
+        playerHeldUnits[playerID] = null;
+
+        NotifyOfResetClientRPC(new ulong[] {playerID});
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void NotifyOfResetClientRPC(ulong[] playerIDs)
+    {
+        // Ensures that the client knows it is not holding a unit
+        if (playerIDs.ToList().Contains(NetworkManager.Singleton.LocalClientId))
+        {
+            grabbedUnit = null;
+        }
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void NotifyOfGrabbedUnitClientRPC(ulong playerIDs, ulong networkObjectId)
+    {
+        if (NetworkManager.Singleton.LocalClientId == playerIDs)
+        {
+            NetworkObject networkObject;
+            NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
+
+            grabbedUnit = networkObject.gameObject;
+        }
+    }
+    
     private void DragUnit()
     {
-        // Stop Holding unit if Phase changes
-        if (GamePhaseManager.GamePhase != GamePhaseManager.GamePhases.ShopPhase)
-        {
-            grabbedUnit.position = originalTile.transform.position;
-            ResetData();
-            return;
-        }
+
         //  Stop if mouse is not being held (like if user tab'ed out of game)
         if (!Input.GetMouseButton(0))
         {
-            grabbedUnit.position = originalTile.transform.position;
-            ResetData();
+            ResetGrabbedUnitServerRPC(NetworkManager.Singleton.LocalClientId);
+            grabbedUnit = null;
             return;
         }
 
-        // Default Hover point is above orignal tile
-        Vector3 HoverPoint = originalTile.transform.position;
+        Vector3 mouseWorldPos = Vector3.zero;
 
         // Send Raycast to find point where to hover
         // Find World Pos;
@@ -248,115 +175,176 @@ public class UnitPlacement : NetworkBehaviour
         {
             if (hit.collider.gameObject.GetComponent<HexagonTile>() != null)
             {
-                HoverPoint = hit.point;
+                mouseWorldPos = hit.point;
             }
         }
 
         // Make sure there is a tile below to hover over
         GameObject hoveredTile = PlayerTileInteraction.GetSelectedTile();
-        if (hoveredTile != null)
+        if (hoveredTile != null && mouseWorldPos != Vector3.zero)
         {
-            grabbedUnit.position = HoverPoint + new Vector3(0f, hoverHeight, 0f);
+            UpdateGrabbedUnitServerRPC(NetworkManager.Singleton.LocalClientId, mouseWorldPos);
+        }
+    }
+
+    private void Release()
+    {
+        if (!grabbedUnit) { return; }
+
+        // Find Tile
+        GameObject hoveredTile = PlayerTileInteraction.GetSelectedTile();
+        if (hoveredTile == null) 
+        {
+            ResetGrabbedUnitServerRPC(NetworkManager.Singleton.LocalClientId);
+            grabbedUnit = null;
+            return;
         }
 
+        ReleaseGrabServerRPC(NetworkManager.Singleton.LocalClientId, hoveredTile.GetComponent<HexagonTile>().tileId);
     }
 
     [Rpc(SendTo.Server)]
-    public void RequestUnitPlacmentServerRPC(Vector3 targettileID, Vector3 prevtileID, ulong networkObjectId)
+    private void ReleaseGrabServerRPC(ulong playerID, Vector3 tileID)
     {
-        // Find that tiles pos
-        Vector3 pos = PlayerBoardsManager.GetTileById(targettileID).transform.position;
-
-        UnitPlacmentClientRPC(targettileID, prevtileID, networkObjectId, pos);
-    }
-    [Rpc(SendTo.ClientsAndHost)]
-    public void UnitPlacmentClientRPC(Vector3 targettileID, Vector3 prevtileID, ulong networkObjectId, Vector3 pos)
-    {
-        NetworkObject networkObject;
-        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
-
-        networkObject.transform.position = pos;
-
-        // Tile book keeping
-        PlayerBoardsManager.GetTileById(targettileID).GetComponent<HexagonTile>().SetOccupied(networkObject.gameObject);
-        PlayerBoardsManager.GetTileById(prevtileID).GetComponent<HexagonTile>().SetUnoccupied();
-
-    }
-
-    [Rpc(SendTo.Server)]
-    public void RequestUnitSwapServerRPC(Vector3 targettileID, Vector3 prevtileID, ulong networkObjectId1, ulong networkObjectId2)
-    {
-        // Swaps Unit1 to targettileID and Unit2 to prevtileID
-
-        Vector3 pos1 = PlayerBoardsManager.GetTileById(targettileID).transform.position;
-        Vector3 pos2 = PlayerBoardsManager.GetTileById(prevtileID).transform.position;
-
-        UnitSwapClientRPC(targettileID, prevtileID, networkObjectId1, networkObjectId2, pos1, pos2);
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    public void UnitSwapClientRPC(Vector3 targettileID, Vector3 prevtileID, ulong networkObjectId1, ulong networkObjectId2, Vector3 pos1, Vector3 pos2)
-    {
-        NetworkObject Unit1;
-        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId1, out Unit1);
-
-        NetworkObject Unit2;
-        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId2, out Unit2);
-
-        Unit1.transform.position = pos1;
-        Unit2.transform.position = pos2;
-
-        // Tile book keeping
-        PlayerBoardsManager.GetTileById(targettileID).GetComponent<HexagonTile>().SetOccupied(Unit1.gameObject);
-        PlayerBoardsManager.GetTileById(prevtileID).GetComponent<HexagonTile>().SetOccupied(Unit2.gameObject);
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    public void PlaceUnitOnSideBoardClientRPC(Vector3 targettileID, ulong networkObjectId, Vector3 pos)
-    {
-        // Use this to start because Unit was never on a tile before
-        NetworkObject networkObject;
-        NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out networkObject);
-
-        if (!networkObject.gameObject.GetComponent<NetworkTransform>().enabled)
+        // Can only be in shop Phase
+        if (GamePhaseManager.GamePhase.Value != (int)GamePhaseManager.GamePhases.ShopPhase)
         {
-            networkObject.transform.position = pos;
+            ResetGrabbedUnitServerRPC(playerID);
+            return;
+        }
+
+        // Make Sure that the player is holding a unit
+        GameObject heldUnitObj = playerHeldUnits[playerID];
+        if (heldUnitObj == null)
+        {
+            ResetGrabbedUnitServerRPC(playerID);
+            return;
         }
         
-
-        // Tile book keeping
-        PlayerBoardsManager.GetTileById(targettileID).GetComponent<HexagonTile>().SetOccupied(networkObject.gameObject);
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    public void ClearTileClientRPC(Vector3 tileID)
-    {
-        PlayerBoardsManager.GetTileById(tileID).GetComponent<HexagonTile>().SetUnoccupied();
-    }
-
-
-    public GameObject GetHeldUnit()
-    {
-        if (grabbedUnit)
+        PlayerBoard targetBoard = PlayerBoardsManager.GetBoardByBoardID((int)tileID.z);
+        
+        // Find Target Tile
+        HexagonTile tile;
+        if (tileID.z > 0)
         {
-            return grabbedUnit.gameObject;
+            tile = targetBoard.HexagonGrid.GetTileById((Vector2)tileID).GetComponent<HexagonTile>();
         }
+        else 
+        {
+            tile = targetBoard.SideBoard.SideBoardGrid.GetTileById((Vector2)tileID).GetComponent<HexagonTile>();
+        }
+
+        if (!isLegalTile(playerID, heldUnitObj, tile, tile.isOccupied()))
+        {
+            ResetGrabbedUnitServerRPC(playerID);
+            return;
+        }
+        
+        Unit heldUnit = heldUnitObj.GetComponent<Unit>();
+        // Accept Case 1 - Placing On empty tile
+        if (!tile.isOccupied())
+        {
+            heldUnit.homeTile.SetUnoccupied();
+            heldUnit.homeTile = tile;
+            tile.SetOccupied(heldUnitObj);
+            ResetGrabbedUnitServerRPC(playerID);
+            return;
+        }
+        // Case 2 - Tile is occupied
         else
+        {
+            // We want to swap
+            // But we must check if the unit we are swaping with can move to the other tile
+            GameObject otherUnitObj = tile.inhabitor;
+            if (!isLegalTile(playerID, otherUnitObj, heldUnit.homeTile, true))
+            {
+                ResetGrabbedUnitServerRPC(playerID);
+                return;
+            }
+            else
+            {
+                // Accept Case 2 - Swap Units
+                // Set tiles with their new occupiers
+                heldUnit.homeTile.SetOccupied(otherUnitObj);
+                tile.SetOccupied(heldUnitObj);
+                // Set Units with their new tile
+                otherUnitObj.GetComponent<Unit>().homeTile = heldUnit.homeTile;
+                heldUnit.homeTile = tile;
+
+                heldUnit.transform.position = heldUnit.homeTile.transform.position;
+                otherUnitObj.transform.position = otherUnitObj.GetComponent<Unit>().homeTile.transform.position;
+
+                ResetGrabbedUnitServerRPC(playerID);
+                return;
+            }
+        }
+
+    }
+
+    private bool isLegalTile(ulong playerID, GameObject unitObj, HexagonTile tile, bool isSwap = false)
+    {
+        // Cannot be a null tile
+        PlayerBoard playerBoard = PlayerBoardsManager.GetBoardByBoardID((int)tile.tileId.z);
+        if (tile == null)
+        {
+            return false;
+        }
+
+        // Can only Place on your own board
+        int playersBoardID = PlayerBoardsManager.PlayerBoardTable[playerID].BoardID;
+        if (playersBoardID != Mathf.Abs(tile.tileId.z))
+        {
+            return false;
+        }
+
+        Unit targetUnit = unitObj.GetComponent<Unit>();
+        // Can Only Place Attackers On Sideboard
+        if (targetUnit.isAttacker())
+        {
+            // z must be negative
+            if (tile.tileId.z > 0)
+            {
+                return false;
+            }
+        }
+
+        // Towers placed on main board must respect tower limits
+            // Ignore this condition if we are swaping 2 towers
+        if (!isSwap)
+        {
+            // Ignore this condition if we are moving a tower already on the board
+            if (targetUnit.homeTile.tileId.z < 0)
+            {
+                // Check if we are placing on main board
+                if (tile.tileId.z > 0)
+                {
+                    // Check to see if we would be over tower limit
+                    int towerLimit = playerBoard.GetTowerLimit();
+                    if (playerBoard.GetTowers().Count + 1 > towerLimit)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public GameObject GetMyHeldUnit()
+    {
+        return grabbedUnit;
+    }
+
+    public GameObject GetHeldUnitByPlayer(ulong playerID)
+    {
+        if (!IsServer) { return null; }
+
+        if (!playerHeldUnits.ContainsKey(playerID))
         {
             return null;
         }
-    }
 
-    public Vector3 GetHeldUnitTileID()
-    {
-        if (grabbedUnit)
-        {
-            return originalTile.GetComponent<HexagonTile>().tileId;
-        }
-        else
-        {
-            return Vector3.zero;
-        }
+        return playerHeldUnits[playerID];
     }
-
 }

@@ -30,6 +30,11 @@ public class Unit : MonoBehaviour
     [Header("Serialize")]
     [SerializeField] public Animator Animator;
 
+    // For replicating blob
+    [HideInInspector] public int quantityToShopPool = 1;
+
+    // What tile is this unit on
+    [HideInInspector] public HexagonTile homeTile;
 
     public void SetInactive()
     {
