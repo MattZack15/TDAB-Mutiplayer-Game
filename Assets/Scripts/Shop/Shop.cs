@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -48,17 +49,23 @@ public class Shop : NetworkBehaviour
         if (ServerPlayerDataManager.GetPlayerData(playerID).coins.Value < UnitCost) { print("Not enough coins"); return; }
 
         // Must Have Space On Board
+        PlayerBoard Playersboard = PlayerBoardsManager.PlayerBoardTable[playerID];
+        GameObject unitPrefab = unitDex.Dex[UnitID];
+        if (!Playersboard.SideBoard.isAvailableSpace(unitPrefab)) 
+        {
+            AudioManager.Instance.PlayOnClient("deny", playerID);
+            return; 
+        }
 
         // Write Info To Server Player Data
         playerData.shop.Remove(shopIndex);
         playerData.coins.Value -= UnitCost;
 
         // Remove from shop pool
-        ShopPool.RemoveUnitFromPool(unitDex.Dex[UnitID]);
+        ShopPool.RemoveUnitFromPool(unitPrefab);
 
-        // Spawn unit
-        PlayerBoard Playersboard = PlayerBoardsManager.PlayerBoardTable[playerID];
-        GameObject SpawnedUnit = Playersboard.SideBoard.AddUnitToSideBoard(unitDex.Dex[UnitID]);
+        // Spawn 
+        GameObject SpawnedUnit = Playersboard.SideBoard.AddUnitToSideBoard(unitPrefab);
         if (SpawnedUnit != null)
         {
             GreedyTempestHandler.HandleBuyUnit(SpawnedUnit, playerID);

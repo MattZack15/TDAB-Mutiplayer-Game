@@ -89,6 +89,11 @@ public class UnitUpgrades : NetworkBehaviour
 
         // Spawn Upgraded Unit
         GameObject spawnedUnit = sideBoard.AddUnitToSideBoard(UpgradedUnitPrefab);
+        if (spawnedUnit == null)
+        {
+            print("Unable to Spawn in unit");
+            return;
+        }
 
         // New tower will have the combined kill count of level 1 towers
         int totalKillCount = 0;

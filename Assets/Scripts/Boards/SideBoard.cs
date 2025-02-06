@@ -82,42 +82,95 @@ public class SideBoard : NetworkBehaviour
         if (!IsServer) { return null; }
         // Soley Responsible for Spawning unit into the players board
 
-        foreach (Vector2 TileID in SideBoardGrid.Tiles.Keys)
+        HexagonTile tile = FindPlacementTile(Unit);
+
+        if (tile == null)
         {
-            HexagonTile tile = SideBoardGrid.GetTileById(TileID).GetComponent<HexagonTile>();
-            
-            // Towers are placed on 0
-            if (Unit.GetComponent<Unit>().isTower() && tile.tileId.x != 0f) { continue; }
-            // Attackers are placed on 1
-            if (Unit.GetComponent<Unit>().isAttacker() && tile.tileId.x != 1f) { continue; }
+            print("No Open Tiles to display unit");
+            return null;
+        }
+        
+        // Spawn Unit here
+        GameObject newUnit = Instantiate(Unit, tile.gameObject.transform.position, Quaternion.identity);
+        NetworkObject newUnitNetworkObject = newUnit.GetComponent<NetworkObject>();
+        newUnitNetworkObject.Spawn();
 
-            // Spawn Unit here if not occupied
-            if (!tile.occupied)
+        newUnit.GetComponent<Unit>().SetInactive();
+
+        newUnit.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+
+        // unit placement
+        newUnit.transform.position = tile.transform.position;
+        newUnit.GetComponent<Unit>().homeTile = tile;
+        tile.SetOccupied(newUnit.gameObject);
+
+        AddUnitToSideBoardClientRPC(newUnitNetworkObject.NetworkObjectId);
+
+        UnitUpgrades.CheckForUnitUpgrade((int)tile.tileId.z);
+
+        return newUnit;
+
+    }
+
+    private HexagonTile FindPlacementTile(GameObject Unit)
+    {
+        // Looks thorugh the sideboard and finds the right tile for this unit to be placed on
+        // Just need a tile that is unoccupied
+        // But we have some preferences
+
+        HexagonTile tile;
+
+        // Handle Towers
+        if (Unit.GetComponent<Unit>().isTower())
+        {
+            // Prio is Left Side 
+            foreach (Vector2 TileID in SideBoardGrid.Tiles.Keys)
             {
-                GameObject newUnit = Instantiate(Unit, tile.gameObject.transform.position, Quaternion.identity);
-                NetworkObject newUnitNetworkObject = newUnit.GetComponent<NetworkObject>();
-                newUnitNetworkObject.Spawn();
-
-                newUnit.GetComponent<Unit>().SetInactive();
-
-                newUnit.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-
-                // unit placement
-                newUnit.transform.position = tile.transform.position;
-                newUnit.GetComponent<Unit>().homeTile = tile;
-                tile.SetOccupied(newUnit.gameObject);
-
-                AddUnitToSideBoardClientRPC(newUnitNetworkObject.NetworkObjectId);
-
-                UnitUpgrades.CheckForUnitUpgrade((int)tile.tileId.z);
-
-                return newUnit;
+                tile = SideBoardGrid.GetTileById(TileID).GetComponent<HexagonTile>();
+                if (tile.tileId.x != 0f) { continue; }
+                if (!tile.occupied)
+                {
+                    return tile;
+                }
+            }
+            // If did not find a tile then look through all board spaces
+            foreach (Vector2 TileID in SideBoardGrid.Tiles.Keys)
+            {
+                tile = SideBoardGrid.GetTileById(TileID).GetComponent<HexagonTile>();
+                if (!tile.occupied)
+                {
+                    return tile;
+                }
+            }
+        }
+        // Handle Attackers
+        else if (Unit.GetComponent<Unit>().isAttacker())
+        {
+            // Prio is Right Side 
+            foreach (Vector2 TileID in SideBoardGrid.Tiles.Keys)
+            {
+                tile = SideBoardGrid.GetTileById(TileID).GetComponent<HexagonTile>();
+                if (tile.tileId.x != 1f) { continue; }
+                if (!tile.occupied)
+                {
+                    return tile;
+                }
+            }
+            // If did not find a tile then look through all board spaces
+            foreach (Vector2 TileID in SideBoardGrid.Tiles.Keys)
+            {
+                tile = SideBoardGrid.GetTileById(TileID).GetComponent<HexagonTile>();
+                if (!tile.occupied)
+                {
+                    return tile;
+                }
             }
         }
 
-        print("No Open Tiles to display unit");
         return null;
     }
+
+
     [Rpc(SendTo.ClientsAndHost)]
     private void AddUnitToSideBoardClientRPC(ulong networkObjectId)
     {
@@ -184,4 +237,28 @@ public class SideBoard : NetworkBehaviour
         int level = ServerPlayerDataManager.GetPlayerData(parentBoard.owner.Value).level.Value;
         return AttackerLimits[level - 1];
     }
+
+    public bool isAvailableSpace(GameObject unitPrefab)
+    {
+        // Checks if there is enough open tiles to buy a unit and place it
+
+        int openSpacesNeeded = 1;
+        if (unitPrefab.GetComponent<ReplicatingBlobOnPurchase>())
+        {
+            openSpacesNeeded = 2;
+        }
+
+        int openSpaces = 0;
+        foreach (Vector2 TileID in SideBoardGrid.Tiles.Keys)
+        {
+            HexagonTile tile = SideBoardGrid.GetTileById(TileID).GetComponent<HexagonTile>();
+            if (!tile.occupied)
+            {
+                openSpaces += 1;
+            }
+        }
+
+        return openSpacesNeeded <= openSpaces;
+    }
+
 }

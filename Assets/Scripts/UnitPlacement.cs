@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UnitPlacement : NetworkBehaviour
 {
@@ -21,12 +22,12 @@ public class UnitPlacement : NetworkBehaviour
     
     void Update()
     {        
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !isMouseOverUI())
         {
             TryGrab();
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && !isMouseOverUI())
         {
             Release();
         }
@@ -37,6 +38,11 @@ public class UnitPlacement : NetworkBehaviour
             DragUnit();
         }
 
+    }
+
+    private bool isMouseOverUI()
+    {
+        return EventSystem.current.IsPointerOverGameObject();
     }
 
     private void TryGrab()
