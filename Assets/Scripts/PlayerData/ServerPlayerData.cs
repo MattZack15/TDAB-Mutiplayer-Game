@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class ServerPlayerData : NetworkBehaviour
     // Keeps Track of a Player and their Data
 
     public NetworkVariable<ulong> clientID = new NetworkVariable<ulong>();
+    public NetworkVariable<FixedString64Bytes> username = new NetworkVariable<FixedString64Bytes>();
     public NetworkVariable<int> health = new NetworkVariable<int>();
     public NetworkVariable<int> coins = new NetworkVariable<int>();
     public NetworkVariable<int> level = new NetworkVariable<int>();
@@ -31,6 +33,17 @@ public class ServerPlayerData : NetworkBehaviour
         freeRefreshes.Value = 0;
         shopIsFrozen.Value = false;
         greedyTempestStacks.Value = 0;
+
+        // Find Username
+        UsernameCollector UsernameCollector = FindObjectOfType<UsernameCollector>();
+        if (UsernameCollector)
+        {
+            username.Value = (FixedString64Bytes)UsernameCollector.playerNames[clientID];
+        }
+        else
+        {
+            username.Value = (FixedString64Bytes)("Player " + clientID.ToString());
+        }
     }
 
     public void SetNewShop(int[] shopItems)

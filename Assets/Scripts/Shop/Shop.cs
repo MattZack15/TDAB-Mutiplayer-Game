@@ -18,7 +18,6 @@ public class Shop : NetworkBehaviour
     static List<int> levelCosts = new List<int> { 8, 10, 13, 15, 18};
 
     [SerializeField] private ShopPool ShopPool;
-    [SerializeField] private PlayerWarband PlayerWarband;
     [SerializeField] private UnitDex unitDex;
     [SerializeField] private ShopItemsUI ShopItemsUI;
     [SerializeField] private GamePhaseManager GamePhaseManager;
@@ -86,7 +85,6 @@ public class Shop : NetworkBehaviour
     {
         if (NetworkManager.Singleton.LocalClientId == playerID)
         {
-            PlayerWarband.AddUnit(unitDex.Dex[UnitID]);
 
             // Play Sound Effect
             AudioManager.Instance.Play("buyunit");

@@ -16,6 +16,7 @@ public class BattleDamageSummary : NetworkBehaviour
     [SerializeField] GameObject totalDamageSection;
     [SerializeField] GameObject loserhealthSection;
     [SerializeField] GameObject BattleDamageSummaryContainer;
+    [SerializeField] ServerPlayerDataManager ServerPlayerDataManager;
 
     ClientRpcParams clientRpcParams;
 
@@ -63,8 +64,8 @@ public class BattleDamageSummary : NetworkBehaviour
         p2ScoreText.SetText("0");
 
         // Set Names
-        p1NameText.SetText(p1.ToString());
-        p2NameText.SetText(p2.ToString());
+        p1NameText.text = ServerPlayerDataManager.GetPlayerData(p1).username.Value.ToString();
+        p2NameText.text = ServerPlayerDataManager.GetPlayerData(p2).username.Value.ToString();
 
         // Play Popup Sound
         AudioManager.Instance.Play("bdsrecappopup");
@@ -149,7 +150,7 @@ public class BattleDamageSummary : NetworkBehaviour
         yield return new WaitForSeconds(.5f);
         // Decrement Loser's Health
         loserhealthSection.SetActive(true);
-        loserNameText.SetText(p2.ToString() + "'s Health");
+        loserNameText.SetText(p2NameText.text + "'s Health");
         loserHealthText.SetText(loserHealthStart.ToString());
         yield return new WaitForSeconds(.25f);
 

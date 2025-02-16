@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GamePhaseManager : NetworkBehaviour
@@ -16,7 +17,6 @@ public class GamePhaseManager : NetworkBehaviour
     [HideInInspector] public NetworkVariable<int> roundNumber = new NetworkVariable<int>();
     private bool forceStart = false;
 
-    [SerializeField] PlayerWarband playerWarband;
     [SerializeField] PlayerBoardsManager playerBoardsManager;
     [SerializeField] UnitDex unitDex;
     [SerializeField] Shop shop;
@@ -154,11 +154,15 @@ public class GamePhaseManager : NetworkBehaviour
         while (timer > 0 && !forceStart)
         {
             timer -= Time.deltaTime;
+            
             turnTimer.Value = timer;
+            
             yield return null;
         }
 
+
         turnTimer.Value = 0f;
+        
         forceStart = false;
 
         StartBattlePhase();

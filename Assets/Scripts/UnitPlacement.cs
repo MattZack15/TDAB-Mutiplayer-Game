@@ -254,6 +254,8 @@ public class UnitPlacement : NetworkBehaviour
             heldUnit.homeTile = tile;
             tile.SetOccupied(heldUnitObj);
             ResetGrabbedUnitServerRPC(playerID);
+            // Play Sound Effect
+            AudioManager.Instance.PlayOnClient("placeunit", playerID);
             return;
         }
         // Case 2 - Tile is occupied
@@ -281,6 +283,8 @@ public class UnitPlacement : NetworkBehaviour
                 otherUnitObj.transform.position = otherUnitObj.GetComponent<Unit>().homeTile.transform.position;
 
                 ResetGrabbedUnitServerRPC(playerID);
+                // Play Sound Effect
+                AudioManager.Instance.PlayOnClient("placeunit", playerID);
                 return;
             }
         }

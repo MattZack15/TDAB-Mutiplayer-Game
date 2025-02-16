@@ -10,6 +10,7 @@ public class BattleIndicatorUI : MonoBehaviour
     [SerializeField] TMP_Text attackerNameText;
     [SerializeField] TMP_Text defenderNameText;
     [SerializeField] Animator animator;
+    [SerializeField] ServerPlayerDataManager ServerPlayerDataManager;
 
     [SerializeField] float displayTime = 1f;
 
@@ -28,8 +29,8 @@ public class BattleIndicatorUI : MonoBehaviour
     public void DisplayBattle(ulong attackerID, ulong defenderID)
     {
         BattleIndicatorObj.SetActive(true);
-        attackerNameText.SetText(attackerID.ToString());
-        defenderNameText.SetText(defenderID.ToString());
+        attackerNameText.SetText(ServerPlayerDataManager.GetPlayerData(attackerID).username.ToString());
+        defenderNameText.SetText(ServerPlayerDataManager.GetPlayerData(defenderID).username.ToString());
         animator.Play("bounce");
         timer = displayTime;
     }

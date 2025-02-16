@@ -235,6 +235,7 @@ public class SideBoard : NetworkBehaviour
 
         if (!ServerPlayerDataManager) return 0;
         int level = ServerPlayerDataManager.GetPlayerData(parentBoard.owner.Value).level.Value;
+        level = Mathf.Min(level, AttackerLimits.Count-1);
         return AttackerLimits[level - 1];
     }
 

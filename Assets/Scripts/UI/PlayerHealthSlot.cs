@@ -16,7 +16,7 @@ public class PlayerHealthSlot : MonoBehaviour
         this.playerData = playerData;
         this.playerID = playerData.clientID.Value;
 
-        playerIDText.text = "Player: " + playerID.ToString();
+        playerIDText.text = playerData.username.Value.ToString();
         healthText.text = playerData.health.Value.ToString();
     }
 
@@ -24,11 +24,11 @@ public class PlayerHealthSlot : MonoBehaviour
     {
         int playerHealth = playerData.health.Value;
         healthText.text = playerHealth.ToString();
+        playerIDText.text = playerData.username.Value.ToString();
 
         if (playerData.clientID.Value != playerID)
         {
             playerID = playerData.clientID.Value;
-            playerIDText.text = "Player: " + playerID.ToString();
         }
     }
 

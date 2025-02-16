@@ -29,7 +29,12 @@ public class AudioManager : NetworkBehaviour
         }
 
         //Set SoundManager to DontDestroyOnLoad so that it won't be destroyed when reloading our scene.
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
+
+        if (IsServer && !GetComponent<NetworkObject>().IsSpawned)
+        {
+            GetComponent<NetworkObject>().Spawn();
+        }
     }
 
     // Start is called before the first frame update

@@ -17,7 +17,7 @@ public class RelayServer : MonoBehaviour
     // it initializes the Unity services, signs in anonymously
     // and starts the host with a new relay allocation
 
-    public async Task<string> StartHostWithRelay(int maxConnections = 5)
+    public async Task<string> StartHostWithRelay(int maxConnections = 8)
     {
         await UnityServices.InitializeAsync();
         if (!AuthenticationService.Instance.IsSignedIn)
