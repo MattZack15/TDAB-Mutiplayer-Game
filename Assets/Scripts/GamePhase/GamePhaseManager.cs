@@ -24,6 +24,7 @@ public class GamePhaseManager : NetworkBehaviour
     [SerializeField] RoundMatchMaking RoundMatchMaking;
     [SerializeField] BattleManager BattleManager;
     [SerializeField] CameraMovement CameraMovement;
+    [SerializeField] GameEnd GameEnd;
 
     List<GameObject> deactivateOnBattleEnd = new List<GameObject>();
     
@@ -53,7 +54,7 @@ public class GamePhaseManager : NetworkBehaviour
         // Prepare all matches
         foreach ((ulong, ulong) match in matches) 
         {
-            MakeMatch(matches[0].Item1, matches[0].Item2);
+            MakeMatch(match.Item1, match.Item2);
         }
 
         ulong[] towerIds = new ulong[deactivateOnBattleEnd.Count];
@@ -171,6 +172,8 @@ public class GamePhaseManager : NetworkBehaviour
     private void StartShopPhase()
     {
         if (!IsServer) { return; }
+
+        GameEnd.TrackPlayerPlacements();
 
         // increment round counter
         roundNumber.Value += 1;

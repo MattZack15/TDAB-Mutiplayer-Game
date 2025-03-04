@@ -29,8 +29,8 @@ public class BattleIndicatorUI : MonoBehaviour
     public void DisplayBattle(ulong attackerID, ulong defenderID)
     {
         BattleIndicatorObj.SetActive(true);
-        attackerNameText.SetText(ServerPlayerDataManager.GetPlayerData(attackerID).username.ToString());
-        defenderNameText.SetText(ServerPlayerDataManager.GetPlayerData(defenderID).username.ToString());
+        attackerNameText.SetText(ServerPlayerDataManager.GetPlayerData(attackerID).username.Value.ToString());
+        defenderNameText.SetText(ServerPlayerDataManager.GetPlayerData(defenderID).username.Value.ToString());
         animator.Play("bounce");
         timer = displayTime;
     }
