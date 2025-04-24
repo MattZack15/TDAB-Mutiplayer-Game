@@ -12,6 +12,7 @@ public class VFXManager : NetworkBehaviour
     [SerializeField] GameObject greedyTempestProcParticlesPrefab;
     [SerializeField] GameObject EyeOfSucePrefab;
     [SerializeField] GameObject bleedParticles;
+    [SerializeField] GameObject BloodlustVFXPrefab;
 
     // Responsible for creating VFX locally
 
@@ -102,10 +103,15 @@ public class VFXManager : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     public void SpawnEyeOfSuceRPC(Vector3 spawnPos, float despawnTime)
     {
-
         GameObject eyeOfSuce = Instantiate(EyeOfSucePrefab, spawnPos, Quaternion.identity);
-        eyeOfSuce.GetComponent<EyeOfSuceVFX>().InitVFX(despawnTime);
-
+        eyeOfSuce.GetComponent<DelayDestroyVFX>().InitVFX(despawnTime);
+    }
+    
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SpawnBloodlustVFXRPC(Vector3 spawnPos)
+    {
+        GameObject BloodlustVFX = Instantiate(BloodlustVFXPrefab, spawnPos, Quaternion.identity);
+        BloodlustVFX.GetComponent<DelayDestroyVFX>().InitVFX(BloodlustVFX.GetComponent<DelayDestroyVFX>().defaultLifeTime);
     }
 
 }

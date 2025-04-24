@@ -7,6 +7,7 @@ public class WispEldritchTowerAttribute : EldritchTowerAttribute
     [SerializeField] WispTower TowerScript;
     protected override void TriggerBloodlust(GameObject KillTarget)
     {
+        base.TriggerBloodlust(KillTarget);
         TowerScript.GainBloodLustEffect();
     }
 }

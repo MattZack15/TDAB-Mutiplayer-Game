@@ -8,6 +8,7 @@ public class LeviEldritchTowerAttribute : EldritchTowerAttribute
     [SerializeField] LeviTower TowerScript;
     protected override void TriggerBloodlust(GameObject KillTarget)
     {
+        base.TriggerBloodlust(KillTarget);
         float attackCooldownReduction = TowerScript.attackSpeed * attackSpeedGain;
         TowerScript.GainBloodlustEffect(attackCooldownReduction);
     }

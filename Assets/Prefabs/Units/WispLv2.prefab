@@ -69,6 +69,10 @@ PrefabInstance:
       value: 3073736559
       objectReference: {fileID: 0}
     - target: {fileID: 5913859863858256687, guid: 6b85a791b8fd0b348b97b4820a8da0a0, type: 3}
+      propertyPath: level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5913859863858256687, guid: 6b85a791b8fd0b348b97b4820a8da0a0, type: 3}
       propertyPath: UnitID
       value: 22002
       objectReference: {fileID: 0}
@@ -77,8 +81,17 @@ PrefabInstance:
       value: 'Deals up to 3x damage based on distance traveled. Bloodlust: hits everything
         in range for 150 damage, and causes all other towers to Bloodlust'
       objectReference: {fileID: 0}
+    - target: {fileID: 5913859863858256687, guid: 6b85a791b8fd0b348b97b4820a8da0a0, type: 3}
+      propertyPath: UpgradedVersion
+      value: 
+      objectReference: {fileID: 4469495896925429353}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b85a791b8fd0b348b97b4820a8da0a0, type: 3}
+--- !u!1 &4469495896925429353 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3670693746053452568, guid: 6b85a791b8fd0b348b97b4820a8da0a0, type: 3}
+  m_PrefabInstance: {fileID: 933998113525190001}
+  m_PrefabAsset: {fileID: 0}

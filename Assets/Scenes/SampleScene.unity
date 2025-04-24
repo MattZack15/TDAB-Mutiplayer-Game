@@ -7773,6 +7773,7 @@ MonoBehaviour:
   greedyTempestProcParticlesPrefab: {fileID: 7771749419069758384, guid: a78f4d4f85d38474abdef531db52c0ef, type: 3}
   EyeOfSucePrefab: {fileID: 1190709924568552998, guid: 368f8ed0d35dc7143ab4f22c389d0757, type: 3}
   bleedParticles: {fileID: 1073870492830965806, guid: 7fbc374553378994a998f710a2b739da, type: 3}
+  BloodlustVFXPrefab: {fileID: 1328472246571026386, guid: c35beab3de531224baea711aaec0978b, type: 3}
 --- !u!4 &1575153234
 Transform:
   m_ObjectHideFlags: 0

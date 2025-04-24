@@ -7,6 +7,7 @@ public class VardEldritchTowerAttribute : EldritchTowerAttribute
     [SerializeField] VardTower TowerScript;
     protected override void TriggerBloodlust(GameObject KillTarget)
     {
+        base.TriggerBloodlust(KillTarget);
         TowerScript.GainBloodLustEffect();
     }
 }

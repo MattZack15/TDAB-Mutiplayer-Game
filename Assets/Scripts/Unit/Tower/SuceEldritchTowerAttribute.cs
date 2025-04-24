@@ -9,6 +9,7 @@ public class SuceEldritchTowerAttribute : EldritchTowerAttribute
     
     protected override void TriggerBloodlust(GameObject KillTarget)
     {
+        base.TriggerBloodlust(KillTarget);
         if (SuceBloodustEffect != null)
         {
             SuceBloodustEffect.TriggerEffect(KillTarget);

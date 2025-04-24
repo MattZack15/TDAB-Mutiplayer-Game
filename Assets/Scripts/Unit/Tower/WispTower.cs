@@ -21,14 +21,19 @@ public class WispTower : TowerWithAnim
     public void GainBloodLustEffect()
     {
         screams += 1;
+        // Capping the number of bloodlusts stored a 1 because its too broken man
+        if (screams > 1)
+        {
+            screams = 1;
+        }
     }
 
     public override IEnumerator Attack()
     {
         if (screams > 0)
         {
-            yield return BloodlustAttack();
             screams -= 1;
+            yield return BloodlustAttack();
             yield break;
         }
 
