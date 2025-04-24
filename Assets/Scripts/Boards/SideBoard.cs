@@ -6,11 +6,10 @@ using UnityEngine;
 public class SideBoard : NetworkBehaviour
 {
     // Side Board is Split into Attackers and Towers
-    UnitPlacement UnitPlacement;
     UnitUpgrades UnitUpgrades;
     [HideInInspector] public HexagonGrid SideBoardGrid;
     private ServerPlayerDataManager ServerPlayerDataManager;
-    PlayerBoard parentBoard;
+    [HideInInspector] public PlayerBoard parentBoard;
 
     [SerializeField] List<int> AttackerLimits = new List<int>();
 
@@ -19,7 +18,6 @@ public class SideBoard : NetworkBehaviour
     {
         this.SideBoardGrid = SideBoardGrid;
         this.parentBoard = parentBoard;
-        UnitPlacement = FindObjectOfType<UnitPlacement>();
         UnitUpgrades = FindObjectOfType<UnitUpgrades>();
 
         ServerPlayerDataManager = FindObjectOfType<ServerPlayerDataManager>();

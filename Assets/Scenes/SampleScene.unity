@@ -1924,6 +1924,9 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420035}
+  - component: {fileID: 519420034}
+  - component: {fileID: 519420036}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2020,6 +2023,68 @@ MonoBehaviour:
   camSpeed: 15
   moveRegionRatio: 0.01
   playerBoardsManager: {fileID: 836407095}
+  AudioZoneTracker: {fileID: 519420036}
+--- !u!54 &519420034
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &519420035
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &519420036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f65402e3b7aa16418626d48ae358971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookingAtBoardID: 0
 --- !u!1 &536245443
 GameObject:
   m_ObjectHideFlags: 0
@@ -4503,6 +4568,31 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: d1cd91dc0f125a64d998353fa41462d8, type: 3}
     volume: 0.15
     source: {fileID: 0}
+  - name: arcaneproc
+    clip: {fileID: 8300000, guid: 931190a07bd49ff46a2e0d23a1dd79e5, type: 3}
+    volume: 0.02
+    source: {fileID: 0}
+  - name: bloodlustproc
+    clip: {fileID: 8300000, guid: 74badf8f0db0437498028dbb339be589, type: 3}
+    volume: 0.1
+    source: {fileID: 0}
+  - name: suceattack
+    clip: {fileID: 8300000, guid: 8acce3f8e036e2a4aa9d1769af840aae, type: 3}
+    volume: 0.05
+    source: {fileID: 0}
+  - name: sucefreeze
+    clip: {fileID: 8300000, guid: b00a08cc221770242b5ffec47a2ad5e0, type: 3}
+    volume: 0.1
+    source: {fileID: 0}
+  - name: fireball
+    clip: {fileID: 8300000, guid: c3c0f7b01d27bb7408851aea9ebf9d8d, type: 3}
+    volume: 0.05
+    source: {fileID: 0}
+  - name: tripleunit
+    clip: {fileID: 8300000, guid: 6f9a36376fbd85544af0237defee7b93, type: 3}
+    volume: 0.15
+    source: {fileID: 0}
+  AudioZoneTracker: {fileID: 519420036}
 --- !u!4 &838329056
 Transform:
   m_ObjectHideFlags: 0
@@ -11237,7 +11327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6803044369576323123, guid: 1dce7014b739c464c9fbf609c7f026ac, type: 3}
       propertyPath: debugClientSide
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7148718985878114978, guid: 1dce7014b739c464c9fbf609c7f026ac, type: 3}
       propertyPath: m_Name

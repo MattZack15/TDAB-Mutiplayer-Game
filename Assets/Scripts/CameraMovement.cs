@@ -11,6 +11,7 @@ public class CameraMovement : MonoBehaviour
     private bool cameraLocked;
 
     [SerializeField] PlayerBoardsManager playerBoardsManager;
+    [SerializeField] AudioZoneTracker AudioZoneTracker;
 
     private void Start()
     {
@@ -84,6 +85,7 @@ public class CameraMovement : MonoBehaviour
     public void LookAtPlayersBoard(ulong playerID)
     {
         Vector3 PlayersBoardPos = playerBoardsManager.PlayerBoardTable[playerID].camPos.position;
+        AudioZoneTracker.lookingAtBoardID = playerBoardsManager.PlayerBoardTable[playerID].BoardID;
         StartCoroutine(MoveToPos(PlayersBoardPos));
     }
 

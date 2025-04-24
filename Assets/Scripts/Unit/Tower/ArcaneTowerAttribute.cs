@@ -31,6 +31,7 @@ public class ArcaneTowerAttribute : TowerAttribute
         yield return new WaitForSeconds(.1f);
 
         FindObjectOfType<VFXManager>().PlayArcaneProcParticlesRPC(Tower.projectileSourceLocation.transform.position);
+        AudioManager.Instance.PlayForBoardRPC("arcaneproc", GetComponent<Unit>().GetBoard(), true);
 
         StartCoroutine(Tower.Attack());
 

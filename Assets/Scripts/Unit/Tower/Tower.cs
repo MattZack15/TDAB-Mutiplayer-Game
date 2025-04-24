@@ -8,6 +8,9 @@ public class Tower : NetworkBehaviour
     public float range;
     public float attackSpeed;
     public int damage;
+
+    public string attackSoundName;
+
     [SerializeField] private bool lookAtTarget = true;
 
     // Tower Attributes add themselves to this list
@@ -83,6 +86,7 @@ public class Tower : NetworkBehaviour
         GameObject newProjectile = Instantiate(projectile, projectileSourceLocation.position, Quaternion.identity);
         newProjectile.GetComponent<NetworkObject>().Spawn();
 
+        AudioManager.Instance.PlayForBoardRPC(attackSoundName, GetComponent<Unit>().GetBoard(), true);
 
         newProjectile.GetComponent<Projectile>().InitProjectile(this, damage, currentTarget);
         projectilePool.Add(newProjectile);

@@ -239,12 +239,15 @@ MonoBehaviour:
   range: 2
   attackSpeed: 1.5
   damage: 125
+  attackSoundName: suceattack
   lookAtTarget: 1
   TowerAttributes: []
   projectile: {fileID: 0}
   projectileSourceLocation: {fileID: 0}
   trackEndPoint: {fileID: 0}
   kills:
+    m_InternalValue: 0
+  damageDealt:
     m_InternalValue: 0
   animator: {fileID: 1066055334704378642}
 --- !u!114 &4738840912794760034

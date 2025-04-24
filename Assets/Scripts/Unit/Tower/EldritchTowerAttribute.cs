@@ -10,7 +10,7 @@ public class EldritchTowerAttribute : TowerAttribute
     // 3 Eldrich Towers - 60%
     // 4 Eldrich Towers - 100%
 
-    public static List<float> effectChances = new List<float> { 100f, 40f, 60f, 100f };
+    public static List<float> effectChances = new List<float> { 25f, 40f, 60f, 100f };
 
     public override void OnReciveKillCredit(GameObject KillTarget)
     {
@@ -26,7 +26,7 @@ public class EldritchTowerAttribute : TowerAttribute
 
     protected virtual void TriggerBloodlust(GameObject KillTarget)
     {
-        // Override must call base for VFX
+        // Override must call base for VFX and Sound
         // Find Where to Spawn
         Transform overLayTransform = transform.GetChild(0).GetChild(1);
         if (overLayTransform.gameObject.name != "Overlay")
@@ -35,6 +35,8 @@ public class EldritchTowerAttribute : TowerAttribute
         }
         Vector3 SpawnPos = overLayTransform.position + new Vector3(0, 0.5f, 0f);
         FindObjectOfType<VFXManager>().SpawnBloodlustVFXRPC(SpawnPos);
+        //Play Sound
+        AudioManager.Instance.PlayForBoardRPC("bloodlustproc", GetComponent<Unit>().GetBoard(), true);
     }
 
     public void GetFreeBloodlust()

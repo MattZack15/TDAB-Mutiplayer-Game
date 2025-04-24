@@ -62,6 +62,8 @@ public class SuceBloodustEffect : NetworkBehaviour
         Vector3 EyePos = overLayTransform.position + new Vector3(0, 0.5f, 0f);
 
         FindObjectOfType<VFXManager>().SpawnEyeOfSuceRPC(EyePos, FreezeDuration);
+        //Play Sound
+        AudioManager.Instance.PlayForBoardRPC("sucefreeze", GetComponent<Unit>().GetBoard(), true);
 
         // Freeze Target
         TempMoveSpeedBuff FreezeEffect = attacker.AddComponent<TempMoveSpeedBuff>();

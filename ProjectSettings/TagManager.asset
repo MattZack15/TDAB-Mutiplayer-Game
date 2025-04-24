@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Attacker
   - TrackEnd
+  - AudioZone
   layers:
   - Default
   - TransparentFX

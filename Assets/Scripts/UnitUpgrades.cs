@@ -95,6 +95,9 @@ public class UnitUpgrades : NetworkBehaviour
             return;
         }
 
+        //Play Sound Effect
+        AudioManager.Instance.PlayOnClient("tripleunit", sideBoard.parentBoard.owner.Value);
+
         // New tower will have the combined kill count of level 1 towers
         int totalKillCount = 0;
         int totalDamageDealt = 0;

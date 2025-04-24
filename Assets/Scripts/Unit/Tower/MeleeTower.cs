@@ -15,13 +15,16 @@ public class MeleeTower : Tower
         // Start Animation
         FindObjectOfType<VFXManager>().PlayUnitAnimRPC(GetComponent<NetworkObject>().NetworkObjectId, "attack");
 
+
         // Wait for apex of attack animation
         while (!attackAnimCallback) 
         {
             yield return null;
         }
         attackAnimCallback = false;
-
+        
+        AudioManager.Instance.PlayForBoardRPC(attackSoundName, GetComponent<Unit>().GetBoard(), true);
+        
         // Deal Damage
         if (currentTarget != null)
         {

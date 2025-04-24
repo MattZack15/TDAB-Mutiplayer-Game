@@ -9,6 +9,8 @@ public class AudioManager : NetworkBehaviour
     public List<Sound> Sounds;
     public Dictionary<string, AudioSource> SoundTable = new Dictionary<string, AudioSource>();
 
+    [SerializeField] AudioZoneTracker AudioZoneTracker;
+
     // Singleton instance.
     public static AudioManager Instance = null;
 
@@ -59,13 +61,19 @@ public class AudioManager : NetworkBehaviour
     }
 
     // Play a single clip through the sound effects source.
-    public void Play(string clipName)
+    public void Play(string clipName, bool pitchVariance = false)
     {
         if (!SoundTable.ContainsKey(clipName))
         {
             print("No such sound " + clipName);
             return;
         }
+        SoundTable[clipName].pitch = 1.0f;
+        if (pitchVariance)
+        {
+            SoundTable[clipName].pitch = Random.Range(.80f, 1.2f);
+        }
+        
         SoundTable[clipName].Play();
     }
 
@@ -87,4 +95,24 @@ public class AudioManager : NetworkBehaviour
         Play(clipName);
     }
 
+    // Everyone who is looking at this board should hear this sound effect
+    [Rpc(SendTo.ClientsAndHost)]
+    public void PlayForBoardRPC(string clipName, int boardID, bool pitchVariance = false)
+    {
+        // Check if we are looking at this board
+        if (AudioZoneTracker.lookingAtBoardID == boardID)
+        {
+            Play(clipName, pitchVariance);
+        }
+    }
+
+    // Called Locally of the client to only play a sound if the player is looking at that board
+    public void PlayOnBoard(string clipName, int boardID, bool pitchVariance = false)
+    {
+        // Check if we are looking at this board
+        if (AudioZoneTracker.lookingAtBoardID == boardID)
+        {
+            Play(clipName, pitchVariance);
+        }
+    }
 }
