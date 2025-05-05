@@ -423,7 +423,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8936748527447044709, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1975669129
+      value: 3629567534
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6706990088639824661, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
@@ -472,6 +472,7 @@ MonoBehaviour:
   range: 5
   attackSpeed: 2.5
   damage: 50
+  attackSoundName: leviattack
   lookAtTarget: 1
   TowerAttributes: []
   projectile: {fileID: 1079914425865896886, guid: bbe29de13c995fc4b8fd871e488f5cba, type: 3}

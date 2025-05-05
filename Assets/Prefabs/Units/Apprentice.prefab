@@ -87,6 +87,10 @@ PrefabInstance:
       value: Apprentice
       objectReference: {fileID: 0}
     - target: {fileID: -7508388100034750028, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: TowerScirpt
+      value: 
+      objectReference: {fileID: 8472392680512967947}
+    - target: {fileID: -7508388100034750028, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: UpgradedVersion
       value: 
       objectReference: {fileID: 8094738826141379613, guid: cb95b787204647c41bbb2614bfac3778, type: 3}
@@ -172,10 +176,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8936748527447044709, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 207985444
+      value: 2218648970
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6706990088639824661, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+    - {fileID: 7248474588585844504, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4166287413829618662, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
@@ -183,14 +188,49 @@ PrefabInstance:
       addedObject: {fileID: 1601727454724983723}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8587929601506611587, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 8472392680512967947}
+    - targetCorrespondingSourceObject: {fileID: 8587929601506611587, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4388384089452959534}
   m_SourcePrefab: {fileID: 100100000, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+--- !u!95 &1066055334704378642 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5806325203948643061, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+  m_PrefabInstance: {fileID: 6800248175685226983}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2986205235324272740 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8587929601506611587, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
   m_PrefabInstance: {fileID: 6800248175685226983}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8472392680512967947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2986205235324272740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd192a14b7b1a9c4aabd8c334b478b73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 3.5
+  attackSpeed: 0.75
+  damage: 35
+  attackSoundName: fireball
+  lookAtTarget: 1
+  TowerAttributes: []
+  projectile: {fileID: 6655218978394179173, guid: 99c008ec56efe994a8436479c7f816b6, type: 3}
+  projectileSourceLocation: {fileID: 4370516871111891115}
+  trackEndPoint: {fileID: 0}
+  kills:
+    m_InternalValue: 0
+  damageDealt:
+    m_InternalValue: 0
+  animator: {fileID: 1066055334704378642}
+  maxWaitTime: 1
 --- !u!114 &4388384089452959534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +243,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7485aabf6e439af4582816647e032dbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &4370516871111891115 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7131560373207861580, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+  m_PrefabInstance: {fileID: 6800248175685226983}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7462172095100328449 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4166287413829618662, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}

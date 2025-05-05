@@ -114,6 +114,7 @@ public class IceBallProjectile : Projectile
         if (IsServer)
         {
             FindObjectOfType<VFXManager>().PlayIceBallParticlesRPC(transform.position);
+            AudioManager.Instance.PlayForBoardRPC("cryoballshatter", SourceTower.gameObject.GetComponent<Unit>().GetBoard(), true);
             SourceTower.DestroyProjectile(gameObject);
         }
         else

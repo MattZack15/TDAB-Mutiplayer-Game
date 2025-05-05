@@ -633,6 +633,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4738532488121918089, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: soundEffectNames.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4738532488121918089, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: soundEffectNames.Array.data[0]
+      value: wispangry
+      objectReference: {fileID: 0}
+    - target: {fileID: 4738532488121918089, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: soundEffectNames.Array.data[1]
+      value: wispscreech
+      objectReference: {fileID: 0}
     - target: {fileID: 5123700867483370982, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: m_Size.y
       value: 2.1509967
@@ -711,7 +723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8936748527447044709, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1606054479
+      value: 98417102
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6706990088639824661, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
@@ -762,6 +774,7 @@ MonoBehaviour:
   range: 7
   attackSpeed: 2
   damage: 55
+  attackSoundName: wispattack
   lookAtTarget: 1
   TowerAttributes: []
   projectile: {fileID: 741543906951178733, guid: c7007252a8cb9154485504ee95747d55, type: 3}

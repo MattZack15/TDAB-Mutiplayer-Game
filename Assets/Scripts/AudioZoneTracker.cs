@@ -9,10 +9,6 @@ public class AudioZoneTracker : MonoBehaviour
 
     public int lookingAtBoardID = 0;
 
-    private void Update()
-    {
-        print(lookingAtBoardID);
-    }
 
     private void OnTriggerEnter(Collider other)
     {

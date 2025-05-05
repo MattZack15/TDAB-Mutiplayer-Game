@@ -4592,6 +4592,46 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 6f9a36376fbd85544af0237defee7b93, type: 3}
     volume: 0.15
     source: {fileID: 0}
+  - name: vardswing
+    clip: {fileID: 8300000, guid: 5dcc112074b5f1e48b1521ecf4a570a2, type: 3}
+    volume: 0.2
+    source: {fileID: 0}
+  - name: vardsweepingstrike
+    clip: {fileID: 8300000, guid: 415dd13731ce62e4da640c96b4840470, type: 3}
+    volume: 0.12
+    source: {fileID: 0}
+  - name: wispattack
+    clip: {fileID: 8300000, guid: 1b464ace88f0218409f76f8738b93ae4, type: 3}
+    volume: 0.1
+    source: {fileID: 0}
+  - name: wispscreech
+    clip: {fileID: 8300000, guid: 5f906092d7494774caa11b5bffb7c14a, type: 3}
+    volume: 0.09
+    source: {fileID: 0}
+  - name: wispangry
+    clip: {fileID: 8300000, guid: ef0ddddcb869d5e4ea9bb8af63cc753f, type: 3}
+    volume: 0.09
+    source: {fileID: 0}
+  - name: leviattack
+    clip: {fileID: 8300000, guid: 019dc0c7afa5d914aa75ee0c07fcebd1, type: 3}
+    volume: 0.09
+    source: {fileID: 0}
+  - name: cryocannonattack
+    clip: {fileID: 8300000, guid: c7e62fd439929fa429f1fb941f0d0023, type: 3}
+    volume: 0.09
+    source: {fileID: 0}
+  - name: cryoballshatter
+    clip: {fileID: 8300000, guid: c5dab29a9122d6d4caa92e454786efbc, type: 3}
+    volume: 0.09
+    source: {fileID: 0}
+  - name: chronomageattack
+    clip: {fileID: 8300000, guid: 115cf144dfb02fd4fa06c8c493bd8ca7, type: 3}
+    volume: 0.11
+    source: {fileID: 0}
+  - name: rewind
+    clip: {fileID: 8300000, guid: 7df839106b96ef74fb2cf32385946a75, type: 3}
+    volume: 0.11
+    source: {fileID: 0}
   AudioZoneTracker: {fileID: 519420036}
 --- !u!4 &838329056
 Transform:
@@ -11327,7 +11367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6803044369576323123, guid: 1dce7014b739c464c9fbf609c7f026ac, type: 3}
       propertyPath: debugClientSide
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7148718985878114978, guid: 1dce7014b739c464c9fbf609c7f026ac, type: 3}
       propertyPath: m_Name

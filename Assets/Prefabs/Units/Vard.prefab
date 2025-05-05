@@ -404,6 +404,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4738532488121918089, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: extraSound1
+      value: vardsweepingstrike
+      objectReference: {fileID: 0}
+    - target: {fileID: 4738532488121918089, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: soundEffectNames.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4738532488121918089, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
+      propertyPath: soundEffectNames.Array.data[0]
+      value: vardsweepingstrike
+      objectReference: {fileID: 0}
     - target: {fileID: 5123700867483370982, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: m_Size.x
       value: 1.3040073
@@ -531,6 +543,7 @@ MonoBehaviour:
   range: 2
   attackSpeed: 1.25
   damage: 125
+  attackSoundName: vardswing
   lookAtTarget: 1
   TowerAttributes: []
   projectile: {fileID: 0}

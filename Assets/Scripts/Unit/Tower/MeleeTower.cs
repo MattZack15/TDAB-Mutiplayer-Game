@@ -23,7 +23,7 @@ public class MeleeTower : Tower
         }
         attackAnimCallback = false;
         
-        AudioManager.Instance.PlayForBoardRPC(attackSoundName, GetComponent<Unit>().GetBoard(), true);
+        //AudioManager.Instance.PlayForBoardRPC(attackSoundName, GetComponent<Unit>().GetBoard(), true);
         
         // Deal Damage
         if (currentTarget != null)

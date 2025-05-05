@@ -230,6 +230,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5475da75bf9662b4bb96046d7b756552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  towerScript: {fileID: 7248474588585844504}
+  extraSound1: 
 --- !u!1 &3227582743903794928
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,6 +635,8 @@ MonoBehaviour:
   HpBar: {fileID: 0}
   TowerScirpt: {fileID: 7248474588585844504}
   Animator: {fileID: 5806325203948643061}
+  quantityToShopPool: 1
+  homeTile: {fileID: 0}
 --- !u!114 &7248474588585844504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,6 +652,7 @@ MonoBehaviour:
   range: 5
   attackSpeed: 1.5
   damage: 100
+  attackSoundName: 
   lookAtTarget: 1
   TowerAttributes: []
   projectile: {fileID: 1029526933593873950, guid: cea484cffd644fc44a61f06786a81280, type: 3}

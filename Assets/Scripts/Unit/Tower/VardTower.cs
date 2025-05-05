@@ -40,6 +40,7 @@ public class VardTower : MeleeTower
         }
         attackAnimCallback = false;
 
+
         // Deal Damage
         // Get all units in range
         List<Transform> attackers = AttackersInRange();

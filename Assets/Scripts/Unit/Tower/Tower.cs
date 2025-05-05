@@ -86,8 +86,6 @@ public class Tower : NetworkBehaviour
         GameObject newProjectile = Instantiate(projectile, projectileSourceLocation.position, Quaternion.identity);
         newProjectile.GetComponent<NetworkObject>().Spawn();
 
-        AudioManager.Instance.PlayForBoardRPC(attackSoundName, GetComponent<Unit>().GetBoard(), true);
-
         newProjectile.GetComponent<Projectile>().InitProjectile(this, damage, currentTarget);
         projectilePool.Add(newProjectile);
 

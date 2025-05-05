@@ -48,6 +48,8 @@ public class CryoCannon : Tower
     {
         isAnim = true;
 
+        AudioManager.Instance.PlayOnBoard("cryocannonattack", GetComponent<Unit>().GetBoard(), true);
+
         Vector3 fullScale = new Vector3(1f, 1f, 1f);
 
         float timer = 0f;

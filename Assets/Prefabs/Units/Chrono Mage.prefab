@@ -324,7 +324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8936748527447044709, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1575417823
+      value: 1325322568
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6706990088639824661, guid: b7f7cbee9a0d6ba4d914e54bce51d226, type: 3}
@@ -381,6 +381,7 @@ MonoBehaviour:
   range: 4.5
   attackSpeed: 4
   damage: 55
+  attackSoundName: chronomageattack
   lookAtTarget: 1
   TowerAttributes: []
   projectile: {fileID: 467277209035355284, guid: 91018d159505f23409f8bb59a54c1534, type: 3}
