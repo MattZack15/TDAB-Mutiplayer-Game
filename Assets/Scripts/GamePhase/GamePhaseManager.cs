@@ -11,7 +11,8 @@ public class GamePhaseManager : NetworkBehaviour
     // Define Game Phase Enum
     public enum GamePhases { ShopPhase, BattlePhase }
 
-    [SerializeField] float ShopPhaseLength = 25f;
+    [SerializeField] float baseShopPhaseLength = 25f;
+    [SerializeField] float incrementShopPhaseLength = 5f;
     [HideInInspector] public NetworkVariable<int> GamePhase = new NetworkVariable<int>();
     [HideInInspector] public NetworkVariable<float> turnTimer = new NetworkVariable<float>();
     [HideInInspector] public NetworkVariable<int> roundNumber = new NetworkVariable<int>();
@@ -150,7 +151,11 @@ public class GamePhaseManager : NetworkBehaviour
 
     IEnumerator WaitForShopEnd()
     {
-        float timer = ShopPhaseLength;
+        float timer = baseShopPhaseLength + (roundNumber.Value-1)*incrementShopPhaseLength;
+        if (timer > 60f)
+        {
+            timer = 60f;
+        }
         
         while (timer > 0 && !forceStart)
         {
@@ -196,7 +201,7 @@ public class GamePhaseManager : NetworkBehaviour
         }
 
         // Define how much money a player is given this round
-        int RoundEarnings = 3 + (roundNumber.Value - 1);
+        int RoundEarnings = 5 + (roundNumber.Value - 1);
         if (roundNumber.Value == 1) { RoundEarnings = Shop.StartingCoins; }
         
         foreach (ulong playerID in NetworkManager.ConnectedClientsIds)

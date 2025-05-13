@@ -31,6 +31,11 @@ public class AttackerHPBar : MonoBehaviour
     private void GenerateHealthbarTicks(int maxHp)
     {
         int ticksNeeded = 1 + (maxHp / hpPerTick);
+        // Threshold where the whole bar would be black ticks
+        if (maxHp > 3200)
+        {
+            ticksNeeded = 0;
+        }
 
         // If we have less than we need
         while (healthTicks.Count < ticksNeeded)
@@ -39,7 +44,13 @@ public class AttackerHPBar : MonoBehaviour
             healthTicks.Add(newHpTick);
         }
 
-        // Will need to update if units can ever lose max hp
+        // If we have more than we need
+        while (healthTicks.Count > ticksNeeded)
+        {
+            GameObject tick = healthTicks[0];
+            healthTicks.RemoveAt(0);
+            Destroy(tick);
+        }
 
         // Set LayoutGroup Settings
         float totalSpacing = maxSpacing - (ticksNeeded * healthTickLayoutGroup.cellSize.x);

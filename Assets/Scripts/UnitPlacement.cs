@@ -42,7 +42,23 @@ public class UnitPlacement : NetworkBehaviour
 
     private bool isMouseOverUI()
     {
-        return EventSystem.current.IsPointerOverGameObject();
+        //return EventSystem.current.IsPointerOverGameObject();
+        
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, raycastResults);
+
+        foreach (RaycastResult result in raycastResults)
+        {
+            if (result.gameObject.CompareTag("ShopUI"))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void TryGrab()

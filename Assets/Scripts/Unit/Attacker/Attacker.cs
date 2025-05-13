@@ -150,14 +150,10 @@ public class Attacker : NetworkBehaviour
         if (damageSource != null)
         {
             damageSource.ReciveDamageCredit(Mathf.Min(hp.Value, damage));
-        }
-        else
-        {
-            print("Tower is gone? (Damage)");
+            lastTowerHitMe = damageSource;
         }
         
         hp.Value -= damage;
-        lastTowerHitMe = damageSource;
     }
 
     public void RemoveHp(int amount)

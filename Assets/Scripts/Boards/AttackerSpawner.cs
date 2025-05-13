@@ -148,6 +148,9 @@ public class AttackerSpawner: NetworkBehaviour
 
         attacker.transform.position = SpawnPos.position;
         attacker.GetComponent<AttackerMovement>().SetPath(pathManager.GetBoardPathPoints());
+        // Apply static damage everytime we resend attacker to prevent going infinite.
+        int staticdamage = Mathf.CeilToInt((float)attacker.GetComponent<Attacker>().maxHp.Value * .05f);
+        attacker.GetComponent<Attacker>().TakeHit(staticdamage, null);
     }
 
     public GameObject PeekNextAttacker(int position)

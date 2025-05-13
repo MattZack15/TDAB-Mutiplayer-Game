@@ -44,6 +44,11 @@ public class TowerWithAnim : Tower
         StartCoroutine(base.Attack());
     }
 
+    public override void InstantBonusAttack()
+    {
+        StartCoroutine(base.Attack());
+    }
+
     public void AttackAnimationCallback()
     {
         if (!IsServer) { return; }

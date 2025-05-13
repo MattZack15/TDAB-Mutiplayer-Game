@@ -43,7 +43,6 @@ public class CryoCannon : Tower
         }
     }
 
-    
     IEnumerator AnimBall()
     {
         isAnim = true;

@@ -29,7 +29,7 @@ public class ServerPlayerData : NetworkBehaviour
         health.Value = 100;
         coins.Value = Shop.StartingCoins;
         level.Value = 1;
-        levelCost.Value = 5;
+        levelCost.Value = Shop.levelCosts[0];
         freeRefreshes.Value = 0;
         shopIsFrozen.Value = false;
         greedyTempestStacks.Value = 0;

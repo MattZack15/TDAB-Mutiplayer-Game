@@ -7,6 +7,7 @@ TagManager:
   - Attacker
   - TrackEnd
   - AudioZone
+  - ShopUI
   layers:
   - Default
   - TransparentFX

@@ -95,6 +95,11 @@ public class Tower : NetworkBehaviour
 
     }
 
+    public virtual void InstantBonusAttack()
+    {
+        StartCoroutine(Attack());
+    }
+
     protected void TriggerOnAttackEffects()
     {
         foreach (TowerAttribute TowerAttribute in TowerAttributes)

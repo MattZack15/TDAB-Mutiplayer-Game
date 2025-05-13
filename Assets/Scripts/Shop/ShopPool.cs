@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class ShopPool : MonoBehaviour
 {
     // For managing what Units are avalible in the shop
-    [SerializeField] int NumberOfCopiesPerUnit = 6;
+    [SerializeField] float copiesPerUnitPerPlayer = 2.5f;
 
     [Header("Pools For each Tier")]
     [SerializeField] List<GameObject> Tier1 = new List<GameObject>();
@@ -29,12 +28,14 @@ public class ShopPool : MonoBehaviour
     [SerializeField] UnitDex UnitDex;
 
 
-    // Start is called before the first frame update
-    void Awake()
+    // Called by host controls
+    public void Init(int playerCount)
     {
         PoolsTemplate.Add(Tier1);
         PoolsTemplate.Add(Tier2);
         PoolsTemplate.Add(Tier3);
+
+        int copiesPerUnit = (int)(playerCount * copiesPerUnitPerPlayer);
 
         // Create limited number of each unit
         foreach (List<GameObject> pool in PoolsTemplate)
@@ -42,7 +43,7 @@ public class ShopPool : MonoBehaviour
             List<GameObject> newPool = new List<GameObject>();
             foreach (GameObject unit in pool)
             {
-                for (int i = 0; i < NumberOfCopiesPerUnit; i++)
+                for (int i = 0; i < copiesPerUnit; i++)
                 {
                     newPool.Add(unit);
                 }
@@ -65,7 +66,6 @@ public class ShopPool : MonoBehaviour
         int level = ServerPlayerDataManager.GetPlayerData(playerID).level.Value;
         if (level > PoolProbabilities.Count)
         {
-            print("Level too high");
             level = PoolProbabilities.Count;
         }
         List<int> Probabilities = PoolProbabilities[level-1];

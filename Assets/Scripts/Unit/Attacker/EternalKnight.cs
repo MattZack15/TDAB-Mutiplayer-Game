@@ -10,7 +10,7 @@ public class EternalKnight : Attacker
     public float moveSpeedBuff = .1f;
     
     ServerUnitData ServerUnitData;
-    private int lastEkdCount = 0;
+    [HideInInspector] public int lastEkdCount = 0;
 
 
     public override void OnDeath()

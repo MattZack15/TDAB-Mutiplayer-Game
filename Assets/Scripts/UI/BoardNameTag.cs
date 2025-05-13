@@ -7,11 +7,23 @@ public class BoardNameTag : MonoBehaviour
 {
     [SerializeField] PlayerBoard playerBoard;
     [SerializeField] TMP_Text text;
-    
+    ServerPlayerDataManager ServerPlayerDataManager;
+
+
+    private void Start()
+    {
+        ServerPlayerDataManager = FindObjectOfType<ServerPlayerDataManager>();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        text.SetText($"Owner: {playerBoard.owner.Value}\n BoardID: {playerBoard.BoardID}");
+
+        ServerPlayerData OwnerData = ServerPlayerDataManager.GetPlayerData(playerBoard.owner.Value);
+        if (OwnerData == null) { return; }
+            
+        string ownerName = OwnerData.username.Value.ToString();
+        text.SetText($"{ownerName}'s Board");
+
     }
 }

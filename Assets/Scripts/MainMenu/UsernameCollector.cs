@@ -22,6 +22,7 @@ public class UsernameCollector : NetworkBehaviour
 
     IEnumerator WaitToSend(string username)
     {
+        // Waits to be assigned a client id
         while (NetworkManager.LocalClientId == 0)
         {
             yield return null;

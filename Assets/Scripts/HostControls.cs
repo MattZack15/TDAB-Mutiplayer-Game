@@ -14,8 +14,58 @@ public class HostControls : NetworkBehaviour
     [SerializeField] private ServerPlayerDataManager ServerPlayerDataManager;
     [SerializeField] private Shop shop;
     [SerializeField] private GamePhaseManager GamePhaseManager;
+    [SerializeField] private ShopPool ShopPool;
+    [SerializeField] private GameObject HostButtons;
+    [SerializeField] private GameObject LoadingScreen;
 
     List<ulong> playersReady = new List<ulong>();
+
+    private void Start()
+    {
+
+        SignalLoadedSceneServerRpc(NetworkManager.Singleton.LocalClientId);
+
+
+        if (!IsServer) { return; }
+        // To mananage when to Start the game
+        UsernameCollector UsernameCollector = FindObjectOfType<UsernameCollector>();
+        if (UsernameCollector)
+        {
+            // Assumes we have loaded into the scence from menu and there is already a lobby
+            HostButtons.SetActive(false);
+            StartCoroutine(WaitSceneLoadOnClients());
+        }
+        else
+        {
+            // Assume we are in debug mode
+            // no action needed
+            HostButtons.SetActive(true);
+            return;
+        }
+
+    }
+
+
+    [Rpc(SendTo.Server)]
+    public void SignalLoadedSceneServerRpc(ulong clientID)
+    {
+        if (!playersReady.Contains(clientID))
+        {
+            playersReady.Add(clientID);
+        }
+    }
+    IEnumerator WaitSceneLoadOnClients()
+    {
+
+        while (playersReady.Count < NetworkManager.Singleton.ConnectedClientsIds.Count)
+        {
+            yield return null;
+        }
+
+        // Now we are ready to start preparing game start
+        StartGame();
+    }
+
 
     public void StartGame()
     {
@@ -27,18 +77,19 @@ public class HostControls : NetworkBehaviour
         };
 
 
-        //int playerCount = NetworkManager.ConnectedClientsIds.Count;
+        int playerCount = NetworkManager.ConnectedClientsIds.Count;
+        // Init shop with number of players
+        ShopPool.Init(playerCount);
 
-        //playerCount = 9;
+        StartCoroutine(WaitBoardSpawnsOnClients());
 
         // Spawn in the boards
         PlayerBoardsGenerator.SpawnPlayerBoards();
-        // Show Health UI
-        //PlayerHealthUI.GeneratePlayerHealthUI();
+
         // Server Side Player Data
         ServerPlayerDataManager.Init(NetworkManager.Singleton.ConnectedClientsIds.ToList());
 
-        StartCoroutine(WaitBoardSpawnsOnClients());
+        
         GameStarted = true;
 
     }
@@ -54,6 +105,7 @@ public class HostControls : NetworkBehaviour
 
     IEnumerator WaitBoardSpawnsOnClients()
     {
+        // Empty List from before
         playersReady = new List<ulong>();
         while (playersReady.Count < NetworkManager.Singleton.ConnectedClientsIds.Count)
         {
@@ -61,6 +113,12 @@ public class HostControls : NetworkBehaviour
         }
 
         OnGameStart();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void DisableLoadingScreenRPC()
+    {
+        LoadingScreen.SetActive(false);
     }
 
     private void OnGameStart()
@@ -71,6 +129,7 @@ public class HostControls : NetworkBehaviour
             pathManager.CreateDefaultPath();
         }
 
+        DisableLoadingScreenRPC();
         GamePhaseManager.StartGame();
 
     }

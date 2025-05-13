@@ -80,4 +80,9 @@ public class EndGameRankings : MonoBehaviour
 
         return placementColors[3];
     }
+
+    public void CloseLeaderBoard()
+    {
+        container.SetActive(false);
+    }
 }

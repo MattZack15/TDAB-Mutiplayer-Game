@@ -33,7 +33,7 @@ public class ArcaneTowerAttribute : TowerAttribute
         FindObjectOfType<VFXManager>().PlayArcaneProcParticlesRPC(Tower.projectileSourceLocation.transform.position);
         AudioManager.Instance.PlayForBoardRPC("arcaneproc", GetComponent<Unit>().GetBoard(), true);
 
-        StartCoroutine(Tower.Attack());
+        Tower.InstantBonusAttack();
 
         yield return null;
     }

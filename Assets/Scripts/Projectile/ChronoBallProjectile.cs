@@ -27,7 +27,7 @@ public class ChronoBallProjectile : Projectile
     {
         if (target == null)
         {
-            print("Created ChronoBall with no Target");
+            Die();
             return;
         }
         base.InitProjectile(SourceTower, damage, target);

@@ -9,13 +9,13 @@ public class Shop : NetworkBehaviour
     // Interface for buying and selling units, levels, refreshing shop
 
     public static int ShopSize = 3;
-    public static int StartingCoins = 70;
+    public static int StartingCoins = 7;
     // How much money you get at the end of each round
     public static int RefreshCost = 1;
     public static int UnitCost = 3;
     public static int SellValue = 1;
     // Base cost of leveling to each level
-    static List<int> levelCosts = new List<int> { 8, 10, 13, 15, 18};
+    public static List<int> levelCosts = new List<int> { 8, 11, 13, 15, 18};
 
     [SerializeField] private ShopPool ShopPool;
     [SerializeField] private UnitDex unitDex;
