@@ -15,7 +15,7 @@ public class CameraMovement : MonoBehaviour
 
     private void Start()
     {
-        cameraLocked = true;
+        cameraLocked = false;
     }
 
     public void MoveToStartPos()
