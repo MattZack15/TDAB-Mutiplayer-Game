@@ -61,15 +61,14 @@ public class UnitPlacement : NetworkBehaviour
         return false;
     }
 
+    private bool GamePhaseIsShopPhase() => GamePhaseManager.GamePhase.Value == (int)GamePhaseManager.GamePhases.ShopPhase;
+
     private void TryGrab()
     {
         // Requests to Grab a unit
 
-        // ClientSide Check: Can Only Grab During Shop Phase
-        if (GamePhaseManager.GamePhase.Value != (int)GamePhaseManager.GamePhases.ShopPhase)
-        {
-            return;
-        }
+        // Client Side Check: Can Only Grab During Shop Phase
+        if (!GamePhaseIsShopPhase()) { return;}
 
         // Find Unit Under Mouse
         Ray ray = gameCamera.ScreenPointToRay(Input.mousePosition);
@@ -84,6 +83,7 @@ public class UnitPlacement : NetworkBehaviour
             return;
         }
 
+        // Send Grab Request to Server
         ulong unitNetworkID = hitUnit.GetComponent<NetworkObject>().NetworkObjectId;
         GrabUnitServerRPC(NetworkManager.Singleton.LocalClientId, unitNetworkID);
     }
@@ -92,10 +92,7 @@ public class UnitPlacement : NetworkBehaviour
     private void GrabUnitServerRPC(ulong playerID, ulong networkObjectId)
     {
         // Can Only Grab During Shop Phase
-        if (GamePhaseManager.GamePhase.Value != (int)GamePhaseManager.GamePhases.ShopPhase)
-        {
-            return;
-        }
+        if (!GamePhaseIsShopPhase()) { return; }
 
         // Find Unit
         NetworkObject networkObject;
@@ -104,9 +101,10 @@ public class UnitPlacement : NetworkBehaviour
 
         Unit unit = networkObject.GetComponent<Unit>();
 
-        // Can only Grab units on your own board
+        // Player can only grab units on their own board
         int playersBoardID = PlayerBoardsManager.PlayerBoardTable[playerID].BoardID;
-        if (playersBoardID != Mathf.Abs(unit.homeTile.tileId.z)) { return; }
+        int unitsBoardID = (int)Mathf.Abs(unit.homeTile.tileId.z);
+        if (playersBoardID != unitsBoardID) { return; }
 
         // Accept
         playerHeldUnits[playerID] = unit.gameObject;
