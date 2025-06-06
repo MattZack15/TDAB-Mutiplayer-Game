@@ -19,8 +19,9 @@ public class BattleManager : NetworkBehaviour
     [SerializeField] BattleIndicatorUI BattleIndicatorUI;
     [SerializeField] ServerPlayerDataManager ServerPlayerDataManager;
     [SerializeField] BattleDamageSummary BattleDamageSummary;
+    [SerializeField] GamePhaseManager GamePhaseManager;
 
-    [SerializeField] int minHealthDamage = 5;
+    [SerializeField] Vector2 minHealthDamageScale = new Vector2(5f, 25f);
     [SerializeField] int damageCap = 35;
 
     public IEnumerator StartBattles(List<(ulong, ulong)> matches)
@@ -117,10 +118,17 @@ public class BattleManager : NetworkBehaviour
         yield return new WaitForSeconds(3f);
     }
 
+    private int CalcMinHealthDamage()
+    {
+        float percent = (float)GamePhaseManager.roundNumber.Value / 12f;
+        return (int)Mathf.Lerp(minHealthDamageScale.x, minHealthDamageScale.y, percent);
+    }
+
     private void DealDamage(ulong winnerID, ulong loserID, int winnerScore, int loserScore)
     {
         int scoreDifference = winnerScore - loserScore;
         int totalDamage = scoreDifference;
+        int minHealthDamage = CalcMinHealthDamage();
         if (scoreDifference > 0)
         {
             totalDamage += minHealthDamage;

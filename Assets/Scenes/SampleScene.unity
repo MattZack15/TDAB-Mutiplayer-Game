@@ -8300,7 +8300,8 @@ MonoBehaviour:
   BattleIndicatorUI: {fileID: 1320197402}
   ServerPlayerDataManager: {fileID: 1251393845}
   BattleDamageSummary: {fileID: 1119759773}
-  minHealthDamage: 5
+  GamePhaseManager: {fileID: 1600264151}
+  minHealthDamageScale: {x: 5, y: 25}
   damageCap: 35
 --- !u!114 &1600264155
 MonoBehaviour:
